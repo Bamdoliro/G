@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  mysql:
+    container_name: bamdoliro_gati_local
+    image: mysql/mysql-server:5.7
+    environment:
+      MYSQL_ROOT_HOST: "%"
+      MYSQL_USER: "bamdoliro"
+      MYSQL_PASSWORD: "bamdoliro"
+      MYSQL_DATABASE: "bamdoliro_gati"
+    ports:
+      - "3307:3306"
+    command:
+      - "mysqld"
+      - "--character-set-server=utf8mb4"
+      - "--collation-server=utf8mb4_unicode_ci"

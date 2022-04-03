@@ -1,4 +1,4 @@
-package com.bamdoliro.gati.global.error;
+package com.bamdoliro.gati.global.error.exception;
 
 import lombok.Getter;
 

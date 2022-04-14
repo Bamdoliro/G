@@ -7,6 +7,7 @@ import com.bamdoliro.gati.domain.user.domain.type.Status;
 import com.bamdoliro.gati.domain.user.exception.UserAlreadyExistsException;
 import com.bamdoliro.gati.domain.user.presentation.dto.request.CreateUserRequestDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,6 +18,7 @@ import java.time.LocalDate;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Transactional
     public void createUser(CreateUserRequestDto dto) {
@@ -27,8 +29,7 @@ public class UserService {
     private User createUserFromCreateUserDto(CreateUserRequestDto dto) {
         return User.builder()
                 .email(dto.getEmail())
-                // TODO password encoder
-                .password(dto.getPassword())
+                .password(passwordEncoder.encode(dto.getPassword()))
                 .name(dto.getName())
                 .birth(LocalDate.of(dto.getBirthYear(), dto.getBirthMonth(), dto.getBirthDay()))
                 .gender(dto.getGender())

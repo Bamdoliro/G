@@ -1,6 +1,8 @@
 package com.bamdoliro.gati.domain.user.presentation;
 
 import com.bamdoliro.gati.domain.user.presentation.dto.request.CreateUserRequestDto;
+import com.bamdoliro.gati.domain.user.presentation.dto.request.LoginUserRequestDto;
+import com.bamdoliro.gati.domain.user.presentation.dto.response.TokenResponseDto;
 import com.bamdoliro.gati.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -8,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 @RestController
@@ -22,4 +25,11 @@ public class UserController {
         userService.createUser(dto);
     }
 
+    @PostMapping("/login")
+    public TokenResponseDto loginUser(
+            @RequestBody @Valid LoginUserRequestDto dto,
+            HttpServletResponse response
+    ) {
+        return userService.loginUser(dto, response);
+    }
 }

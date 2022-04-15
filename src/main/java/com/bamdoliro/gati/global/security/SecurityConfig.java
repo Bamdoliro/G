@@ -1,5 +1,10 @@
 package com.bamdoliro.gati.global.security;
 
+import com.bamdoliro.gati.global.security.auth.AuthDetailsService;
+import com.bamdoliro.gati.global.security.jwt.JwtTokenProvider;
+import com.bamdoliro.gati.global.security.jwt.JwtValidateService;
+import com.bamdoliro.gati.global.security.jwt.filter.JwtAuthenticationFilter;
+import com.bamdoliro.gati.global.utils.CookieUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,11 +15,17 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+    private final AuthDetailsService authDetailsService;
+    private final JwtTokenProvider jwtTokenProvider;
+    private final JwtValidateService jwtValidateService;
+    private final CookieUtil cookieUtil;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -39,6 +50,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().disable();
+
+        http
+                .addFilterBefore(new JwtAuthenticationFilter(
+                                authDetailsService, jwtTokenProvider, jwtValidateService, cookieUtil),
+                        UsernamePasswordAuthenticationFilter.class);
+
 
     }
 }

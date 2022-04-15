@@ -15,3 +15,11 @@ services:
       - "mysqld"
       - "--character-set-server=utf8mb4"
       - "--collation-server=utf8mb4_unicode_ci"
+
+  redis:
+    image: redis:latest
+    container_name: bamdoliro_gati_redis
+    hostname: bamdoliro
+    command: redis-server --port 6379
+    ports:
+      - "6379:6379"

@@ -20,6 +20,16 @@ spring:
     hibernate:
       ddl-auto: update
 
+  jwt:
+    secret: asdfasdfasdfasfasdfadsfadsfasdfsadfsdfasfsfasdfsafasdfasdfasfasfasdsafsdffadsfasdfasfasf
+
+  cache:
+    type: redis
+
+  redis:
+    host: localhost
+    port: 6379
+
 debug: true
 ---
 spring:

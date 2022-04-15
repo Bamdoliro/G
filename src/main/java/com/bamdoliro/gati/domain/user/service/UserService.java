@@ -10,10 +10,13 @@ import com.bamdoliro.gati.domain.user.exception.UserNotFoundException;
 import com.bamdoliro.gati.domain.user.presentation.dto.request.CreateUserRequestDto;
 import com.bamdoliro.gati.domain.user.presentation.dto.request.LoginUserRequestDto;
 import com.bamdoliro.gati.domain.user.presentation.dto.response.TokenResponseDto;
+import com.bamdoliro.gati.domain.user.presentation.dto.response.getUserResponseDto;
 import com.bamdoliro.gati.global.redis.RedisService;
+import com.bamdoliro.gati.global.security.auth.AuthDetails;
 import com.bamdoliro.gati.global.security.jwt.JwtTokenProvider;
 import com.bamdoliro.gati.global.utils.CookieUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -82,5 +85,23 @@ public class UserService {
         if (!passwordEncoder.matches(dto.getPassword(), user.getPassword())) {
             throw PasswordMismatchException.EXCEPTION;
         }
+    }
+
+    public getUserResponseDto getUser() {
+        User user = getCurrentUser();
+
+        return getUserResponseDto.builder()
+                .email(user.getEmail())
+                .name(user.getName())
+                .birth(user.getBirth())
+                .gender(user.getGender())
+                .authority(user.getAuthority())
+                .status(user.getStatus())
+                .build();
+    }
+
+    public User getCurrentUser() {
+        AuthDetails auth = (AuthDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return auth.getUser();
     }
 }

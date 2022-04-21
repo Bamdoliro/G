@@ -1,7 +1,6 @@
 package com.bamdoliro.gati.domain.user.presentation;
 
-import com.bamdoliro.gati.domain.user.presentation.dto.request.CreateUserRequestDto;
-import com.bamdoliro.gati.domain.user.presentation.dto.request.LoginUserRequestDto;
+import com.bamdoliro.gati.domain.user.presentation.dto.request.*;
 import com.bamdoliro.gati.domain.user.presentation.dto.response.TokenResponseDto;
 import com.bamdoliro.gati.domain.user.presentation.dto.response.getUserResponseDto;
 import com.bamdoliro.gati.domain.user.service.UserService;
@@ -33,6 +32,21 @@ public class UserController {
 
     @GetMapping
     public getUserResponseDto getUser() {
-        return userService.getUser();
+        return userService.getUserInformation();
+    }
+
+    @PutMapping("/update/password")
+    public void updateUserPassword(@RequestBody @Valid UpdateUserPasswordRequestDto dto) {
+        userService.updateUserPassword(dto);
+    }
+
+    @PutMapping("/update/name")
+    public void updateUserName(@RequestBody @Valid UpdateUserNameRequestDto dto) {
+        userService.updateUserName(dto);
+    }
+
+    @DeleteMapping
+    public void deleteUser(@RequestBody @Valid DeleteUserRequestDto dto) {
+        userService.deleteUser(dto);
     }
 }

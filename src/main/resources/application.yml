@@ -31,6 +31,11 @@ spring:
     port: 6379
 
 debug: true
+
+logging:
+  level:
+    org.springframework.orm.jpa: DEBUG
+    org.springframework.transaction: DEBUG
 ---
 spring:
   config:

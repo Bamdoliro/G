@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @Service
 public class CookieUtil {
@@ -24,6 +25,13 @@ public class CookieUtil {
                 return cookie;
         }
         return null;
+    }
+
+    public Cookie deleteCookie(String cookieName) {
+        Cookie cookieToDelete = new Cookie(cookieName, null);
+        cookieToDelete.setMaxAge(0);
+        cookieToDelete.setPath("/");
+        return cookieToDelete;
     }
 
 }

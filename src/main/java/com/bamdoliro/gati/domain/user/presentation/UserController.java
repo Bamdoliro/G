@@ -30,6 +30,11 @@ public class UserController {
         return userService.loginUser(dto, response);
     }
 
+    @PostMapping("/logout")
+    public void logoutUser(HttpServletResponse response) {
+        userService.logoutUser(response);
+    }
+
     @GetMapping
     public getUserResponseDto getUser() {
         return userService.getUserInformation();

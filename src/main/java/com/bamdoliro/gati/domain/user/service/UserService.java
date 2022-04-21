@@ -12,6 +12,7 @@ import com.bamdoliro.gati.domain.user.presentation.dto.response.TokenResponseDto
 import com.bamdoliro.gati.domain.user.presentation.dto.response.getUserResponseDto;
 import com.bamdoliro.gati.global.redis.RedisService;
 import com.bamdoliro.gati.global.security.auth.AuthDetails;
+import com.bamdoliro.gati.global.security.jwt.JwtProperties;
 import com.bamdoliro.gati.global.security.jwt.JwtTokenProvider;
 import com.bamdoliro.gati.global.utils.CookieUtil;
 import lombok.RequiredArgsConstructor;
@@ -86,6 +87,17 @@ public class UserService {
         if (!passwordEncoder.matches(dto.getPassword(), user.getPassword())) {
             throw PasswordMismatchException.EXCEPTION;
         }
+    }
+
+    public void logoutUser(HttpServletResponse response) {
+        User user = getCurrentUser();
+
+        Cookie tempCookie1 = cookieUtil.deleteCookie(ACCESS_TOKEN_NAME);
+        Cookie tempCookie2 = cookieUtil.deleteCookie(REFRESH_TOKEN_NAME);
+        response.addCookie(tempCookie1);
+        response.addCookie(tempCookie2);
+
+        redisService.deleteData(user.getEmail());
     }
 
     @Transactional(readOnly = true)

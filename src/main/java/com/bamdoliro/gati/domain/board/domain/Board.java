@@ -26,10 +26,12 @@ public class Board extends BaseTimeEntity {
     private Long boardId;
 
     // Todo : 나중에 커뮤니티 맵핑
-//    private Long communityId;
+    @Column(name = "community_id")
+    private Long communityId;
 
     // Todo :  나중에 유저 맵핑
-//    private String writer;
+    @Column(name = "writer", length = 20, nullable = false)
+    private String writer;
 
     @Column(name = "title", length = 20, nullable = false)
     private String title;
@@ -45,10 +47,4 @@ public class Board extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    @Builder
-    public Board (String title, BoardType boardType, String content) {
-        this.title = title;
-        this.boardType = boardType;
-        this.content = content;
-    }
 }

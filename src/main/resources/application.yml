@@ -18,10 +18,10 @@ spring:
     show-sql: true
     generate-ddl: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
 
   jwt:
-    secret: asdfasdfasdfasfasdfadsfadsfasdfsadfsdfasfsfasdfsafasdfasdfasfasfasdsafsdffadsfasdfasfasf
+    secret:
 
   cache:
     type: redis
@@ -42,8 +42,4 @@ spring:
     activate:
       on-profile: product
 
-  jpa:
-    show-sql: false
-    hibernate:
-      ddl-auto: none
-    generate-ddl: false
+

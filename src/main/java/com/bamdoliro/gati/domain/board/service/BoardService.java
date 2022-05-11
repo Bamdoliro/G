@@ -4,12 +4,13 @@ import com.bamdoliro.gati.domain.board.domain.Board;
 import com.bamdoliro.gati.domain.board.domain.repository.BoardRepository;
 import com.bamdoliro.gati.domain.board.domain.type.BoardType;
 import com.bamdoliro.gati.domain.board.domain.type.Status;
-import com.bamdoliro.gati.domain.board.presentation.dto.request.BoardRequest;
+import com.bamdoliro.gati.domain.board.presentation.dto.request.CreateBoard;
+import com.bamdoliro.gati.domain.board.presentation.dto.response.BoardDetailResponse;
 import com.bamdoliro.gati.domain.board.presentation.dto.response.BoardResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.util.ArrayList;
 
 @Service
@@ -26,8 +27,8 @@ public class BoardService {
             BoardResponse response = BoardResponse.builder()
                     .writer(post.getWriter())
                     .title(post.getTitle())
-                    .content(post.getContent())
                     .boardType(post.getBoardType())
+                    .createdAt(post.getCreatedAt())
                     .build();
             responses.add(response);
         }
@@ -35,7 +36,7 @@ public class BoardService {
     }
 
     @Transactional
-    public BoardResponse savePost(BoardRequest dto) {
+    public BoardResponse savePost(CreateBoard dto) {
         Board board = Board.builder()
                 .title(dto.getTitle())
                 .writer(dto.getWriter())
@@ -46,11 +47,59 @@ public class BoardService {
         boardRepository.save(board);
         BoardResponse response = BoardResponse.builder()
                 .boardType(board.getBoardType())
-                .content(board.getContent())
                 .title(board.getTitle())
                 .writer(board.getWriter())
+                .createdAt(board.getCreatedAt())
                 .build();
 
         return response;
+    }
+
+    @Transactional
+    public BoardDetailResponse getDetail(Long id) {
+        Board post = boardRepository.findById(id).orElseThrow(null);
+        return BoardDetailResponse.builder()
+                .writer(post.getWriter())
+                .boardType(post.getBoardType())
+                .title(post.getTitle())
+                .content(post.getContent())
+                .createdAt(post.getCreatedAt())
+                .build();
+    }
+
+
+    @Transactional
+    public ArrayList<BoardResponse> getDDO() {
+        ArrayList<Board> ddos = boardRepository.findAllByBoardType(BoardType.DDO);
+        ArrayList<BoardResponse> responses = new ArrayList<>();
+        for (Board ddo : ddos) {
+            responses.add(
+                    BoardResponse.builder()
+                            .writer(ddo.getWriter())
+                            .boardType(ddo.getBoardType())
+                            .title(ddo.getTitle())
+                            .createdAt(ddo.getCreatedAt())
+                            .build()
+            );
+        }
+
+        return responses;
+    }
+
+    public ArrayList<BoardResponse> getGENERAL() {
+        ArrayList<Board> generals = boardRepository.findAllByBoardType(BoardType.GENERAL);
+        ArrayList<BoardResponse> responses = new ArrayList<>();
+        for (Board general : generals) {
+            responses.add(
+                    BoardResponse.builder()
+                            .writer(general.getWriter())
+                            .boardType(general.getBoardType())
+                            .title(general.getTitle())
+                            .createdAt(general.getCreatedAt())
+                            .build()
+            );
+        }
+
+        return responses;
     }
 }

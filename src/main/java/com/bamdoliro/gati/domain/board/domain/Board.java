@@ -47,4 +47,6 @@ public class Board extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private Status status;
 
+    @Column(name = "number_of_like", nullable = false)
+    private int likes;
 }

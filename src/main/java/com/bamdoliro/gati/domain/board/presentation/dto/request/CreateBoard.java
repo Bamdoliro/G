@@ -7,7 +7,7 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class BoardRequest {
+public class CreateBoard {
 
     @NotNull
     private String writer;

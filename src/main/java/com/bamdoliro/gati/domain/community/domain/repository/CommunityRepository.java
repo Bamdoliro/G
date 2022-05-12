@@ -1,7 +1,7 @@
 package com.bamdoliro.gati.domain.community.domain.repository;
 
 import com.bamdoliro.gati.domain.community.domain.Community;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface CommunityRepository extends CrudRepository<Community, Long> {
+public interface CommunityRepository extends JpaRepository<Community, Long> {
 }

@@ -1,5 +1,6 @@
 package com.bamdoliro.gati.domain.community.presentation.dto.request;
 
+import com.bamdoliro.gati.domain.community.domain.Community;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -23,4 +24,13 @@ public class CreateCommunityRequestDto {
 
     @NotNull
     private Boolean isPublic;
+
+    public Community createCommunityFromDto() {
+        return Community.builder()
+                .name(name)
+                .introduction(introduction)
+                .numberOfPeople(numberOfPeople)
+                .isPublic(isPublic)
+                .build();
+    }
 }

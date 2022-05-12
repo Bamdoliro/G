@@ -1,6 +1,5 @@
 package com.bamdoliro.gati.domain.community.service;
 
-import com.bamdoliro.gati.domain.community.domain.Community;
 import com.bamdoliro.gati.domain.community.domain.repository.CommunityRepository;
 import com.bamdoliro.gati.domain.community.presentation.dto.request.CreateCommunityRequestDto;
 import lombok.RequiredArgsConstructor;
@@ -15,15 +14,6 @@ public class CommunityService {
 
     @Transactional
     public void createCommunity(CreateCommunityRequestDto dto) {
-        communityRepository.save(createCommunityFromDto(dto));
-    }
-
-    private Community createCommunityFromDto(CreateCommunityRequestDto dto) {
-        return Community.builder()
-                .name(dto.getName())
-                .introduction(dto.getIntroduction())
-                .numberOfPeople(dto.getNumberOfPeople())
-                .isPublic(dto.getIsPublic())
-                .build();
+        communityRepository.save(dto.createCommunityFromDto());
     }
 }

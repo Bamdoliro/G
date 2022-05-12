@@ -9,7 +9,6 @@ import javax.persistence.*;
 @Entity
 @Table(name = "community_table")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
 @Getter
 public class Community extends BaseTimeEntity {
 

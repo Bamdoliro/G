@@ -14,6 +14,6 @@ public class CommunityService {
 
     @Transactional
     public void createCommunity(CreateCommunityRequestDto dto) {
-        communityRepository.save(dto.createCommunityFromDto());
+        communityRepository.save(dto.toCommunity());
     }
 }

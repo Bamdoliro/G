@@ -3,15 +3,17 @@ package com.bamdoliro.gati.domain.board.service;
 import com.bamdoliro.gati.domain.board.domain.Board;
 import com.bamdoliro.gati.domain.board.domain.repository.BoardRepository;
 import com.bamdoliro.gati.domain.board.domain.type.BoardType;
-import com.bamdoliro.gati.domain.board.domain.type.Status;
-import com.bamdoliro.gati.domain.board.presentation.dto.request.CreateBoard;
+import com.bamdoliro.gati.domain.board.presentation.dto.request.SaveBoardRequest;
 import com.bamdoliro.gati.domain.board.presentation.dto.response.BoardDetailResponse;
 import com.bamdoliro.gati.domain.board.presentation.dto.response.BoardResponse;
 import lombok.RequiredArgsConstructor;
+import org.apache.tomcat.jni.Local;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -36,20 +38,12 @@ public class BoardService {
     }
 
     @Transactional
-    public BoardResponse savePost(CreateBoard dto) {
-        Board board = Board.builder()
+    public BoardResponse savePost(SaveBoardRequest dto) {
+        boardRepository.save(dto.createBoardFromSaveBoardRequest());
+        BoardResponse response = BoardResponse.builder()
+                .boardType(dto.getBoardType())
                 .title(dto.getTitle())
                 .writer(dto.getWriter())
-                .content(dto.getContent())
-                .boardType(BoardType.DDO)
-                .status(Status.EXISTED)
-                .build();
-        boardRepository.save(board);
-        BoardResponse response = BoardResponse.builder()
-                .boardType(board.getBoardType())
-                .title(board.getTitle())
-                .writer(board.getWriter())
-                .createdAt(board.getCreatedAt())
                 .build();
 
         return response;
@@ -99,7 +93,17 @@ public class BoardService {
                             .build()
             );
         }
-
         return responses;
+    }
+
+    @Transactional
+    public List<String> getTime() {
+        List<Board> posts = boardRepository.findAll();
+        List<String> times = new ArrayList<>();
+
+        for(Board board : posts ) {
+            times.add((board.getCreatedAt()).toString());
+        }
+        return times;
     }
 }

@@ -11,7 +11,7 @@ import java.time.LocalDate;
 
 @Getter
 @Builder
-public class getUserResponseDto {
+public class GetUserResponseDto {
 
     private String email;
     private String name;
@@ -20,8 +20,8 @@ public class getUserResponseDto {
     private Authority authority;
     private Status status;
 
-    public static getUserResponseDto fromUser(User user) {
-        return getUserResponseDto.builder()
+    public static GetUserResponseDto of(User user) {
+        return GetUserResponseDto.builder()
                 .email(user.getEmail())
                 .name(user.getName())
                 .birth(user.getBirth())

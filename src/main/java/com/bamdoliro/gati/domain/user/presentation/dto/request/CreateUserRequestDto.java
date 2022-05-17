@@ -40,7 +40,7 @@ public class CreateUserRequestDto {
     @NotNull(message = "성별을 선택해 주세요.")
     private final Gender gender;
 
-    public User toUser(String password) {
+    public User toEntity(String password) {
         return User.builder()
                 .email(email)
                 .password(password)

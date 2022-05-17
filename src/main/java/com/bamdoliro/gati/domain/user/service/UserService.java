@@ -7,7 +7,7 @@ import com.bamdoliro.gati.domain.user.exception.UserAlreadyExistsException;
 import com.bamdoliro.gati.domain.user.exception.UserNotFoundException;
 import com.bamdoliro.gati.domain.user.presentation.dto.request.*;
 import com.bamdoliro.gati.domain.user.presentation.dto.response.TokenResponseDto;
-import com.bamdoliro.gati.domain.user.presentation.dto.response.getUserResponseDto;
+import com.bamdoliro.gati.domain.user.presentation.dto.response.GetUserResponseDto;
 import com.bamdoliro.gati.global.redis.RedisService;
 import com.bamdoliro.gati.global.security.auth.AuthDetails;
 import com.bamdoliro.gati.global.security.jwt.JwtTokenProvider;
@@ -36,7 +36,7 @@ public class UserService {
     @Transactional
     public void createUser(CreateUserRequestDto dto) {
         validateCreateUserRequest(dto);
-        userRepository.save(dto.toUser(passwordEncoder.encode(dto.getPassword())));
+        userRepository.save(dto.toEntity(passwordEncoder.encode(dto.getPassword())));
     }
 
     private void validateCreateUserRequest(CreateUserRequestDto dto) {
@@ -83,10 +83,10 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public getUserResponseDto getUserInformation() {
+    public GetUserResponseDto getUserInformation() {
         User user = getCurrentUser();
 
-        return getUserResponseDto.fromUser(user);
+        return GetUserResponseDto.of(user);
     }
 
     @Transactional

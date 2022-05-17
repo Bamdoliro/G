@@ -25,7 +25,7 @@ public class CreateCommunityRequestDto {
     @NotNull
     private Boolean isPublic;
 
-    public Community toCommunity() {
+    public Community toEntity() {
         return Community.builder()
                 .name(name)
                 .introduction(introduction)

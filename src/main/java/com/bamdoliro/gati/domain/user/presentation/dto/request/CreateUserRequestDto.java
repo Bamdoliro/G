@@ -1,12 +1,16 @@
 package com.bamdoliro.gati.domain.user.presentation.dto.request;
 
+import com.bamdoliro.gati.domain.user.domain.User;
+import com.bamdoliro.gati.domain.user.domain.type.Authority;
 import com.bamdoliro.gati.domain.user.domain.type.Gender;
+import com.bamdoliro.gati.domain.user.domain.type.Status;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.time.LocalDate;
 
 @Getter
 @AllArgsConstructor
@@ -35,4 +39,16 @@ public class CreateUserRequestDto {
 
     @NotNull(message = "성별을 선택해 주세요.")
     private final Gender gender;
+
+    public User toEntity(String password) {
+        return User.builder()
+                .email(email)
+                .password(password)
+                .name(name)
+                .birth(LocalDate.of(birthYear, birthMonth, birthDay))
+                .gender(gender)
+                .authority(Authority.ROLE_USER)
+                .status(Status.NOT_VERIFIED)
+                .build();
+    }
 }

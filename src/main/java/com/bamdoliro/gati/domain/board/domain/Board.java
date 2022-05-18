@@ -1,52 +1,42 @@
 package com.bamdoliro.gati.domain.board.domain;
 
 
-import com.bamdoliro.gati.domain.board.domain.type.BoardType;
-import com.bamdoliro.gati.domain.board.domain.type.Status;
+import com.bamdoliro.gati.domain.community.domain.Community;
+import com.bamdoliro.gati.domain.user.domain.User;
 import com.bamdoliro.gati.global.entity.BaseTimeEntity;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "board_table")
 public class Board extends BaseTimeEntity {
 
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "board_id")
     private Long boardId;
 
-    // Todo : 나중에 커뮤니티 맵핑
+    @ManyToOne(fetch = FetchType.LAZY)
     @Column(name = "community_id")
-    private Long communityId;
+    private Community community;
 
-    // Todo :  나중에 유저 맵핑
-    @Column(name = "writer", length = 20, nullable = false)
-    private String writer;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @Column(name = "writer_id", length = 20, nullable = false)
+    private User writer;
 
     @Column(name = "title", length = 20, nullable = false)
     private String title;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "board_type", length = 7, nullable = false)
-    private BoardType boardType;
-
     @Column(name = "content", columnDefinition = "TEXT", length = 1000, nullable = false)
     private String content;
 
-    @Column(name = "status", length = 7, nullable = false)
-    @Enumerated(EnumType.STRING)
-    private Status status;
-
-    @Column(name = "number_of_like", nullable = false)
-    private int likes;
+    @Builder
+    public Board(Community community, User writer, String title, String content) {
+        this.community = community;
+        this.writer = writer;
+        this.title = title;
+        this.content = content;
+    }
 }

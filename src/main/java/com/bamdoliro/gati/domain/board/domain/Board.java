@@ -19,11 +19,11 @@ public class Board extends BaseTimeEntity {
     private Long boardId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @Column(name = "community_id")
+    @JoinColumn(name = "community_id")
     private Community community;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @Column(name = "writer_id", length = 20, nullable = false)
+    @JoinColumn(name = "writer_id")
     private User writer;
 
     @Column(name = "title", length = 20, nullable = false)

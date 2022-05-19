@@ -9,6 +9,4 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
 
     ArrayList<Board> findAllByWriter(String writer);
 
-
-    ArrayList<Board> findAllByBoardType(BoardType type);
 }

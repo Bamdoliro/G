@@ -4,7 +4,10 @@ package com.bamdoliro.gati.domain.board.domain;
 import com.bamdoliro.gati.domain.community.domain.Community;
 import com.bamdoliro.gati.domain.user.domain.User;
 import com.bamdoliro.gati.global.entity.BaseTimeEntity;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
@@ -16,7 +19,7 @@ public class Board extends BaseTimeEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "board_id")
-    private Long boardId;
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "community_id")
@@ -29,7 +32,7 @@ public class Board extends BaseTimeEntity {
     @Column(name = "title", length = 20, nullable = false)
     private String title;
 
-    @Column(name = "content", columnDefinition = "TEXT", length = 1000, nullable = false)
+    @Column(name = "content", columnDefinition = "TEXT", length = 4000, nullable = false)
     private String content;
 
     @Builder

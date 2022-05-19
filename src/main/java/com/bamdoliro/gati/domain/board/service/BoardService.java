@@ -2,16 +2,16 @@ package com.bamdoliro.gati.domain.board.service;
 
 import com.bamdoliro.gati.domain.board.domain.Board;
 import com.bamdoliro.gati.domain.board.domain.repository.BoardRepository;
-import com.bamdoliro.gati.domain.board.domain.type.BoardType;
-import com.bamdoliro.gati.domain.board.presentation.dto.request.SaveBoardRequest;
-import com.bamdoliro.gati.domain.board.presentation.dto.response.BoardDetailResponse;
-import com.bamdoliro.gati.domain.board.presentation.dto.response.BoardResponse;
+import com.bamdoliro.gati.domain.board.presentation.dto.request.CreateBoardRequestDto;
+import com.bamdoliro.gati.domain.board.presentation.dto.response.BoardDetailDto;
+import com.bamdoliro.gati.domain.board.presentation.dto.response.BoardResponseDto;
+import com.bamdoliro.gati.domain.community.domain.repository.CommunityRepository;
+import com.bamdoliro.gati.domain.community.service.CommunityService;
+import com.bamdoliro.gati.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.apache.tomcat.jni.Local;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,90 +20,31 @@ import java.util.List;
 public class BoardService {
 
     private final BoardRepository boardRepository;
+    private final CommunityRepository communityRepository;
+    private final UserService userService;
 
     @Transactional
-    public ArrayList<BoardResponse> getPostsByWriter(String writer) {
-        ArrayList<Board> posts = boardRepository.findAllByWriter(writer);
-        ArrayList<BoardResponse> responses = new ArrayList<>();
-        for (Board post : posts) {
-            BoardResponse response = BoardResponse.builder()
-                    .writer(post.getWriter())
-                    .title(post.getTitle())
-                    .boardType(post.getBoardType())
-                    .createdAt(post.getCreatedAt())
-                    .build();
-            responses.add(response);
-        }
-        return responses;
-    }
-
-    @Transactional
-    public BoardResponse savePost(SaveBoardRequest dto) {
-        boardRepository.save(dto.createBoardFromSaveBoardRequest());
-        BoardResponse response = BoardResponse.builder()
-                .boardType(dto.getBoardType())
-                .title(dto.getTitle())
-                .writer(dto.getWriter())
+    public void savePost(CreateBoardRequestDto request) {
+        Board board = Board.builder()
+                .title(request.getTitle())
+                .content(request.getContent())
+                .community(
+                        communityRepository.findById(request.getCommunityId())
+                                .orElseThrow(NullPointerException::new)
+                )
+                .writer(userService.getCurrentUser())
                 .build();
-
-        return response;
+        boardRepository.save(board);
     }
 
     @Transactional
-    public BoardDetailResponse getDetail(Long id) {
-        Board post = boardRepository.findById(id).orElseThrow(null);
-        return BoardDetailResponse.builder()
-                .writer(post.getWriter())
-                .boardType(post.getBoardType())
-                .title(post.getTitle())
-                .content(post.getContent())
-                .createdAt(post.getCreatedAt())
+    public BoardDetailDto getDetail(Long id) {
+        Board findBoard = boardRepository.findById(id)
+                        .orElseThrow(NullPointerException::new);
+        return BoardDetailDto.builder()
+                .writer(findBoard.getWriter().getName())
+                .title(findBoard.getTitle())
+                .content(findBoard.getContent())
                 .build();
-    }
-
-
-    @Transactional
-    public ArrayList<BoardResponse> getDDO() {
-        ArrayList<Board> ddos = boardRepository.findAllByBoardType(BoardType.DDO);
-        ArrayList<BoardResponse> responses = new ArrayList<>();
-        for (Board ddo : ddos) {
-            responses.add(
-                    BoardResponse.builder()
-                            .writer(ddo.getWriter())
-                            .boardType(ddo.getBoardType())
-                            .title(ddo.getTitle())
-                            .createdAt(ddo.getCreatedAt())
-                            .build()
-            );
-        }
-
-        return responses;
-    }
-
-    public ArrayList<BoardResponse> getGENERAL() {
-        ArrayList<Board> generals = boardRepository.findAllByBoardType(BoardType.GENERAL);
-        ArrayList<BoardResponse> responses = new ArrayList<>();
-        for (Board general : generals) {
-            responses.add(
-                    BoardResponse.builder()
-                            .writer(general.getWriter())
-                            .boardType(general.getBoardType())
-                            .title(general.getTitle())
-                            .createdAt(general.getCreatedAt())
-                            .build()
-            );
-        }
-        return responses;
-    }
-
-    @Transactional
-    public List<String> getTime() {
-        List<Board> posts = boardRepository.findAll();
-        List<String> times = new ArrayList<>();
-
-        for(Board board : posts ) {
-            times.add((board.getCreatedAt()).toString());
-        }
-        return times;
     }
 }

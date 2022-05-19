@@ -18,11 +18,12 @@ spring:
     show-sql: true
     generate-ddl: true
     hibernate:
-      ddl-auto: create
+      ddl-auto: create-drop
 
   jwt:
-    secret:
+    secret: asdfasdfasdfasfasdfadsfadsfasdfsadfsdfasfsfasdfsafasdfasdfasfasfasdsafsdffadsfasdfasfasf
 
+  
   cache:
     type: redis
 

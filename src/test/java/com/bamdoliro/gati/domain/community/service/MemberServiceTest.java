@@ -7,6 +7,7 @@ import com.bamdoliro.gati.domain.community.domain.repository.MemberRepository;
 import com.bamdoliro.gati.domain.community.domain.type.Authority;
 import com.bamdoliro.gati.domain.community.facade.CommunityFacade;
 import com.bamdoliro.gati.domain.user.domain.User;
+import com.bamdoliro.gati.domain.user.facade.UserFacade;
 import com.bamdoliro.gati.domain.user.service.UserService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -38,7 +39,7 @@ class MemberServiceTest {
     private CommunityFacade communityFacade;
 
     @Mock
-    private UserService userService;
+    private UserFacade userFacade;
 
     private final Community defaultCommunity = Community.builder()
             .name("우리집")
@@ -64,7 +65,7 @@ class MemberServiceTest {
         // given
         given(memberRepository.save(any())).willReturn(defaultMember);
         given(communityFacade.findCommunityById(any())).willReturn(defaultCommunity);
-        given(userService.getCurrentUser()).willReturn(defaultUser);
+        given(userFacade.getCurrentUser()).willReturn(defaultUser);
         ArgumentCaptor<Member> captor = ArgumentCaptor.forClass(Member.class);
 
         // when

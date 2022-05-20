@@ -3,17 +3,14 @@ package com.bamdoliro.gati.domain.user.service;
 import com.bamdoliro.gati.domain.user.domain.User;
 import com.bamdoliro.gati.domain.user.domain.repository.UserRepository;
 import com.bamdoliro.gati.domain.user.exception.PasswordMismatchException;
-import com.bamdoliro.gati.domain.user.exception.UserAlreadyExistsException;
-import com.bamdoliro.gati.domain.user.exception.UserNotFoundException;
+import com.bamdoliro.gati.domain.user.facade.UserFacade;
 import com.bamdoliro.gati.domain.user.presentation.dto.request.*;
-import com.bamdoliro.gati.domain.user.presentation.dto.response.TokenResponseDto;
 import com.bamdoliro.gati.domain.user.presentation.dto.response.GetUserResponseDto;
+import com.bamdoliro.gati.domain.user.presentation.dto.response.TokenResponseDto;
 import com.bamdoliro.gati.global.redis.RedisService;
-import com.bamdoliro.gati.global.security.auth.AuthDetails;
 import com.bamdoliro.gati.global.security.jwt.JwtTokenProvider;
 import com.bamdoliro.gati.global.utils.CookieUtil;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,20 +29,18 @@ public class UserService {
     private final RedisService redisService;
     private final JwtTokenProvider jwtTokenProvider;
     private final CookieUtil cookieUtil;
+    private final UserFacade userFacade;
 
     @Transactional
     public void createUser(CreateUserRequestDto dto) {
-        validateCreateUserRequest(dto);
+        userFacade.checkUserByEmail(dto.getEmail());
+
         userRepository.save(dto.toEntity(passwordEncoder.encode(dto.getPassword())));
     }
 
-    private void validateCreateUserRequest(CreateUserRequestDto dto) {
-        userRepository.findByEmail(dto.getEmail())
-                .ifPresent(user -> { throw UserAlreadyExistsException.EXCEPTION; });
-    }
-
     public TokenResponseDto loginUser(LoginUserRequestDto dto, HttpServletResponse response) {
-        validateLoginUserRequest(dto);
+        User user = userFacade.findUserByEmail(dto.getEmail());
+        userFacade.checkUserPassword(user, dto.getPassword());
 
         final String accessToken = jwtTokenProvider.createAccessToken(dto.getEmail());
         final String refreshToken = jwtTokenProvider.createRefreshToken(dto.getEmail());
@@ -62,17 +57,8 @@ public class UserService {
                 .build();
     }
 
-    private void validateLoginUserRequest(LoginUserRequestDto dto) {
-        User user = userRepository.findByEmail(dto.getEmail())
-                .orElseThrow(() -> UserNotFoundException.EXCEPTION);
-
-        if (!passwordEncoder.matches(dto.getPassword(), user.getPassword())) {
-            throw PasswordMismatchException.EXCEPTION;
-        }
-    }
-
     public void logoutUser(HttpServletResponse response) {
-        User user = getCurrentUser();
+        User user = userFacade.getCurrentUser();
 
         Cookie tempCookie1 = cookieUtil.deleteCookie(ACCESS_TOKEN_NAME);
         Cookie tempCookie2 = cookieUtil.deleteCookie(REFRESH_TOKEN_NAME);
@@ -84,43 +70,31 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public GetUserResponseDto getUserInformation() {
-        User user = getCurrentUser();
+        User user = userFacade.getCurrentUser();
 
         return GetUserResponseDto.of(user);
     }
 
     @Transactional
     public void updateUserPassword(UpdateUserPasswordRequestDto dto) {
-        User user = getCurrentUser();
+        User user = userFacade.getCurrentUser();
 
-        passwordCheck(user, dto.getCurrentPassword());
+        userFacade.checkUserPassword(user, dto.getCurrentPassword());
         user.updatePassword(passwordEncoder.encode(dto.getPassword()));
     }
 
     @Transactional
     public void updateUserName(UpdateUserNameRequestDto dto) {
-        User user = getCurrentUser();
+        User user = userFacade.getCurrentUser();
 
         user.updateName(dto.getName());
     }
 
     @Transactional
     public void deleteUser(DeleteUserRequestDto dto) {
-        User user = getCurrentUser();
+        User user = userFacade.getCurrentUser();
 
-        passwordCheck(user, dto.getPassword());
+        userFacade.checkUserPassword(user, dto.getPassword());
         userRepository.delete(user);
     }
-
-    private void passwordCheck(User user, String passwordToCheck) {
-        if (!passwordEncoder.matches(passwordToCheck, user.getPassword())) {
-            throw PasswordMismatchException.EXCEPTION;
-        }
-    }
-
-    public User getCurrentUser() {
-        AuthDetails auth = (AuthDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return auth.getUser();
-    }
-
 }

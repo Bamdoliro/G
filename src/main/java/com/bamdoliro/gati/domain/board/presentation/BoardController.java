@@ -15,14 +15,11 @@ import java.util.List;
 @RestController
 @RequestMapping("/board")
 @RequiredArgsConstructor
-@Slf4j
 public class BoardController {
 
     private final BoardService boardService;
 
-    // 특정 유저의 게시글 전부 보기
-
-    @PostMapping("/save")
+    @PostMapping("/")
     public void savePost(
             @RequestBody @Valid CreateBoardRequestDto request
     ) {

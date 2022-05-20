@@ -2,7 +2,7 @@ package com.bamdoliro.gati.domain.user.presentation;
 
 import com.bamdoliro.gati.domain.user.presentation.dto.request.*;
 import com.bamdoliro.gati.domain.user.presentation.dto.response.TokenResponseDto;
-import com.bamdoliro.gati.domain.user.presentation.dto.response.getUserResponseDto;
+import com.bamdoliro.gati.domain.user.presentation.dto.response.GetUserResponseDto;
 import com.bamdoliro.gati.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -36,7 +36,7 @@ public class UserController {
     }
 
     @GetMapping
-    public getUserResponseDto getUser() {
+    public GetUserResponseDto getUser() {
         return userService.getUserInformation();
     }
 

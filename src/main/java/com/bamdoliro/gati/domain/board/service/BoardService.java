@@ -2,11 +2,14 @@ package com.bamdoliro.gati.domain.board.service;
 
 import com.bamdoliro.gati.domain.board.domain.Board;
 import com.bamdoliro.gati.domain.board.domain.repository.BoardRepository;
+import com.bamdoliro.gati.domain.board.facade.BoardFacade;
 import com.bamdoliro.gati.domain.board.presentation.dto.request.CreateBoardRequestDto;
 import com.bamdoliro.gati.domain.board.presentation.dto.response.BoardDetailDto;
 import com.bamdoliro.gati.domain.board.presentation.dto.response.BoardResponseDto;
 import com.bamdoliro.gati.domain.community.domain.repository.CommunityRepository;
+import com.bamdoliro.gati.domain.community.facade.CommunityFacade;
 import com.bamdoliro.gati.domain.community.service.CommunityService;
+import com.bamdoliro.gati.domain.user.facade.UserFacade;
 import com.bamdoliro.gati.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,27 +23,21 @@ import java.util.List;
 public class BoardService {
 
     private final BoardRepository boardRepository;
-    private final CommunityRepository communityRepository;
-    private final UserService userService;
+    private final BoardFacade boardFacade;
+    private final UserFacade userFacade;
+    private final CommunityFacade communityFacade;
 
+    // 게시물 게시
     @Transactional
     public void savePost(CreateBoardRequestDto request) {
-        Board board = Board.builder()
-                .title(request.getTitle())
-                .content(request.getContent())
-                .community(
-                        communityRepository.findById(request.getCommunityId())
-                                .orElseThrow(NullPointerException::new)
-                )
-                .writer(userService.getCurrentUser())
-                .build();
+        Board board = request.toEntity();
         boardRepository.save(board);
     }
 
+    // 게시물 디테일 보기
     @Transactional
     public BoardDetailDto getDetail(Long id) {
-        Board findBoard = boardRepository.findById(id)
-                        .orElseThrow(NullPointerException::new);
+        Board findBoard = boardFacade.findBoardById(id);
         return BoardDetailDto.builder()
                 .writer(findBoard.getWriter().getName())
                 .title(findBoard.getTitle())

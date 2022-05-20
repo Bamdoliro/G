@@ -6,6 +6,7 @@ import com.bamdoliro.gati.domain.community.domain.repository.MemberRepository;
 import com.bamdoliro.gati.domain.community.domain.type.Authority;
 import com.bamdoliro.gati.domain.community.facade.CommunityFacade;
 import com.bamdoliro.gati.domain.user.domain.User;
+import com.bamdoliro.gati.domain.user.facade.UserFacade;
 import com.bamdoliro.gati.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,11 +17,11 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
     private final CommunityFacade communityFacade;
-    private final UserService userService;
+    private final UserFacade userFacade;
 
     public void joinCommunity(Long communityId) {
         Community community = communityFacade.findCommunityById(communityId);
-        User user = userService.getCurrentUser();
+        User user = userFacade.getCurrentUser();
 
         memberRepository.save(Member.builder()
                 .user(user)

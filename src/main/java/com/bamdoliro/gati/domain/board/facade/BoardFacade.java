@@ -2,8 +2,11 @@ package com.bamdoliro.gati.domain.board.facade;
 
 import com.bamdoliro.gati.domain.board.domain.Board;
 import com.bamdoliro.gati.domain.board.domain.repository.BoardRepository;
+import com.bamdoliro.gati.domain.board.exception.BoardNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
+@Component
 @RequiredArgsConstructor
 public class BoardFacade {
 
@@ -11,7 +14,7 @@ public class BoardFacade {
 
     public Board findBoardById(Long id) {
         return boardRepository.findById(id)
-                .orElseThrow(NullPointerException::new);
+                .orElseThrow(BoardNotFoundException::new);
     }
 
 

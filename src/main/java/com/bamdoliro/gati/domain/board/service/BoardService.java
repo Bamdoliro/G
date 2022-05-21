@@ -37,11 +37,11 @@ public class BoardService {
     // 게시물 디테일 보기
     @Transactional
     public BoardDetailDto getDetail(Long id) {
-        Board findBoard = boardFacade.findBoardById(id);
+        Board board = boardFacade.findBoardById(id);
         return BoardDetailDto.builder()
-                .writer(findBoard.getWriter().getName())
-                .title(findBoard.getTitle())
-                .content(findBoard.getContent())
+                .writer(board.getWriter().getName())
+                .title(board.getTitle())
+                .content(board.getContent())
                 .build();
     }
 }

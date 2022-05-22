@@ -69,7 +69,7 @@ class MemberServiceTest {
         ArgumentCaptor<Member> captor = ArgumentCaptor.forClass(Member.class);
 
         // when
-        memberService.joinCommunity(defaultCommunity.getId());
+        memberService.joinCommunity(defaultCommunity.getId(), Authority.MEMBER);
 
         // then
         verify(memberRepository, times(1)).save(captor.capture());

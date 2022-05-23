@@ -14,9 +14,6 @@ public class BoardFacade {
 
     public Board findBoardById(Long id) {
         return boardRepository.findById(id)
-                .orElseThrow(BoardNotFoundException::new);
+                .orElseThrow(() -> BoardNotFoundException.EXCEPTION);
     }
-
-
-
 }

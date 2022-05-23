@@ -35,13 +35,9 @@ public class BoardService {
     }
 
     // 게시물 디테일 보기
-    @Transactional
+    @Transactional(readOnly = true)
     public BoardDetailDto getDetail(Long id) {
         Board board = boardFacade.findBoardById(id);
-        return BoardDetailDto.builder()
-                .writer(board.getWriter().getName())
-                .title(board.getTitle())
-                .content(board.getContent())
-                .build();
+        return BoardDetailDto.of(board);
     }
 }

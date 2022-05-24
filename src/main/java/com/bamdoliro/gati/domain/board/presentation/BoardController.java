@@ -19,7 +19,7 @@ public class BoardController {
 
     private final BoardService boardService;
 
-    @PostMapping("/")
+    @PostMapping
     public void savePost(
             @RequestBody @Valid CreateBoardRequestDto request
     ) {

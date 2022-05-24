@@ -1,7 +1,9 @@
 package com.bamdoliro.gati.domain.board.presentation.dto.request;
 
 import com.bamdoliro.gati.domain.board.domain.Board;
+import com.bamdoliro.gati.domain.community.domain.Community;
 import com.bamdoliro.gati.domain.community.facade.CommunityFacade;
+import com.bamdoliro.gati.domain.user.domain.User;
 import com.bamdoliro.gati.domain.user.facade.UserFacade;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,11 +13,7 @@ import javax.validation.constraints.NotNull;
 
 @Getter
 @AllArgsConstructor
-@RequiredArgsConstructor
 public class CreateBoardRequestDto {
-
-    private final CommunityFacade communityFacade;
-    private final UserFacade userFacade;
 
     @NotNull
     private Long communityId;
@@ -24,14 +22,12 @@ public class CreateBoardRequestDto {
     @NotNull
     private String content;
 
-    public Board toEntity() {
+    public Board toEntity(User writer, Community community) {
         return Board.builder()
                 .title(title)
                 .content(content)
-                .community(
-                        communityFacade.findCommunityById(communityId)
-                )
-                .writer(userFacade.getCurrentUser())
+                .community(community)
+                .writer(writer)
                 .build();
     }
 }

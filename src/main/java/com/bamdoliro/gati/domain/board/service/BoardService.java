@@ -30,7 +30,9 @@ public class BoardService {
     // 게시물 게시
     @Transactional
     public void savePost(CreateBoardRequestDto request) {
-        Board board = request.toEntity();
+        Board board = request.toEntity(
+                userFacade.getCurrentUser(),
+                communityFacade.findCommunityById(request.getCommunityId()));
         boardRepository.save(board);
     }
 

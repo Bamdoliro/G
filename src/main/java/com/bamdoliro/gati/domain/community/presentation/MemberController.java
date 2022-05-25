@@ -1,5 +1,6 @@
 package com.bamdoliro.gati.domain.community.presentation;
 
+import com.bamdoliro.gati.domain.community.domain.type.Authority;
 import com.bamdoliro.gati.domain.community.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,6 +17,6 @@ public class MemberController {
 
     @PostMapping
     public void joinCommunity(@RequestParam(name = "community") Long communityId) {
-        memberService.joinCommunity(communityId);
+        memberService.joinCommunity(communityId, Authority.MEMBER);
     }
 }

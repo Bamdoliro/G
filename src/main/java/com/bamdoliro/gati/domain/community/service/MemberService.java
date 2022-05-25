@@ -10,6 +10,7 @@ import com.bamdoliro.gati.domain.user.facade.UserFacade;
 import com.bamdoliro.gati.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -19,14 +20,12 @@ public class MemberService {
     private final CommunityFacade communityFacade;
     private final UserFacade userFacade;
 
-    public void joinCommunity(Long communityId) {
-        Community community = communityFacade.findCommunityById(communityId);
-        User user = userFacade.getCurrentUser();
-
+    @Transactional
+    public void joinCommunity(Long communityId, Authority authority) {
         memberRepository.save(Member.builder()
-                .user(user)
-                .community(community)
-                .authority(Authority.MEMBER)
+                .user(userFacade.getCurrentUser())
+                .community(communityFacade.findCommunityById(communityId))
+                .authority(authority)
                 .build()
         );
     }

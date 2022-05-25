@@ -2,6 +2,7 @@ package com.bamdoliro.gati.domain.community.service;
 
 import com.bamdoliro.gati.domain.community.domain.Community;
 import com.bamdoliro.gati.domain.community.domain.repository.CommunityRepository;
+import com.bamdoliro.gati.domain.community.domain.type.Authority;
 import com.bamdoliro.gati.domain.community.presentation.dto.request.CreateCommunityRequestDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,6 +15,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.willDoNothing;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
@@ -26,6 +28,9 @@ class CommunityServiceTest {
     @Mock
     private CommunityRepository communityRepository;
 
+    @Mock
+    private MemberService memberService;
+
     private final Community defaultCommunity = Community.builder()
             .name("우리집")
             .introduction("킄")
@@ -33,13 +38,13 @@ class CommunityServiceTest {
             .isPublic(true)
             .build();
 
-
     @DisplayName("[Service] Community 생성")
     @Test
     void givenCreateCommunityRequestDto_whenCreatingCommunity_thenCreatesCommunity() {
         // given
         given(communityRepository.save(any())).willReturn(defaultCommunity);
         ArgumentCaptor<Community> captor = ArgumentCaptor.forClass(Community.class);
+        willDoNothing().given(memberService).joinCommunity(defaultCommunity.getId(), Authority.LEADER);
 
         // when
         communityService.createCommunity(
@@ -53,6 +58,7 @@ class CommunityServiceTest {
 
         // then
         verify(communityRepository, times(1)).save(captor.capture());
+        verify(memberService, times(1)).joinCommunity(defaultCommunity.getId(), Authority.LEADER);
         Community savedCommunity = captor.getValue();
         assertEquals("우리집", savedCommunity.getName());
         assertEquals("킄", savedCommunity.getIntroduction());

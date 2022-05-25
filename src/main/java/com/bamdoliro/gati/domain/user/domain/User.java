@@ -1,5 +1,6 @@
 package com.bamdoliro.gati.domain.user.domain;
 
+import com.bamdoliro.gati.domain.board.domain.Board;
 import com.bamdoliro.gati.domain.user.domain.type.Authority;
 import com.bamdoliro.gati.domain.user.domain.type.Gender;
 import com.bamdoliro.gati.domain.user.domain.type.Status;
@@ -8,6 +9,8 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "user_table")
@@ -43,6 +46,9 @@ public class User extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     @Column(length = 15, nullable = false)
     private Status status;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "writer")
+    private List<Board> boards = new ArrayList<>();
 
     @Builder
     public User(String email, String password, String name, LocalDate birth, Gender gender, Authority authority, Status status) {

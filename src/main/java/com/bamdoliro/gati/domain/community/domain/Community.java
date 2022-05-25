@@ -26,15 +26,19 @@ public class Community extends BaseTimeEntity {
     @Column(nullable = false)
     private int numberOfPeople;
 
+    @Column(length = 6, nullable = false)
+    private String code;
+
     @Convert(converter = BooleanToYNConverter.class)
     @Column(length = 1, nullable = false)
     private Boolean isPublic;
 
     @Builder
-    public Community(String name, String introduction, int numberOfPeople, Boolean isPublic) {
+    public Community(String name, String introduction, int numberOfPeople, String code, Boolean isPublic) {
         this.name = name;
         this.introduction = introduction;
         this.numberOfPeople = numberOfPeople;
+        this.code = code;
         this.isPublic = isPublic;
     }
 }

@@ -14,6 +14,7 @@ public enum ErrorCode {
     PASSWORD_MISMATCH(401, "비밀번호가 틀렸습니다."),
 
     COMMUNITY_NOT_FOUND(404, "공동체를 찾을 수 없습니다."),
+    COMMUNITY_PASSWORD_MISMATCH(401, "커뮤니티 비밀번호가 틀렸습니다."),
 
     BOARD_NOT_FOUND(404,"게시물을 찾을 수 없습니다.");
     ;

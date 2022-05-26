@@ -5,6 +5,7 @@ import com.bamdoliro.gati.domain.community.domain.Member;
 import com.bamdoliro.gati.domain.community.domain.repository.CommunityRepository;
 import com.bamdoliro.gati.domain.community.domain.repository.MemberRepository;
 import com.bamdoliro.gati.domain.community.domain.type.Authority;
+import com.bamdoliro.gati.domain.community.exception.CommunityPasswordMismatchException;
 import com.bamdoliro.gati.domain.community.facade.CommunityFacade;
 import com.bamdoliro.gati.domain.community.presentation.dto.request.JoinCommunityRequestDto;
 import com.bamdoliro.gati.domain.user.domain.User;
@@ -24,8 +25,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class MemberServiceTest {
@@ -118,5 +118,20 @@ class MemberServiceTest {
         assertEquals(defaultUser, savedMember.getUser());
         assertEquals(defaultPrivateCommunity, savedMember.getCommunity());
         assertEquals(Authority.MEMBER, savedMember.getAuthority());
+    }
+
+    @DisplayName("[Service] Private Community Member 가입 - password mismatch")
+    @Test
+    void givenInvalidJoinCommunityRequestDto_whenJoinPrivateCommunity_thenThrowsCommunityPasswordMismatchException() {
+        // given
+        given(communityFacade.findCommunityById(any())).willReturn(defaultPrivateCommunity);
+
+        // when and then
+        assertThrows(CommunityPasswordMismatchException.class, () -> memberService.joinCommunity(new JoinCommunityRequestDto(
+                defaultPrivateCommunity.getId(),
+                "0000"
+        ), Authority.MEMBER));
+
+        verify(memberRepository, never()).save(any());
     }
 }

@@ -25,11 +25,12 @@ public class CreateCommunityRequestDto {
     @NotNull
     private Boolean isPublic;
 
-    public Community toEntity() {
+    public Community toEntity(String code) {
         return Community.builder()
                 .name(name)
                 .introduction(introduction)
                 .numberOfPeople(numberOfPeople)
+                .code(code)
                 .isPublic(isPublic)
                 .build();
     }

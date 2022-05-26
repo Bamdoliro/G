@@ -3,6 +3,7 @@ package com.bamdoliro.gati.domain.community.service;
 import com.bamdoliro.gati.domain.community.domain.Community;
 import com.bamdoliro.gati.domain.community.domain.repository.CommunityRepository;
 import com.bamdoliro.gati.domain.community.domain.type.Authority;
+import com.bamdoliro.gati.domain.community.facade.CommunityFacade;
 import com.bamdoliro.gati.domain.community.presentation.dto.request.CreateCommunityRequestDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,6 +15,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willDoNothing;
 import static org.mockito.Mockito.times;
@@ -25,11 +27,9 @@ class CommunityServiceTest {
     @InjectMocks
     private CommunityService communityService;
 
-    @Mock
-    private CommunityRepository communityRepository;
-
-    @Mock
-    private MemberService memberService;
+    @Mock private CommunityRepository communityRepository;
+    @Mock private MemberService memberService;
+    @Mock private CommunityFacade communityFacade;
 
     private final Community defaultCommunity = Community.builder()
             .name("우리집")
@@ -43,6 +43,7 @@ class CommunityServiceTest {
     void givenCreateCommunityRequestDto_whenCreatingCommunity_thenCreatesCommunity() {
         // given
         given(communityRepository.save(any())).willReturn(defaultCommunity);
+        given(communityFacade.checkCode(anyString())).willReturn(true);
         ArgumentCaptor<Community> captor = ArgumentCaptor.forClass(Community.class);
         willDoNothing().given(memberService).joinCommunity(defaultCommunity.getId(), Authority.LEADER);
 
@@ -63,6 +64,7 @@ class CommunityServiceTest {
         assertEquals("우리집", savedCommunity.getName());
         assertEquals("킄", savedCommunity.getIntroduction());
         assertEquals(100, savedCommunity.getNumberOfPeople());
+        assertEquals(6, savedCommunity.getCode().length());
         assertEquals(true, savedCommunity.getIsPublic());
     }
 }

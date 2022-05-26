@@ -14,6 +14,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
@@ -38,9 +39,17 @@ class CommunityServiceTest {
             .isPublic(true)
             .build();
 
-    @DisplayName("[Service] Community 생성")
+    private final Community defaultPrivateCommunity = Community.builder()
+            .name("우리지브")
+            .introduction("키키")
+            .numberOfPeople(200)
+            .isPublic(false)
+            .password("1234")
+            .build();
+
+    @DisplayName("[Service] Public Community 생성")
     @Test
-    void givenCreateCommunityRequestDto_whenCreatingCommunity_thenCreatesCommunity() {
+    void givenCreateCommunityRequestDto_whenCreatingPublicCommunity_thenCreatesCommunity() {
         // given
         given(communityRepository.save(any())).willReturn(defaultCommunity);
         given(communityFacade.checkCode(anyString())).willReturn(true);
@@ -53,7 +62,8 @@ class CommunityServiceTest {
                         "우리집",
                         "킄",
                         100,
-                        true
+                        true,
+                        null
                 )
         );
 
@@ -66,5 +76,38 @@ class CommunityServiceTest {
         assertEquals(100, savedCommunity.getNumberOfPeople());
         assertEquals(6, savedCommunity.getCode().length());
         assertEquals(true, savedCommunity.getIsPublic());
+        assertNull(savedCommunity.getPassword());
+    }
+
+    @DisplayName("[Service] Private Community 생성")
+    @Test
+    void givenCreateCommunityRequestDto_whenCreatingPrivateCommunity_thenCreatesCommunity() {
+        // given
+        given(communityRepository.save(any())).willReturn(defaultCommunity);
+        given(communityFacade.checkCode(anyString())).willReturn(true);
+        ArgumentCaptor<Community> captor = ArgumentCaptor.forClass(Community.class);
+        willDoNothing().given(memberService).joinCommunity(defaultCommunity.getId(), Authority.LEADER);
+
+        // when
+        communityService.createCommunity(
+                new CreateCommunityRequestDto(
+                        "우리지브",
+                        "키키",
+                        200,
+                        false,
+                        "1234"
+                )
+        );
+
+        // then
+        verify(communityRepository, times(1)).save(captor.capture());
+        verify(memberService, times(1)).joinCommunity(defaultCommunity.getId(), Authority.LEADER);
+        Community savedCommunity = captor.getValue();
+        assertEquals("우리지브", savedCommunity.getName());
+        assertEquals("키키", savedCommunity.getIntroduction());
+        assertEquals(200, savedCommunity.getNumberOfPeople());
+        assertEquals(6, savedCommunity.getCode().length());
+        assertEquals(false, savedCommunity.getIsPublic());
+        assertEquals("1234", savedCommunity.getPassword());
     }
 }

@@ -3,6 +3,7 @@ package com.bamdoliro.gati.domain.community.service;
 import com.bamdoliro.gati.domain.community.domain.Community;
 import com.bamdoliro.gati.domain.community.domain.repository.CommunityRepository;
 import com.bamdoliro.gati.domain.community.domain.type.Authority;
+import com.bamdoliro.gati.domain.community.exception.BadCreateCommunityRequestException;
 import com.bamdoliro.gati.domain.community.facade.CommunityFacade;
 import com.bamdoliro.gati.domain.community.presentation.dto.request.CreateCommunityRequestDto;
 import org.junit.jupiter.api.DisplayName;
@@ -13,14 +14,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willDoNothing;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class CommunityServiceTest {
@@ -109,5 +108,47 @@ class CommunityServiceTest {
         assertEquals(6, savedCommunity.getCode().length());
         assertEquals(false, savedCommunity.getIsPublic());
         assertEquals("1234", savedCommunity.getPassword());
+    }
+
+    @DisplayName("[Service] Private Community 생성 - password 설정 안 한 경우")
+    @Test
+    void givenInvalidCreateCommunityRequestDto_whenCreatingPrivateCommunity_thenThrowsBadCreateCommunityRequestException() {
+        // given
+
+        // when and then
+        assertThrows(BadCreateCommunityRequestException.class, () -> communityService.createCommunity(
+                new CreateCommunityRequestDto(
+                        "우리지브",
+                        "키키",
+                        200,
+                        false,
+                        null
+                )
+        ));
+
+        // then
+        verify(communityRepository, never()).save(any());
+        verify(memberService, never()).joinCommunity(defaultCommunity.getId(), Authority.LEADER);
+    }
+
+    @DisplayName("[Service] Public Community 생성 - password 설정 한 경우")
+    @Test
+    void givenInvalidCreateCommunityRequestDto_whenCreatingPublicCommunity_thenThrowsBadCreateCommunityRequestException() {
+        // given
+
+        // when and then
+        assertThrows(BadCreateCommunityRequestException.class, () -> communityService.createCommunity(
+                new CreateCommunityRequestDto(
+                        "우리집",
+                        "킄",
+                        100,
+                        true,
+                        "1234"
+                )
+        ));
+
+        // then
+        verify(communityRepository, never()).save(any());
+        verify(memberService, never()).joinCommunity(defaultCommunity.getId(), Authority.LEADER);
     }
 }

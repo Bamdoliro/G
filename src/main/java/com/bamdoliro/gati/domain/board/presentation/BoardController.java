@@ -35,10 +35,12 @@ public class BoardController {
         return boardService.getDetail(id);
     }
 
-    @PostMapping("/update")
+    @PutMapping("/")
     public void editPost(
             @RequestBody @Valid EditBoardRequest request
     ) {
         boardService.updatePost(request);
     }
+
+    
 }

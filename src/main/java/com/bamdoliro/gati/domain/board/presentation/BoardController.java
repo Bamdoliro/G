@@ -1,7 +1,7 @@
 package com.bamdoliro.gati.domain.board.presentation;
 
 import com.bamdoliro.gati.domain.board.presentation.dto.request.CreateBoardRequestDto;
-import com.bamdoliro.gati.domain.board.presentation.dto.request.UpdateBoardRequest;
+import com.bamdoliro.gati.domain.board.presentation.dto.request.UpdateBoardRequestDto;
 import com.bamdoliro.gati.domain.board.presentation.dto.response.BoardDetailDto;
 import com.bamdoliro.gati.domain.board.service.BoardService;
 import lombok.RequiredArgsConstructor;
@@ -32,7 +32,7 @@ public class BoardController {
 
     @PutMapping
     public void updatePost(
-            @RequestBody @Valid UpdateBoardRequest request
+            @RequestBody @Valid UpdateBoardRequestDto request
     ) {
         boardService.updatePost(request);
     }

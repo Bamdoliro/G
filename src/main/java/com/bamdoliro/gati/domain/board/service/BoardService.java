@@ -4,6 +4,7 @@ import com.bamdoliro.gati.domain.board.domain.Board;
 import com.bamdoliro.gati.domain.board.domain.repository.BoardRepository;
 import com.bamdoliro.gati.domain.board.facade.BoardFacade;
 import com.bamdoliro.gati.domain.board.presentation.dto.request.CreateBoardRequestDto;
+import com.bamdoliro.gati.domain.board.presentation.dto.request.EditBoardRequest;
 import com.bamdoliro.gati.domain.board.presentation.dto.response.BoardDetailDto;
 import com.bamdoliro.gati.domain.board.presentation.dto.response.BoardResponseDto;
 import com.bamdoliro.gati.domain.community.domain.repository.CommunityRepository;
@@ -41,5 +42,12 @@ public class BoardService {
     public BoardDetailDto getDetail(Long id) {
         Board board = boardFacade.findBoardById(id);
         return BoardDetailDto.of(board);
+    }
+
+    @Transactional
+    public void updatePost(EditBoardRequest request) {
+        Board board = boardFacade.findBoardById(request.getId());
+        board.updatePost(request.getTitle(), request.getContent());
+        boardRepository.save(board);
     }
 }

@@ -1,6 +1,8 @@
 package com.bamdoliro.gati.domain.board.presentation;
 
+import com.bamdoliro.gati.domain.board.domain.Board;
 import com.bamdoliro.gati.domain.board.presentation.dto.request.CreateBoardRequestDto;
+import com.bamdoliro.gati.domain.board.presentation.dto.request.EditBoardRequest;
 import com.bamdoliro.gati.domain.board.presentation.dto.response.BoardDetailDto;
 import com.bamdoliro.gati.domain.board.presentation.dto.response.BoardResponseDto;
 import com.bamdoliro.gati.domain.board.service.BoardService;
@@ -33,5 +35,10 @@ public class BoardController {
         return boardService.getDetail(id);
     }
 
-
+    @PostMapping("/update")
+    public void editPost(
+            @RequestBody @Valid EditBoardRequest request
+    ) {
+        boardService.updatePost(request);
+    }
 }

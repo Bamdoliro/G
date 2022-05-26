@@ -34,7 +34,7 @@ class CommunityFacadeTest {
     @Test
     void givenCode_whenCheckingCode_thenChecksAndReturnsTrue() {
         // given
-        given(communityRepository.findByCode(anyString())).willReturn(Optional.empty());
+        given(communityRepository.existsByCode(anyString())).willReturn(false);
 
         // when
         boolean result = communityFacade.checkCode("imC0DE");
@@ -47,7 +47,7 @@ class CommunityFacadeTest {
     @Test
     void givenCode_whenCheckingCode_thenChecksAndReturnsFalse() {
         // given
-        given(communityRepository.findByCode(anyString())).willReturn(Optional.of(defaultCommunity));
+        given(communityRepository.existsByCode(anyString())).willReturn(true);
 
         // when
         boolean result = communityFacade.checkCode("imC0DE");

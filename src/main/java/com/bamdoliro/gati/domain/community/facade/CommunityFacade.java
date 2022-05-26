@@ -18,6 +18,6 @@ public class CommunityFacade {
     }
 
     public boolean checkCode(String code) {
-        return communityRepository.findByCode(code).isEmpty();
+        return !communityRepository.existsByCode(code);
     }
 }

@@ -2,6 +2,7 @@ package com.bamdoliro.gati.domain.community.service;
 
 import com.bamdoliro.gati.domain.community.domain.repository.CommunityRepository;
 import com.bamdoliro.gati.domain.community.domain.type.Authority;
+import com.bamdoliro.gati.domain.community.exception.BadCreateCommunityRequestException;
 import com.bamdoliro.gati.domain.community.facade.CommunityFacade;
 import com.bamdoliro.gati.domain.community.presentation.dto.request.CreateCommunityRequestDto;
 import com.bamdoliro.gati.global.utils.RandomCodeUtil;
@@ -19,12 +20,22 @@ public class CommunityService {
 
     @Transactional
     public void createCommunity(CreateCommunityRequestDto dto) {
+        validateByCommunityType(dto);
+
         memberService.joinCommunity(
                 communityRepository.save(
                         dto.toEntity(createUniqueCode())
-                ).getId(),
+                ),
                 Authority.LEADER
         );
+    }
+
+    private void validateByCommunityType(CreateCommunityRequestDto dto) {
+        if ((dto.getPassword() != null && !dto.getIsPublic()) ||
+                (dto.getPassword() == null && dto.getIsPublic()));
+        else {
+            throw BadCreateCommunityRequestException.EXCEPTION;
+        }
     }
 
     private String createUniqueCode() {

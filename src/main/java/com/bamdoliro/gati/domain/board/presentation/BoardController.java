@@ -1,16 +1,13 @@
 package com.bamdoliro.gati.domain.board.presentation;
 
 import com.bamdoliro.gati.domain.board.presentation.dto.request.CreateBoardRequestDto;
+import com.bamdoliro.gati.domain.board.presentation.dto.request.UpdateBoardRequestDto;
 import com.bamdoliro.gati.domain.board.presentation.dto.response.BoardDetailDto;
-import com.bamdoliro.gati.domain.board.presentation.dto.response.BoardResponseDto;
 import com.bamdoliro.gati.domain.board.service.BoardService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.List;
 
 @RestController
 @RequestMapping("/board")
@@ -31,6 +28,13 @@ public class BoardController {
             @PathVariable(name = "id") Long id
     ) {
         return boardService.getDetail(id);
+    }
+
+    @PutMapping
+    public void updatePost(
+            @RequestBody @Valid UpdateBoardRequestDto request
+    ) {
+        boardService.updatePost(request);
     }
 
 

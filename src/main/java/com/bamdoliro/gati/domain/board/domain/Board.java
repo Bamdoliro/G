@@ -35,7 +35,6 @@ public class Board extends BaseTimeEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
-    @Setter
     private Status status;
 
     @Builder
@@ -44,10 +43,15 @@ public class Board extends BaseTimeEntity {
         this.writer = writer;
         this.title = title;
         this.content = content;
+        this.status = Status.EXISTED;
     }
 
     public void updatePost(String title, String content) {
         this.title = title;
         this.content = content;
+    }
+
+    public void deletePost() {
+        this.status = Status.DELETED;
     }
 }

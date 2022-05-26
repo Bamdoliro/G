@@ -1,18 +1,13 @@
 package com.bamdoliro.gati.domain.board.presentation;
 
-import com.bamdoliro.gati.domain.board.domain.Board;
 import com.bamdoliro.gati.domain.board.presentation.dto.request.CreateBoardRequestDto;
-import com.bamdoliro.gati.domain.board.presentation.dto.request.EditBoardRequest;
+import com.bamdoliro.gati.domain.board.presentation.dto.request.UpdateBoardRequest;
 import com.bamdoliro.gati.domain.board.presentation.dto.response.BoardDetailDto;
-import com.bamdoliro.gati.domain.board.presentation.dto.response.BoardResponseDto;
 import com.bamdoliro.gati.domain.board.service.BoardService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.List;
 
 @RestController
 @RequestMapping("/board")
@@ -35,12 +30,12 @@ public class BoardController {
         return boardService.getDetail(id);
     }
 
-    @PutMapping("/")
-    public void editPost(
-            @RequestBody @Valid EditBoardRequest request
+    @PutMapping
+    public void updatePost(
+            @RequestBody @Valid UpdateBoardRequest request
     ) {
         boardService.updatePost(request);
     }
 
-    
+
 }

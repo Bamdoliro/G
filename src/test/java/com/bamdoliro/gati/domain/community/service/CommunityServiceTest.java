@@ -53,7 +53,7 @@ class CommunityServiceTest {
         given(communityRepository.save(any())).willReturn(defaultCommunity);
         given(communityFacade.checkCode(anyString())).willReturn(true);
         ArgumentCaptor<Community> captor = ArgumentCaptor.forClass(Community.class);
-        willDoNothing().given(memberService).joinCommunity(defaultCommunity.getId(), Authority.LEADER);
+        willDoNothing().given(memberService).joinCommunity(defaultCommunity, Authority.LEADER);
 
         // when
         communityService.createCommunity(
@@ -68,7 +68,7 @@ class CommunityServiceTest {
 
         // then
         verify(communityRepository, times(1)).save(captor.capture());
-        verify(memberService, times(1)).joinCommunity(defaultCommunity.getId(), Authority.LEADER);
+        verify(memberService, times(1)).joinCommunity(defaultCommunity, Authority.LEADER);
         Community savedCommunity = captor.getValue();
         assertEquals("우리집", savedCommunity.getName());
         assertEquals("킄", savedCommunity.getIntroduction());
@@ -82,10 +82,10 @@ class CommunityServiceTest {
     @Test
     void givenCreateCommunityRequestDto_whenCreatingPrivateCommunity_thenCreatesCommunity() {
         // given
-        given(communityRepository.save(any())).willReturn(defaultCommunity);
+        given(communityRepository.save(any())).willReturn(defaultPrivateCommunity);
         given(communityFacade.checkCode(anyString())).willReturn(true);
         ArgumentCaptor<Community> captor = ArgumentCaptor.forClass(Community.class);
-        willDoNothing().given(memberService).joinCommunity(defaultCommunity.getId(), Authority.LEADER);
+        willDoNothing().given(memberService).joinCommunity(defaultPrivateCommunity, Authority.LEADER);
 
         // when
         communityService.createCommunity(
@@ -100,7 +100,7 @@ class CommunityServiceTest {
 
         // then
         verify(communityRepository, times(1)).save(captor.capture());
-        verify(memberService, times(1)).joinCommunity(defaultCommunity.getId(), Authority.LEADER);
+        verify(memberService, times(1)).joinCommunity(defaultPrivateCommunity, Authority.LEADER);
         Community savedCommunity = captor.getValue();
         assertEquals("우리지브", savedCommunity.getName());
         assertEquals("키키", savedCommunity.getIntroduction());
@@ -128,7 +128,7 @@ class CommunityServiceTest {
 
         // then
         verify(communityRepository, never()).save(any());
-        verify(memberService, never()).joinCommunity(defaultCommunity.getId(), Authority.LEADER);
+        verify(memberService, never()).joinCommunity(defaultPrivateCommunity, Authority.LEADER);
     }
 
     @DisplayName("[Service] Public Community 생성 - password 설정 한 경우")
@@ -149,6 +149,6 @@ class CommunityServiceTest {
 
         // then
         verify(communityRepository, never()).save(any());
-        verify(memberService, never()).joinCommunity(defaultCommunity.getId(), Authority.LEADER);
+        verify(memberService, never()).joinCommunity(defaultCommunity, Authority.LEADER);
     }
 }

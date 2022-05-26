@@ -30,7 +30,6 @@ public class CreateBoardRequestDto {
                 .community(community)
                 .writer(writer)
                 .build();
-        board.setStatus(Status.EXISTED);
         return board;
     }
 }

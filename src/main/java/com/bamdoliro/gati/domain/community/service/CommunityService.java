@@ -25,7 +25,7 @@ public class CommunityService {
         memberService.joinCommunity(
                 communityRepository.save(
                         dto.toEntity(createUniqueCode())
-                ).getId(),
+                ),
                 Authority.LEADER
         );
     }

@@ -24,12 +24,11 @@ public class CreateBoardRequestDto {
     private String content;
 
     public Board toEntity(User writer, Community community) {
-        Board board = Board.builder()
+        return Board.builder()
                 .title(title)
                 .content(content)
                 .community(community)
                 .writer(writer)
                 .build();
-        return board;
     }
 }

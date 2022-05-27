@@ -11,6 +11,7 @@ import com.bamdoliro.gati.domain.board.presentation.dto.response.BoardDetailDto;
 import com.bamdoliro.gati.domain.board.presentation.dto.response.BoardResponseDto;
 import com.bamdoliro.gati.domain.community.domain.Community;
 import com.bamdoliro.gati.domain.community.facade.CommunityFacade;
+import com.bamdoliro.gati.domain.community.facade.MemberFacade;
 import com.bamdoliro.gati.domain.user.facade.UserFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,7 @@ public class BoardService {
     private final BoardFacade boardFacade;
     private final UserFacade userFacade;
     private final CommunityFacade communityFacade;
+    private final MemberFacade memberFacade;
 
     // 게시물 게시
     @Transactional
@@ -58,14 +60,18 @@ public class BoardService {
         board.deletePost();
     }
 
+    // 특정 커뮤니티의 게시물 전체 조회
     @Transactional(readOnly = true)
     public List<BoardResponseDto> getCommunityPosts(Long comId) {
-//        communityFacade.didUserJoin(comId);
         Community community = communityFacade.findCommunityById(comId);
+
+        memberFacade.checkMember(userFacade.getCurrentUser(), community);
         List<Board> boards = boardFacade.findCommunityPosts(community);
+
         List<BoardResponseDto> response = new ArrayList<>();
         for (Board board : boards) {
-            response.add(BoardResponseDto.of(board));
+            if (board.getStatus() == Status.EXISTED)
+                response.add(BoardResponseDto.of(board));
         }
         return response;
     }

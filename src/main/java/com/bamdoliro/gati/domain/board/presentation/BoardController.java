@@ -58,5 +58,4 @@ public class BoardController {
     ) {
         return boardService.getCommunityPosts(comId);
     }
-
 }

@@ -37,5 +37,12 @@ public class BoardController {
         boardService.updatePost(request);
     }
 
+    @DeleteMapping("/{id}")
+    public void deletePost(
+            @PathVariable Long id
+    ) {
+        boardService.deletePost(id);
+    }
+
 
 }

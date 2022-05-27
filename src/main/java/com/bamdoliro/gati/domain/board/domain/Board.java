@@ -1,13 +1,11 @@
 package com.bamdoliro.gati.domain.board.domain;
 
 
+import com.bamdoliro.gati.domain.board.domain.type.Status;
 import com.bamdoliro.gati.domain.community.domain.Community;
 import com.bamdoliro.gati.domain.user.domain.User;
 import com.bamdoliro.gati.global.entity.BaseTimeEntity;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -18,15 +16,15 @@ import javax.persistence.*;
 public class Board extends BaseTimeEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "board_id")
+    @Column(name = "board_id", nullable = false)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "community_id")
+    @JoinColumn(name = "community_id", nullable = false)
     private Community community;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "writer_id")
+    @JoinColumn(name = "writer_id", nullable = false)
     private User writer;
 
     @Column(name = "title", length = 20, nullable = false)
@@ -35,16 +33,25 @@ public class Board extends BaseTimeEntity {
     @Column(name = "content", columnDefinition = "TEXT", length = 4000, nullable = false)
     private String content;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false)
+    private Status status;
+
     @Builder
     public Board(Community community, User writer, String title, String content) {
         this.community = community;
         this.writer = writer;
         this.title = title;
         this.content = content;
+        this.status = Status.EXISTED;
     }
 
     public void updatePost(String title, String content) {
         this.title = title;
         this.content = content;
+    }
+
+    public void deletePost() {
+        this.status = Status.DELETED;
     }
 }

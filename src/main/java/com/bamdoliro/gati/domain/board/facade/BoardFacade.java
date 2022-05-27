@@ -4,16 +4,18 @@ import com.bamdoliro.gati.domain.board.domain.Board;
 import com.bamdoliro.gati.domain.board.domain.repository.BoardRepository;
 import com.bamdoliro.gati.domain.board.domain.type.Status;
 import com.bamdoliro.gati.domain.board.exception.BoardNotFoundException;
+import com.bamdoliro.gati.domain.community.domain.Community;
 import com.bamdoliro.gati.domain.community.facade.CommunityFacade;
 import com.bamdoliro.gati.domain.user.domain.User;
 import com.bamdoliro.gati.domain.user.facade.UserFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 @RequiredArgsConstructor
 public class BoardFacade {
-
 
     private final BoardRepository boardRepository;
 
@@ -27,5 +29,9 @@ public class BoardFacade {
 
     public Board findMyPosts(User currentUser) {
         return boardRepository.findByWriter(currentUser);
+    }
+
+    public List<Board> findCommunityPosts(Community community) {
+        return boardRepository.findAllByCommunity(community);
     }
 }

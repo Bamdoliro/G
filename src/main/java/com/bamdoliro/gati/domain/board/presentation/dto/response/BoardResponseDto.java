@@ -1,6 +1,6 @@
 package com.bamdoliro.gati.domain.board.presentation.dto.response;
 
-import com.bamdoliro.gati.domain.user.domain.User;
+import com.bamdoliro.gati.domain.board.domain.Board;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -15,5 +15,13 @@ public class BoardResponseDto {
     @NotNull
     private String content;
     @NotNull
-    private User writer;
+    private String writer;
+
+    public static BoardResponseDto of (Board board) {
+        return BoardResponseDto.builder()
+                .title(board.getTitle())
+                .content(board.getContent())
+                .writer(board.getWriter().getName())
+                .build();
+    }
 }

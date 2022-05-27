@@ -2,6 +2,7 @@ package com.bamdoliro.gati.domain.community.presentation;
 
 import com.bamdoliro.gati.domain.community.domain.type.Authority;
 import com.bamdoliro.gati.domain.community.presentation.dto.request.JoinCommunityRequestDto;
+import com.bamdoliro.gati.domain.community.presentation.dto.request.ChangeCommunityLeaderRequestDto;
 import com.bamdoliro.gati.domain.community.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -18,5 +19,10 @@ public class MemberController {
     @PostMapping
     public void joinCommunity(@RequestBody @Valid JoinCommunityRequestDto dto) {
         memberService.joinCommunity(dto, Authority.MEMBER);
+    }
+
+    @PutMapping
+    public void updateCommunityLeader(@RequestBody ChangeCommunityLeaderRequestDto dto) {
+        memberService.changeCommunityLeader(dto);
     }
 }

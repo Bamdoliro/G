@@ -29,6 +29,9 @@ public class Community extends BaseTimeEntity {
     @Column(nullable = false)
     private int numberOfPeople;
 
+    @Column(length = 6, nullable = false)
+    private String code;
+
     @Convert(converter = BooleanToYNConverter.class)
     @Column(length = 1, nullable = false)
     private Boolean isPublic;
@@ -36,11 +39,16 @@ public class Community extends BaseTimeEntity {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "community")
     private List<Board> boards = new ArrayList<>();
 
+    @Column(length = 4, nullable = true)
+    private String password;
+
     @Builder
-    public Community(String name, String introduction, int numberOfPeople, Boolean isPublic) {
+    public Community(String name, String introduction, int numberOfPeople, String code, Boolean isPublic, String password) {
         this.name = name;
         this.introduction = introduction;
         this.numberOfPeople = numberOfPeople;
+        this.code = code;
         this.isPublic = isPublic;
+        this.password = password;
     }
 }

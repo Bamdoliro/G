@@ -16,4 +16,8 @@ public class CommunityFacade {
         return communityRepository.findById(id)
                 .orElseThrow(() -> CommunityNotFoundException.EXCEPTION);
     }
+
+    public boolean checkCode(String code) {
+        return !communityRepository.existsByCode(code);
+    }
 }

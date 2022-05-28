@@ -3,7 +3,6 @@ package com.bamdoliro.gati.domain.board.service;
 import com.bamdoliro.gati.domain.board.domain.Board;
 import com.bamdoliro.gati.domain.board.domain.repository.BoardRepository;
 import com.bamdoliro.gati.domain.board.domain.type.Status;
-import com.bamdoliro.gati.domain.board.exception.BoardNotFoundException;
 import com.bamdoliro.gati.domain.board.facade.BoardFacade;
 import com.bamdoliro.gati.domain.board.presentation.dto.request.CreateBoardRequestDto;
 import com.bamdoliro.gati.domain.board.presentation.dto.request.UpdateBoardRequestDto;
@@ -62,17 +61,14 @@ public class BoardService {
 
     // 특정 커뮤니티의 게시물 전체 조회
     @Transactional(readOnly = true)
-    public List<BoardResponseDto> getCommunityPosts(Long comId) {
-        Community community = communityFacade.findCommunityById(comId);
-
+    public List<BoardResponseDto> getCommunityPosts(Long communityId) {
+        Community community = communityFacade.findCommunityById(communityId);
         memberFacade.checkMember(userFacade.getCurrentUser(), community);
-        List<Board> boards = boardFacade.findCommunityPosts(community);
 
-        List<BoardResponseDto> response = new ArrayList<>();
-        for (Board board : boards) {
-            if (board.getStatus() == Status.EXISTED)
-                response.add(BoardResponseDto.of(board));
-        }
-        return response;
+        List<Board> boards = boardFacade.findByCommunityAndStatus(community, Status.EXISTED);
+
+        List<BoardResponseDto> responses = new ArrayList<>();
+        boards.forEach(board -> responses.add(BoardResponseDto.of(board)));
+        return responses;
     }
 }

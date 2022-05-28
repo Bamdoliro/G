@@ -52,11 +52,11 @@ public class BoardController {
     }
 
     // 커뮤니티 전체 게시물 조회
-    @GetMapping("/community/{comId}")
+    @GetMapping("/community/{communityId}")
     public List<BoardResponseDto> getCommunityPosts(
-            @PathVariable Long comId
+            @PathVariable Long communityId
     ) {
-        return boardService.getCommunityPosts(comId);
+        return boardService.getCommunityPosts(communityId);
     }
 
 }

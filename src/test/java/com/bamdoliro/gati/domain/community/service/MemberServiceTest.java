@@ -4,6 +4,7 @@ import com.bamdoliro.gati.domain.community.domain.Community;
 import com.bamdoliro.gati.domain.community.domain.Member;
 import com.bamdoliro.gati.domain.community.domain.repository.MemberRepository;
 import com.bamdoliro.gati.domain.community.domain.type.Authority;
+import com.bamdoliro.gati.domain.community.exception.BadChangeCommunityLeaderRequestException;
 import com.bamdoliro.gati.domain.community.exception.CommunityPasswordMismatchException;
 import com.bamdoliro.gati.domain.community.facade.CommunityFacade;
 import com.bamdoliro.gati.domain.community.facade.MemberFacade;
@@ -68,9 +69,14 @@ class MemberServiceTest {
             .authority(Authority.MEMBER)
             .build();
 
+    private final User leaderUser = User.builder()
+            .name("김리더")
+            .email("leader@bamdoliro.com")
+            .build();
+
     private final Member leaderMember = Member.builder()
             .community(defaultCommunity)
-            .user(defaultUser)
+            .user(leaderUser)
             .authority(Authority.LEADER)
             .build();
 
@@ -139,9 +145,9 @@ class MemberServiceTest {
     @Test
     void givenChangeCommunityLeaderRequestDto_whenChangingCommunityLeader_thenChangesCommunityLeader() {
         // given
-        given(userFacade.getCurrentUser()).willReturn(defaultUser);
+        given(userFacade.getCurrentUser()).willReturn(leaderUser);
         given(communityFacade.findCommunityById(any())).willReturn(defaultCommunity);
-        given(memberFacade.findMemberByUserAndCommunity(defaultUser, defaultCommunity)).willReturn(leaderMember);
+        given(memberFacade.findMemberByUserAndCommunity(leaderUser, defaultCommunity)).willReturn(leaderMember);
         given(memberFacade.findMemberById(any())).willReturn(defaultMember);
 
         // when
@@ -153,9 +159,53 @@ class MemberServiceTest {
         // then
         verify(userFacade, times(1)).getCurrentUser();
         verify(communityFacade, times(1)).findCommunityById(any());
-        verify(memberFacade, times(1)).findMemberByUserAndCommunity(defaultUser, defaultCommunity);
+        verify(memberFacade, times(1)).findMemberByUserAndCommunity(leaderUser, defaultCommunity);
         verify(memberFacade, times(1)).findMemberById(any());
         assertEquals(defaultMember.getAuthority(), Authority.LEADER);
         assertEquals(leaderMember.getAuthority(), Authority.MEMBER);
+    }
+
+    @DisplayName("[Service] community leader 권한 위임 - member 가 요청하는 경우")
+    @Test
+    void givenAuthorityInvalidChangeCommunityLeaderRequestDto_whenChangingCommunityLeader_thenThrowsBadChangeCommunityRequestException() {
+        // given
+        given(userFacade.getCurrentUser()).willReturn(defaultUser);
+        given(communityFacade.findCommunityById(any())).willReturn(defaultCommunity);
+        given(memberFacade.findMemberByUserAndCommunity(defaultUser, defaultCommunity)).willReturn(defaultMember);
+        given(memberFacade.findMemberById(any())).willReturn(leaderMember);
+
+        // when and then
+        assertThrows(BadChangeCommunityLeaderRequestException.class, () ->
+                memberService.changeCommunityLeader(new ChangeCommunityLeaderRequestDto(
+                leaderMember.getId(),
+                defaultCommunity.getId()
+        )));
+
+        verify(userFacade, times(1)).getCurrentUser();
+        verify(communityFacade, times(1)).findCommunityById(any());
+        verify(memberFacade, times(1)).findMemberByUserAndCommunity(defaultUser, defaultCommunity);
+        verify(memberFacade, times(1)).findMemberById(any());
+    }
+
+    @DisplayName("[Service] community leader 권한 위임 - community 가 다른 경우")
+    @Test
+    void givenCommunityInvalidChangeCommunityLeaderRequestDto_whenChangingCommunityLeader_thenThrowsBadChangeCommunityRequestException() {
+        // given
+        given(userFacade.getCurrentUser()).willReturn(leaderUser);
+        given(communityFacade.findCommunityById(any())).willReturn(defaultCommunity);
+        given(memberFacade.findMemberByUserAndCommunity(leaderUser, defaultCommunity)).willReturn(leaderMember);
+        given(memberFacade.findMemberById(any())).willReturn(defaultMemberInPrivate);
+
+        // when and then
+        assertThrows(BadChangeCommunityLeaderRequestException.class, () ->
+                memberService.changeCommunityLeader(new ChangeCommunityLeaderRequestDto(
+                        defaultMemberInPrivate.getId(),
+                        defaultCommunity.getId()
+                )));
+
+        verify(userFacade, times(1)).getCurrentUser();
+        verify(communityFacade, times(1)).findCommunityById(any());
+        verify(memberFacade, times(1)).findMemberByUserAndCommunity(leaderUser, defaultCommunity);
+        verify(memberFacade, times(1)).findMemberById(any());
     }
 }

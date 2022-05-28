@@ -4,6 +4,7 @@ import com.bamdoliro.gati.domain.community.domain.Community;
 import com.bamdoliro.gati.domain.community.domain.Member;
 import com.bamdoliro.gati.domain.community.domain.repository.MemberRepository;
 import com.bamdoliro.gati.domain.community.domain.type.Authority;
+import com.bamdoliro.gati.domain.community.exception.BadChangeCommunityLeaderRequestException;
 import com.bamdoliro.gati.domain.community.exception.CommunityPasswordMismatchException;
 import com.bamdoliro.gati.domain.community.facade.CommunityFacade;
 import com.bamdoliro.gati.domain.community.facade.MemberFacade;
@@ -59,8 +60,21 @@ public class MemberService {
         Community community = communityFacade.findCommunityById(dto.getCommunityId());
         Member memberToBeMember = memberFacade.findMemberByUserAndCommunity(leaderUser, community);
         Member memberToBeLeader = memberFacade.findMemberById(dto.getMemberToBeLeaderId());
+        validateChangeCommunityLeader(memberToBeMember, memberToBeLeader);
 
         memberToBeLeader.updateAuthority(Authority.LEADER);
         memberToBeMember.updateAuthority(Authority.MEMBER);
     }
+
+    private void validateChangeCommunityLeader(Member leader, Member member) {
+        if (
+                !leader.getCommunity().equals(member.getCommunity()) ||
+                leader.getAuthority() != Authority.LEADER ||
+                member.getAuthority() != Authority.MEMBER
+        ) {
+            throw BadChangeCommunityLeaderRequestException.EXCEPTION;
+        }
+    }
+
+
 }

@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -64,11 +65,7 @@ public class BoardService {
     public List<BoardResponseDto> getCommunityPosts(Long communityId) {
         Community community = communityFacade.findCommunityById(communityId);
         memberFacade.checkMember(userFacade.getCurrentUser(), community);
-
-        List<Board> boards = boardFacade.findByCommunityAndStatus(community, Status.EXISTED);
-
-        List<BoardResponseDto> responses = new ArrayList<>();
-        boards.forEach(board -> responses.add(BoardResponseDto.of(board)));
-        return responses;
+        return boardFacade.findByCommunityAndStatus(community, Status.EXISTED)
+                .stream().map(BoardResponseDto::of).collect(Collectors.toList());
     }
 }

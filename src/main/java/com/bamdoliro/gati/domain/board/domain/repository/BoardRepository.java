@@ -11,7 +11,5 @@ import java.util.Optional;
 
 public interface BoardRepository extends JpaRepository<Board, Long> {
 
-    Board findByWriter(User currentUser);
-    List<Board> findAllByCommunity(Community community);
     Optional<List<Board>> findByCommunityAndStatus(Community community, Status existed);
 }

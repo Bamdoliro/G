@@ -26,14 +26,6 @@ public class BoardFacade {
         return board;
     }
 
-    public Board findMyPosts(User currentUser) {
-        return boardRepository.findByWriter(currentUser);
-    }
-
-    public List<Board> findCommunityPosts(Community community) {
-        return boardRepository.findAllByCommunity(community);
-    }
-
     public List<Board> findByCommunityAndStatus(Community community, Status existed) {
         return boardRepository.findByCommunityAndStatus(community, Status.EXISTED)
                 .orElseThrow(() -> BoardNotFoundException.EXCEPTION);

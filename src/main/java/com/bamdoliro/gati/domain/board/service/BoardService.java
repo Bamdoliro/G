@@ -3,16 +3,22 @@ package com.bamdoliro.gati.domain.board.service;
 import com.bamdoliro.gati.domain.board.domain.Board;
 import com.bamdoliro.gati.domain.board.domain.repository.BoardRepository;
 import com.bamdoliro.gati.domain.board.domain.type.Status;
-import com.bamdoliro.gati.domain.board.exception.BoardNotFoundException;
 import com.bamdoliro.gati.domain.board.facade.BoardFacade;
 import com.bamdoliro.gati.domain.board.presentation.dto.request.CreateBoardRequestDto;
 import com.bamdoliro.gati.domain.board.presentation.dto.request.UpdateBoardRequestDto;
 import com.bamdoliro.gati.domain.board.presentation.dto.response.BoardDetailDto;
+import com.bamdoliro.gati.domain.board.presentation.dto.response.BoardResponseDto;
+import com.bamdoliro.gati.domain.community.domain.Community;
 import com.bamdoliro.gati.domain.community.facade.CommunityFacade;
+import com.bamdoliro.gati.domain.community.facade.MemberFacade;
 import com.bamdoliro.gati.domain.user.facade.UserFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -22,6 +28,7 @@ public class BoardService {
     private final BoardFacade boardFacade;
     private final UserFacade userFacade;
     private final CommunityFacade communityFacade;
+    private final MemberFacade memberFacade;
 
     // 게시물 게시
     @Transactional
@@ -51,5 +58,14 @@ public class BoardService {
     public void deletePost(Long id) {
         Board board = boardFacade.findBoardById(id);
         board.deletePost();
+    }
+
+    // 특정 커뮤니티의 게시물 전체 조회
+    @Transactional(readOnly = true)
+    public List<BoardResponseDto> getCommunityPosts(Long communityId) {
+        Community community = communityFacade.findCommunityById(communityId);
+        memberFacade.checkMember(userFacade.getCurrentUser(), community);
+        return boardFacade.findByCommunityAndStatus(community, Status.EXISTED)
+                .stream().map(BoardResponseDto::of).collect(Collectors.toList());
     }
 }

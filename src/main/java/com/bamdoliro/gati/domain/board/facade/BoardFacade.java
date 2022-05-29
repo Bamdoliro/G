@@ -27,7 +27,7 @@ public class BoardFacade {
     }
 
     public List<Board> findByCommunityAndStatus(Community community, Status existed) {
-        return boardRepository.findByCommunityAndStatus(community, Status.EXISTED)
+        return boardRepository.findByCommunityAndStatus(community, existed)
                 .orElseThrow(() -> BoardNotFoundException.EXCEPTION);
     }
 }

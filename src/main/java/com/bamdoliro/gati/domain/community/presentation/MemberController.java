@@ -21,7 +21,7 @@ public class MemberController {
         memberService.joinCommunity(dto, Authority.MEMBER);
     }
 
-    @PutMapping
+    @PutMapping("/leader")
     public void updateCommunityLeader(@RequestBody ChangeCommunityLeaderRequestDto dto) {
         memberService.changeCommunityLeader(dto);
     }

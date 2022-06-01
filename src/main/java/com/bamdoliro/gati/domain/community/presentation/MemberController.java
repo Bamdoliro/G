@@ -25,4 +25,9 @@ public class MemberController {
     public void updateCommunityLeader(@RequestBody ChangeCommunityLeaderRequestDto dto) {
         memberService.changeCommunityLeader(dto);
     }
+
+    @DeleteMapping("/{communityId}")
+    public void leaveCommunity(@PathVariable Long communityId) {
+        memberService.leaveCommunity(communityId);
+    }
 }

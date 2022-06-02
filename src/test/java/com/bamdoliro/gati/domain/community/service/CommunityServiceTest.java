@@ -6,6 +6,7 @@ import com.bamdoliro.gati.domain.community.domain.type.Authority;
 import com.bamdoliro.gati.domain.community.exception.BadCreateCommunityRequestException;
 import com.bamdoliro.gati.domain.community.facade.CommunityFacade;
 import com.bamdoliro.gati.domain.community.presentation.dto.request.CreateCommunityRequestDto;
+import com.bamdoliro.gati.domain.community.presentation.dto.response.CommunityDetailResponseDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -45,6 +46,25 @@ class CommunityServiceTest {
             .isPublic(false)
             .password("1234")
             .build();
+
+    @DisplayName("[Service] Community detail 조회")
+    @Test
+    void givenGetCommunityId_whenGettingCommunityDetail_thenGetsCommunityDetailResponseDto() {
+        // given
+        given(communityFacade.findCommunityById(defaultCommunity.getId())).willReturn(defaultCommunity);
+
+        // when
+        CommunityDetailResponseDto dto = communityService.getCommunityDetail(defaultCommunity.getId());
+
+        // then
+        verify(communityFacade, times(1)).findCommunityById(defaultCommunity.getId());
+        assertEquals(defaultCommunity.getId(), dto.getId());
+        assertEquals(defaultCommunity.getName(), dto.getName());
+        assertEquals(defaultCommunity.getIntroduction(), dto.getIntroduction());
+        assertEquals(defaultCommunity.getNumberOfPeople(), dto.getNumberOfPeople());
+        assertEquals(defaultCommunity.getCode(), dto.getCode());
+        assertEquals(defaultCommunity.getIsPublic(), dto.getIsPublic());
+    }
 
     @DisplayName("[Service] Public Community 생성")
     @Test

@@ -43,6 +43,11 @@ public class CommunityService {
                 .map(CommunityResponseDto::of).collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
+    public CommunityResponseDto getCommunityByCode(String code) {
+        return CommunityResponseDto.of(communityFacade.findCommunityByCode(code));
+    }
+
     @Transactional
     public void createCommunity(CreateCommunityRequestDto dto) {
         validateByCommunityType(dto);

@@ -1,6 +1,7 @@
 package com.bamdoliro.gati.domain.community.presentation;
 
 import com.bamdoliro.gati.domain.community.presentation.dto.request.CreateCommunityRequestDto;
+import com.bamdoliro.gati.domain.community.presentation.dto.response.CommunityDetailResponseDto;
 import com.bamdoliro.gati.domain.community.presentation.dto.response.CommunityResponseDto;
 import com.bamdoliro.gati.domain.community.service.CommunityService;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,11 @@ public class CommunityController {
     @GetMapping
     public Page<CommunityResponseDto> getPagingCommunity(Pageable pageable) {
         return communityService.getPagingCommunity(pageable);
+    }
+
+    @GetMapping("/{id}")
+    public CommunityDetailResponseDto getCommunityDetail(@PathVariable Long id) {
+        return communityService.getCommunityDetail(id);
     }
 
     @PostMapping

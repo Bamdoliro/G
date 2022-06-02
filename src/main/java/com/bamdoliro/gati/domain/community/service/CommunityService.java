@@ -5,6 +5,7 @@ import com.bamdoliro.gati.domain.community.domain.type.Authority;
 import com.bamdoliro.gati.domain.community.exception.BadCreateCommunityRequestException;
 import com.bamdoliro.gati.domain.community.facade.CommunityFacade;
 import com.bamdoliro.gati.domain.community.presentation.dto.request.CreateCommunityRequestDto;
+import com.bamdoliro.gati.domain.community.presentation.dto.response.CommunityDetailResponseDto;
 import com.bamdoliro.gati.domain.community.presentation.dto.response.CommunityResponseDto;
 import com.bamdoliro.gati.global.utils.RandomCodeUtil;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +28,12 @@ public class CommunityService {
                 .map(CommunityResponseDto::of);
     }
 
+    @Transactional(readOnly = true)
+    public CommunityDetailResponseDto getCommunityDetail(Long id) {
+        return CommunityDetailResponseDto.of(
+                communityFacade.findCommunityById(id));
+    }
+
     @Transactional
     public void createCommunity(CreateCommunityRequestDto dto) {
         validateByCommunityType(dto);
@@ -41,7 +48,7 @@ public class CommunityService {
 
     private void validateByCommunityType(CreateCommunityRequestDto dto) {
         if ((dto.getPassword() != null && !dto.getIsPublic()) ||
-                (dto.getPassword() == null && dto.getIsPublic())) ;
+                (dto.getPassword() == null && dto.getIsPublic()));
         else {
             throw BadCreateCommunityRequestException.EXCEPTION;
         }
@@ -55,4 +62,6 @@ public class CommunityService {
 
         return code;
     }
+
+
 }

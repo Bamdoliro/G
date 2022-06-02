@@ -6,6 +6,7 @@ import com.bamdoliro.gati.domain.community.domain.repository.MemberRepository;
 import com.bamdoliro.gati.domain.community.domain.type.Authority;
 import com.bamdoliro.gati.domain.community.exception.BadChangeCommunityLeaderRequestException;
 import com.bamdoliro.gati.domain.community.exception.CommunityPasswordMismatchException;
+import com.bamdoliro.gati.domain.community.exception.LeaderCannotLeaveCommunityException;
 import com.bamdoliro.gati.domain.community.facade.CommunityFacade;
 import com.bamdoliro.gati.domain.community.facade.MemberFacade;
 import com.bamdoliro.gati.domain.community.presentation.dto.request.JoinCommunityRequestDto;
@@ -76,5 +77,20 @@ public class MemberService {
         }
     }
 
+    @Transactional
+    public void leaveCommunity(Long communityId) {
+        Member member = memberFacade.findMemberByUserAndCommunity(
+                userFacade.getCurrentUser(),
+                communityFacade.findCommunityById(communityId)
+        );
+        validateLeaveCommunityAuthority(member);
 
+        memberRepository.delete(member);
+    }
+
+    private void validateLeaveCommunityAuthority(Member member) {
+        if (member.getAuthority() == Authority.LEADER) {
+            throw LeaderCannotLeaveCommunityException.EXCEPTION;
+        }
+    }
 }

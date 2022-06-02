@@ -6,6 +6,7 @@ import com.bamdoliro.gati.domain.community.domain.repository.MemberRepository;
 import com.bamdoliro.gati.domain.community.domain.type.Authority;
 import com.bamdoliro.gati.domain.community.exception.BadChangeCommunityLeaderRequestException;
 import com.bamdoliro.gati.domain.community.exception.CommunityPasswordMismatchException;
+import com.bamdoliro.gati.domain.community.exception.LeaderCannotLeaveCommunityException;
 import com.bamdoliro.gati.domain.community.facade.CommunityFacade;
 import com.bamdoliro.gati.domain.community.facade.MemberFacade;
 import com.bamdoliro.gati.domain.community.presentation.dto.request.ChangeCommunityLeaderRequestDto;
@@ -24,6 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.willDoNothing;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -207,5 +209,42 @@ class MemberServiceTest {
         verify(communityFacade, times(1)).findCommunityById(any());
         verify(memberFacade, times(1)).findMemberByUserAndCommunity(leaderUser, defaultCommunity);
         verify(memberFacade, times(1)).findMemberById(any());
+    }
+
+    @DisplayName("[Service] community 탈퇴")
+    @Test
+    void givenCommunityId_whenLeavingCommunity_thenLeavesCommunity() {
+        // given
+        given(userFacade.getCurrentUser()).willReturn(defaultUser);
+        given(communityFacade.findCommunityById(defaultCommunity.getId())).willReturn(defaultCommunity);
+        given(memberFacade.findMemberByUserAndCommunity(defaultUser, defaultCommunity)).willReturn(defaultMember);
+        willDoNothing().given(memberRepository).delete(defaultMember);
+
+        // when
+        memberService.leaveCommunity(defaultCommunity.getId());
+
+        // then
+        verify(userFacade, times(1)).getCurrentUser();
+        verify(communityFacade, times(1)).findCommunityById(defaultCommunity.getId());
+        verify(memberFacade, times(1)).findMemberByUserAndCommunity(defaultUser, defaultCommunity);
+        verify(memberRepository, times(1)).delete(defaultMember);
+    }
+
+    @DisplayName("[Service] community 탈퇴 - leader 인 경우")
+    @Test
+    void givenCommunityId_whenLeavingCommunity_thenThrowsLeaderCannotLeaveCommunityException() {
+        // given
+        given(userFacade.getCurrentUser()).willReturn(leaderUser);
+        given(communityFacade.findCommunityById(defaultCommunity.getId())).willReturn(defaultCommunity);
+        given(memberFacade.findMemberByUserAndCommunity(leaderUser, defaultCommunity)).willReturn(leaderMember);
+
+        // when and then
+        assertThrows(LeaderCannotLeaveCommunityException.class, () ->
+                memberService.leaveCommunity(defaultCommunity.getId()));
+
+        verify(userFacade, times(1)).getCurrentUser();
+        verify(communityFacade, times(1)).findCommunityById(defaultCommunity.getId());
+        verify(memberFacade, times(1)).findMemberByUserAndCommunity(leaderUser, defaultCommunity);
+        verify(memberRepository, never()).delete(leaderMember);
     }
 }

@@ -14,6 +14,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class CommunityService {
@@ -32,6 +35,12 @@ public class CommunityService {
     public CommunityDetailResponseDto getCommunityDetail(Long id) {
         return CommunityDetailResponseDto.of(
                 communityFacade.findCommunityById(id));
+    }
+
+    @Transactional(readOnly = true)
+    public List<CommunityResponseDto> searchCommunity(String name) {
+        return communityRepository.findByNameContaining(name).stream()
+                .map(CommunityResponseDto::of).collect(Collectors.toList());
     }
 
     @Transactional

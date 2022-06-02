@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/community")
@@ -26,6 +27,11 @@ public class CommunityController {
     @GetMapping("/{id}")
     public CommunityDetailResponseDto getCommunityDetail(@PathVariable Long id) {
         return communityService.getCommunityDetail(id);
+    }
+
+    @GetMapping("/search")
+    public List<CommunityResponseDto> searchCommunity(@RequestParam String name) {
+        return communityService.searchCommunity(name);
     }
 
     @PostMapping

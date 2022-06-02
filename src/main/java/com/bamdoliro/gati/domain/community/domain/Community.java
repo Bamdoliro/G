@@ -42,6 +42,9 @@ public class Community extends BaseTimeEntity {
     @Column(length = 4, nullable = true)
     private String password;
 
+    @OneToMany(mappedBy = "community")
+    private List<Member> members = new ArrayList<>();
+
     @Builder
     public Community(String name, String introduction, int numberOfPeople, String code, Boolean isPublic, String password) {
         this.name = name;

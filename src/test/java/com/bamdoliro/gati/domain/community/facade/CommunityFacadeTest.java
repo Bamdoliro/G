@@ -64,6 +64,35 @@ class CommunityFacadeTest {
         verify(communityRepository, times(1)).findById(any());
     }
 
+    @DisplayName("[Facade] Community Code 로 찾기")
+    @Test
+    void givenCode_whenFindingCommunity_thenReturnsCommunity() {
+        // given
+        given(communityRepository.findByCode(any())).willReturn(Optional.of(defaultCommunity));
+
+        // when
+        Community foundCommunity = communityFacade.findCommunityByCode(defaultCommunity.getCode());
+
+        // then
+        verify(communityRepository, times(1)).findByCode(any());
+        assertEquals(defaultCommunity.getName(), foundCommunity.getName());
+        assertEquals(defaultCommunity.getIntroduction(), foundCommunity.getIntroduction());
+        assertEquals(defaultCommunity.getNumberOfPeople(), foundCommunity.getNumberOfPeople());
+        assertEquals(defaultCommunity.getIsPublic(), foundCommunity.getIsPublic());
+    }
+
+    @DisplayName("[Facade] Community Code로 찾기 - 없는 경우")
+    @Test
+    void givenInvalidCode_whenFindingCommunity_thenThrowsCommunityNotFoundException() {
+        // given
+        given(communityRepository.findByCode(any())).willReturn(Optional.empty());
+
+        // when and then
+        assertThrows(CommunityNotFoundException.class, () ->
+                communityFacade.findCommunityByCode(defaultCommunity.getCode()));
+        verify(communityRepository, times(1)).findByCode(any());
+    }
+
     @DisplayName("[Facade] checkCode")
     @Test
     void givenCode_whenCheckingCode_thenChecksAndReturnsTrue() {

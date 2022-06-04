@@ -1,7 +1,6 @@
 package com.bamdoliro.gati.domain.community.presentation.dto.response;
 
 import com.bamdoliro.gati.domain.community.domain.Community;
-import com.bamdoliro.gati.domain.community.domain.Member;
 import lombok.Builder;
 import lombok.Getter;
 

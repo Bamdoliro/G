@@ -7,6 +7,7 @@ import com.bamdoliro.gati.domain.community.exception.BadCreateCommunityRequestEx
 import com.bamdoliro.gati.domain.community.facade.CommunityFacade;
 import com.bamdoliro.gati.domain.community.presentation.dto.request.CreateCommunityRequestDto;
 import com.bamdoliro.gati.domain.community.presentation.dto.response.CommunityDetailResponseDto;
+import com.bamdoliro.gati.domain.community.presentation.dto.response.CommunityResponseDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -36,6 +37,7 @@ class CommunityServiceTest {
             .name("우리집")
             .introduction("킄")
             .numberOfPeople(100)
+            .code("1A2B3C")
             .isPublic(true)
             .build();
 
@@ -43,13 +45,14 @@ class CommunityServiceTest {
             .name("우리지브")
             .introduction("키키")
             .numberOfPeople(200)
+            .code("A1B2C3")
             .isPublic(false)
             .password("1234")
             .build();
 
     @DisplayName("[Service] Community detail 조회")
     @Test
-    void givenGetCommunityId_whenGettingCommunityDetail_thenGetsCommunityDetailResponseDto() {
+    void givenCommunityId_whenGettingCommunityDetail_thenGetsCommunityDetailResponseDto() {
         // given
         given(communityFacade.findCommunityById(defaultCommunity.getId())).willReturn(defaultCommunity);
 
@@ -64,6 +67,22 @@ class CommunityServiceTest {
         assertEquals(defaultCommunity.getNumberOfPeople(), dto.getNumberOfPeople());
         assertEquals(defaultCommunity.getCode(), dto.getCode());
         assertEquals(defaultCommunity.getIsPublic(), dto.getIsPublic());
+    }
+
+    @DisplayName("[Service] Community code로 조회")
+    @Test
+    void givenCommunityCode_whenFindingCommunity_thenGetsCommunity() {
+        // given
+        given(communityFacade.findCommunityByCode(defaultCommunity.getCode())).willReturn(defaultCommunity);
+
+        // when
+        CommunityResponseDto dto = communityService.getCommunityByCode(defaultCommunity.getCode());
+
+        // then
+        verify(communityFacade, times(1)).findCommunityByCode(defaultCommunity.getCode());
+        assertEquals(dto.getId(), defaultCommunity.getId());
+        assertEquals(dto.getName(), defaultCommunity.getName());
+        assertEquals(dto.getMaxNumberOfPeople(), defaultCommunity.getNumberOfPeople());
     }
 
     @DisplayName("[Service] Public Community 생성")

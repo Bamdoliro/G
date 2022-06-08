@@ -4,6 +4,7 @@ import com.bamdoliro.gati.domain.community.domain.Community;
 import com.bamdoliro.gati.domain.community.domain.Member;
 import com.bamdoliro.gati.domain.community.domain.repository.MemberRepository;
 import com.bamdoliro.gati.domain.community.domain.type.Authority;
+import com.bamdoliro.gati.domain.community.exception.AuthorityMismatchException;
 import com.bamdoliro.gati.domain.community.exception.MemberNotFoundException;
 import com.bamdoliro.gati.domain.community.exception.UserNotCommunityMemberException;
 import com.bamdoliro.gati.domain.user.domain.User;
@@ -20,8 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class MemberFacadeTest {
@@ -129,6 +129,27 @@ class MemberFacadeTest {
         assertThrows(UserNotCommunityMemberException.class, () ->
                 memberFacade.checkMember(defaultUser, defaultCommunity));
         verify(memberRepository, times(1)).existsByUserAndCommunity(defaultUser, defaultCommunity);
+    }
+
+    @DisplayName("[Facade] check member authority")
+    @Test
+    void givenAuthority_whenCheckingMemberAuthority_thenThrowsAuthorityMismatchException() {
+        // given
+
+        // when
+        memberFacade.checkMemberAuthority(defaultMember, Authority.MEMBER);
+
+        // then
+    }
+
+    @DisplayName("[Facade] check member authority - authority가 다른 경우")
+    @Test
+    void givenInvalidAuthority_whenCheckingMemberAuthority_thenThrowsAuthorityMismatchException() {
+        // given
+
+        // when and then
+        assertThrows(AuthorityMismatchException.class, () ->
+                memberFacade.checkMemberAuthority(defaultMember, Authority.LEADER));
     }
 
 }

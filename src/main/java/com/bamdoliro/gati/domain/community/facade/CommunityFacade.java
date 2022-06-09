@@ -2,6 +2,7 @@ package com.bamdoliro.gati.domain.community.facade;
 
 import com.bamdoliro.gati.domain.community.domain.Community;
 import com.bamdoliro.gati.domain.community.domain.repository.CommunityRepository;
+import com.bamdoliro.gati.domain.community.exception.BadPasswordAndCommunityTypeException;
 import com.bamdoliro.gati.domain.community.exception.CommunityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -24,5 +25,11 @@ public class CommunityFacade {
 
     public boolean checkCode(String code) {
         return !communityRepository.existsByCode(code);
+    }
+
+    public void checkPasswordAndCommunityType(String password, Boolean isPublic) {
+        if (!((password != null && !isPublic) || (password == null && isPublic))) {
+            throw BadPasswordAndCommunityTypeException.EXCEPTION;
+        }
     }
 }

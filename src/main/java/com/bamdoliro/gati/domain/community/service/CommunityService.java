@@ -90,6 +90,7 @@ public class CommunityService {
     @Transactional
     public void deleteCommunity(Long id) {
         Community community = communityFacade.findCommunityById(id);
+        communityFacade.checkNumberOfMembers(community, 5);
         memberFacade.checkMemberAuthority(
                 memberFacade.findMemberByUserAndCommunity(userFacade.getCurrentUser(), community),
                 Authority.LEADER

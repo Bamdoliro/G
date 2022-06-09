@@ -210,4 +210,19 @@ class CommunityServiceTest {
         assertFalse(defaultCommunity.getIsPublic());
         assertEquals("1234", defaultCommunity.getPassword());
     }
+
+    @DisplayName("[Service] Community 삭제")
+    @Test
+    void givenCommunityId_whenDeletingCommunity_thenDeletesCommunity() {
+        // given
+        given(communityFacade.findCommunityById(defaultCommunity.getId())).willReturn(defaultCommunity);
+        given(userFacade.getCurrentUser()).willReturn(leaderUser);
+        given(memberFacade.findMemberByUserAndCommunity(leaderUser, defaultCommunity)).willReturn(leaderMember);
+
+        // when
+        communityService.deleteCommunity(defaultMember.getId());
+
+        // then
+        verify(communityRepository, times(1)).delete(defaultCommunity);
+    }
 }

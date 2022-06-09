@@ -2,6 +2,7 @@ package com.bamdoliro.gati.domain.community.facade;
 
 import com.bamdoliro.gati.domain.community.domain.Community;
 import com.bamdoliro.gati.domain.community.domain.repository.CommunityRepository;
+import com.bamdoliro.gati.domain.community.exception.BadPasswordAndCommunityTypeException;
 import com.bamdoliro.gati.domain.community.exception.CommunityNotFoundException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -117,5 +118,30 @@ class CommunityFacadeTest {
 
         // then
         assertFalse(result);
+    }
+
+    @DisplayName("[Facade] checkPasswordAndCommunityType")
+    @Test
+    void givenPasswordAndCommunityType_whenCheckingPasswordAndCommunity_thenChecksSuccessfully() {
+        // given
+
+        // when
+        communityFacade.checkPasswordAndCommunityType("1234", false);
+        communityFacade.checkPasswordAndCommunityType(null, true);
+
+        // then
+
+    }
+
+    @DisplayName("[Facade] checkPasswordAndCommunityType - 맞지 않는 경우")
+    @Test
+    void givenInvalidPasswordAndCommunityType_whenCheckingPasswordAndCommunity_thenThrowsBadPasswordAndCommunityTypeException() {
+        // given
+
+        // when and then
+        assertThrows(BadPasswordAndCommunityTypeException.class, () ->
+                communityFacade.checkPasswordAndCommunityType("1234", true));
+        assertThrows(BadPasswordAndCommunityTypeException.class, () ->
+                communityFacade.checkPasswordAndCommunityType(null, false));
     }
 }

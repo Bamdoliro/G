@@ -1,12 +1,15 @@
 package com.bamdoliro.gati.domain.community.service;
 
+import com.bamdoliro.gati.domain.community.domain.Community;
 import com.bamdoliro.gati.domain.community.domain.repository.CommunityRepository;
 import com.bamdoliro.gati.domain.community.domain.type.Authority;
-import com.bamdoliro.gati.domain.community.exception.BadCreateCommunityRequestException;
 import com.bamdoliro.gati.domain.community.facade.CommunityFacade;
+import com.bamdoliro.gati.domain.community.facade.MemberFacade;
 import com.bamdoliro.gati.domain.community.presentation.dto.request.CreateCommunityRequestDto;
+import com.bamdoliro.gati.domain.community.presentation.dto.request.UpdateCommunityRequestDto;
 import com.bamdoliro.gati.domain.community.presentation.dto.response.CommunityDetailResponseDto;
 import com.bamdoliro.gati.domain.community.presentation.dto.response.CommunityResponseDto;
+import com.bamdoliro.gati.domain.user.facade.UserFacade;
 import com.bamdoliro.gati.global.utils.RandomCodeUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -24,6 +27,8 @@ public class CommunityService {
     private final CommunityRepository communityRepository;
     private final MemberService memberService;
     private final CommunityFacade communityFacade;
+    private final UserFacade userFacade;
+    private final MemberFacade memberFacade;
 
     @Transactional(readOnly = true)
     public Page<CommunityResponseDto> getPagingCommunity(Pageable pageable) {
@@ -50,7 +55,7 @@ public class CommunityService {
 
     @Transactional
     public void createCommunity(CreateCommunityRequestDto dto) {
-        validateByCommunityType(dto);
+        communityFacade.checkPasswordAndCommunityType(dto.getPassword(), dto.getIsPublic());
 
         memberService.joinCommunity(
                 communityRepository.save(
@@ -60,13 +65,6 @@ public class CommunityService {
         );
     }
 
-    private void validateByCommunityType(CreateCommunityRequestDto dto) {
-        if ((dto.getPassword() != null && !dto.getIsPublic()) ||
-                (dto.getPassword() == null && dto.getIsPublic()));
-        else {
-            throw BadCreateCommunityRequestException.EXCEPTION;
-        }
-    }
 
     private String createUniqueCode() {
         String code = RandomCodeUtil.make(6);
@@ -75,6 +73,18 @@ public class CommunityService {
         }
 
         return code;
+    }
+
+    @Transactional
+    public void updateCommunity(UpdateCommunityRequestDto dto) {
+        Community community = communityFacade.findCommunityById(dto.getId());
+        memberFacade.checkMemberAuthority(
+                memberFacade.findMemberByUserAndCommunity(userFacade.getCurrentUser(), community),
+                Authority.LEADER
+        );
+        communityFacade.checkPasswordAndCommunityType(dto.getPassword(), dto.getIsPublic());
+
+        community.updateCommunity(dto.getName(), dto.getIntroduction(), dto.getIsPublic(), dto.getIsPublic(), dto.getPassword());
     }
 
 

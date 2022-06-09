@@ -1,6 +1,7 @@
 package com.bamdoliro.gati.domain.community.presentation;
 
 import com.bamdoliro.gati.domain.community.presentation.dto.request.CreateCommunityRequestDto;
+import com.bamdoliro.gati.domain.community.presentation.dto.request.UpdateCommunityRequestDto;
 import com.bamdoliro.gati.domain.community.presentation.dto.response.CommunityDetailResponseDto;
 import com.bamdoliro.gati.domain.community.presentation.dto.response.CommunityResponseDto;
 import com.bamdoliro.gati.domain.community.service.CommunityService;
@@ -42,5 +43,10 @@ public class CommunityController {
     @PostMapping
     public void createCommunity(@RequestBody @Valid CreateCommunityRequestDto dto) {
         communityService.createCommunity(dto);
+    }
+
+    @PutMapping
+    public void updateCommunity(@RequestBody @Valid UpdateCommunityRequestDto dto) {
+        communityService.updateCommunity(dto);
     }
 }

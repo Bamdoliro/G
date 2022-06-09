@@ -6,6 +6,7 @@ import com.bamdoliro.gati.global.utils.BooleanToYNConverter;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,6 +52,13 @@ public class Community extends BaseTimeEntity {
         this.introduction = introduction;
         this.numberOfPeople = numberOfPeople;
         this.code = code;
+        this.isPublic = isPublic;
+        this.password = password;
+    }
+
+    public void updateCommunity(String name, String introduction, Boolean isPublic, @NotNull Boolean aPublic, String password) {
+        this.name = name;
+        this.introduction = introduction;
         this.isPublic = isPublic;
         this.password = password;
     }

@@ -87,5 +87,14 @@ public class CommunityService {
         community.updateCommunity(dto.getName(), dto.getIntroduction(), dto.getIsPublic(), dto.getIsPublic(), dto.getPassword());
     }
 
+    @Transactional
+    public void deleteCommunity(Long id) {
+        Community community = communityFacade.findCommunityById(id);
+        memberFacade.checkMemberAuthority(
+                memberFacade.findMemberByUserAndCommunity(userFacade.getCurrentUser(), community),
+                Authority.LEADER
+        );
 
+        communityRepository.delete(community);
+    }
 }

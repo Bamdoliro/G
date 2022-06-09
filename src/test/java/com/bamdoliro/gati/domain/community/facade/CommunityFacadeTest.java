@@ -3,6 +3,7 @@ package com.bamdoliro.gati.domain.community.facade;
 import com.bamdoliro.gati.domain.community.domain.Community;
 import com.bamdoliro.gati.domain.community.domain.repository.CommunityRepository;
 import com.bamdoliro.gati.domain.community.exception.BadPasswordAndCommunityTypeException;
+import com.bamdoliro.gati.domain.community.exception.CannotDeleteCommunityException;
 import com.bamdoliro.gati.domain.community.exception.CommunityNotFoundException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -143,5 +144,27 @@ class CommunityFacadeTest {
                 communityFacade.checkPasswordAndCommunityType("1234", true));
         assertThrows(BadPasswordAndCommunityTypeException.class, () ->
                 communityFacade.checkPasswordAndCommunityType(null, false));
+    }
+
+    @DisplayName("[Facade] checkNumberOfMembers")
+    @Test
+    void givenCommunityAndMax_whenCheckingNumberOfMembers_thenCheckSuccessfully() {
+        // given
+
+        // when
+        communityFacade.checkNumberOfMembers(defaultCommunity, 5);
+
+        // then
+
+    }
+
+    @DisplayName("[Facade] checkNumberOfMembers - max 보다 큰 경우")
+    @Test
+    void givenCommunityAndMax_whenCheckingNumberOfMembers_thenThrowsCannotDeleteCommunityException() {
+        // given
+
+        // when and then
+        assertThrows(CannotDeleteCommunityException.class, () ->
+                communityFacade.checkNumberOfMembers(defaultCommunity, -100));
     }
 }

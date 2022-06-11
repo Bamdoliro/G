@@ -36,11 +36,12 @@ import static org.mockito.Mockito.verify;
 class BoardServiceTest {
 
     @InjectMocks
-    BoardService boardService;
+    private BoardService boardService;
 
     @Mock private BoardRepository boardRepository;
     @Mock private UserRepository userRepository;
     @Mock private CommunityRepository communityRepository;
+    @Mock private BoardFacade boardFacade;
 
     Community community = Community.builder()
             .name("우리집")
@@ -83,6 +84,23 @@ class BoardServiceTest {
         assertEquals(user, savedboard.getWriter());
         assertEquals(community, savedboard.getCommunity());
     }
+
+    @DisplayName("[Service] Board 상세 조회")
+    @Test
+    void givenBoardId_whenGetDetailBoard_thenReturnsBoardDetailDto() {
+        // given
+        given(boardFacade.findBoardById(board.getId())).willReturn(board);
+
+        // when
+        BoardDetailDto result = boardService.getDetail(board.getId());
+
+        // then
+        verify(boardFacade, times(1)).findBoardById(board.getId());
+        assertEquals(board.getWriter().getName(), result.getWriter());
+        assertEquals(board.getTitle(), result.getTitle());
+        assertEquals(board.getContent(), result.getContent());
+    }
+
 
     
 }

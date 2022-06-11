@@ -84,8 +84,6 @@ public class CommunityService {
         );
         communityFacade.checkPasswordAndCommunityType(dto.getPassword(), dto.getIsPublic());
 
-        community.updateCommunity(dto.getName(), dto.getIntroduction(), dto.getIsPublic(), dto.getIsPublic(), dto.getPassword());
+        community.updateCommunity(dto.getName(), dto.getIntroduction(), dto.getIsPublic(), dto.getPassword());
     }
-
-
 }

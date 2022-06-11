@@ -56,7 +56,7 @@ public class Community extends BaseTimeEntity {
         this.password = password;
     }
 
-    public void updateCommunity(String name, String introduction, Boolean isPublic, @NotNull Boolean aPublic, String password) {
+    public void updateCommunity(String name, String introduction, Boolean isPublic, String password) {
         this.name = name;
         this.introduction = introduction;
         this.isPublic = isPublic;

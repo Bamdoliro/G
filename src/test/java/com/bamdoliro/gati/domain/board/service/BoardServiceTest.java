@@ -33,14 +33,17 @@ import static org.mockito.BDDMockito.*;
 class BoardServiceTest {
 
     @InjectMocks
-    BoardService boardService;
+    private BoardService boardService;
 
     @Mock private BoardRepository boardRepository;
     @Mock private UserRepository userRepository;
     @Mock private CommunityRepository communityRepository;
     @Mock private BoardFacade boardFacade;
+<<<<<<< HEAD
     @Mock private UserFacade userFacade;
     @Mock private CommunityFacade communityFacade;
+=======
+>>>>>>> board
 
     Community community = Community.builder()
             .name("우리집")
@@ -109,9 +112,18 @@ class BoardServiceTest {
 
         // then
         verify(boardFacade, times(1)).findBoardById(board.getId());
+<<<<<<< HEAD
 
+=======
+>>>>>>> board
         assertEquals(board.getWriter().getName(), result.getWriter());
         assertEquals(board.getTitle(), result.getTitle());
         assertEquals(board.getContent(), result.getContent());
     }
+<<<<<<< HEAD
+=======
+
+
+    
+>>>>>>> board
 }

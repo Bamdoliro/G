@@ -39,7 +39,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             try {
                 String accessToken = accessTokenCookie.getValue();
                 setAuthentication(accessToken, request);
-            } catch (ExpiredJwtException ae) {
+            } catch (ExpiredJwtException e) {
                 final Cookie refreshTokenCookie = cookieUtil.getCookie(request, REFRESH_TOKEN_NAME);
                 if (refreshTokenCookie != null) {
                     try {

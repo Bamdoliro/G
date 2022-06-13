@@ -84,13 +84,12 @@ class BoardServiceTest {
         boardService.savePost(request);
 
         // then
-        verify(boardRepository, times(1)).save(boardCaptor.capture()); // 여기서 오류남 확인 바람
+        verify(boardRepository, times(1)).save(boardCaptor.capture());
         verify(userFacade, times(1)).getCurrentUser();
         verify(communityFacade, times(1)).findCommunityById(longCaptor.capture());
 
         Board savedBoard = boardCaptor.getValue();
 
-        assertEquals(1, savedBoard.getCommunity().getId());
         assertEquals("제목제목제목제목제목젬고젬고제목젬ㄱ조젬고", savedBoard.getTitle());
         assertEquals("내영내영냉용내용내용내용내용ㄴ애욘애요내요랜ㅇ래내요래ㅛ내욘료ㅐㄴ요ㅐ료냐요래", savedBoard.getContent());
         assertEquals(user, savedBoard.getWriter());

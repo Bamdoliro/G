@@ -90,8 +90,8 @@ class BoardServiceTest {
 
         Board savedBoard = boardCaptor.getValue();
 
-        assertEquals("제목제목제목제목제목젬고젬고제목젬ㄱ조젬고", savedBoard.getTitle());
-        assertEquals("내영내영냉용내용내용내용내용ㄴ애욘애요내요랜ㅇ래내요래ㅛ내욘료ㅐㄴ요ㅐ료냐요래", savedBoard.getContent());
+        assertEquals(request.getTitle(), savedBoard.getTitle());
+        assertEquals(request.getContent(), savedBoard.getContent());
         assertEquals(user, savedBoard.getWriter());
         assertEquals(community, savedBoard.getCommunity());
     }

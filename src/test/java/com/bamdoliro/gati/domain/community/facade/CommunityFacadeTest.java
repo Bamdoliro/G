@@ -99,7 +99,6 @@ class CommunityFacadeTest {
     void givenCode_whenCheckingCode_thenChecksAndReturnsTrue() {
         // given
         given(communityRepository.existsByCode(anyString())).willReturn(false);
-
         // when
         boolean result = communityFacade.checkCode("imC0DE");
 

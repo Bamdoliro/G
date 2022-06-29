@@ -35,7 +35,7 @@ public class CommunityController {
         return communityService.searchCommunity(name);
     }
 
-    @RequestMapping("/code")
+    @GetMapping("/code")
     public CommunityResponseDto getCommunityByCode(@RequestParam String code) {
         return communityService.getCommunityByCode(code);
     }

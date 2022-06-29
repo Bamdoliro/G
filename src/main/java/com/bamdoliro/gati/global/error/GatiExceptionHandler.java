@@ -4,6 +4,7 @@ import com.bamdoliro.gati.global.error.exception.ErrorCode;
 import com.bamdoliro.gati.global.error.exception.GatiException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -23,6 +24,18 @@ public class GatiExceptionHandler {
         return ErrorResponse.builder()
                 .status(e.getErrorCode().getStatus())
                 .message(e.getMessage())
+                .build();
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ErrorResponse handleBadRequest(MethodArgumentNotValidException e, HttpServletRequest request) {
+        log.error("url: {}, message: {}", request.getRequestURI(), e.getMessage());
+
+        return ErrorResponse.builder()
+                .status(ErrorCode.BAD_REQUEST.getStatus())
+                .message(
+                        e.getBindingResult().getFieldErrors().get(0).getField() + "의 " +
+                                e.getBindingResult().getFieldErrors().get(0).getDefaultMessage())
                 .build();
     }
 

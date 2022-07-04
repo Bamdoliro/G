@@ -6,6 +6,7 @@ import com.bamdoliro.gati.global.utils.BooleanToYNConverter;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,12 +43,22 @@ public class Community extends BaseTimeEntity {
     @Column(length = 4, nullable = true)
     private String password;
 
+    @OneToMany(mappedBy = "community")
+    private List<Member> members = new ArrayList<>();
+
     @Builder
     public Community(String name, String introduction, int numberOfPeople, String code, Boolean isPublic, String password) {
         this.name = name;
         this.introduction = introduction;
         this.numberOfPeople = numberOfPeople;
         this.code = code;
+        this.isPublic = isPublic;
+        this.password = password;
+    }
+
+    public void updateCommunity(String name, String introduction, Boolean isPublic, String password) {
+        this.name = name;
+        this.introduction = introduction;
         this.isPublic = isPublic;
         this.password = password;
     }

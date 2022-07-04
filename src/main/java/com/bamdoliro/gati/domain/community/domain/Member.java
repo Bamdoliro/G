@@ -39,4 +39,8 @@ public class Member extends BaseTimeEntity {
         this.community = community;
         this.authority = authority;
     }
+
+    public void updateAuthority(Authority authority) {
+        this.authority = authority;
+    }
 }

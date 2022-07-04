@@ -1,6 +1,7 @@
 package com.bamdoliro.gati.domain.user.domain;
 
 import com.bamdoliro.gati.domain.board.domain.Board;
+import com.bamdoliro.gati.domain.board.domain.BoardLike;
 import com.bamdoliro.gati.domain.user.domain.type.Authority;
 import com.bamdoliro.gati.domain.user.domain.type.Gender;
 import com.bamdoliro.gati.domain.user.domain.type.Status;
@@ -47,8 +48,11 @@ public class User extends BaseTimeEntity {
     @Column(length = 15, nullable = false)
     private Status status;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "writer")
+    @OneToMany(mappedBy = "writer", cascade = CascadeType.ALL)
     private List<Board> boards = new ArrayList<>();
+
+    @OneToMany(mappedBy = "liker", cascade = CascadeType.ALL)
+    private List<BoardLike> likes = new ArrayList<>();
 
     @Builder
     public User(String email, String password, String name, LocalDate birth, Gender gender, Authority authority, Status status) {

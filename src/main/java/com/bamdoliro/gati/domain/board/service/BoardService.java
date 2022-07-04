@@ -84,3 +84,12 @@ public class BoardService {
 
         boardLikeRepository.save(like);
     }
+
+    @Transactional
+    public void cancelLike(Long boardId) {
+        Board board = boardFacade.findBoardById(boardId);
+        User user = userFacade.getCurrentUser();
+
+        boardLikeRepository.deleteByBoardAndLiker(board, user);
+    }
+}

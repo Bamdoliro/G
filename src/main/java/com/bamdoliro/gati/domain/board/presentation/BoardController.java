@@ -18,7 +18,6 @@ public class BoardController {
 
     private final BoardService boardService;
 
-
     // 게시물 저장
     @PostMapping
     public void savePost(
@@ -64,6 +63,13 @@ public class BoardController {
             @PathVariable Long boardId
     ) {
         boardService.like(boardId);
+    }
+
+    @DeleteMapping("/cancel-like/{boardId}")
+    public void cancelLike(
+            @PathVariable Long boardId
+    ) {
+        boardService.cancelLike(boardId);
     }
 
 }

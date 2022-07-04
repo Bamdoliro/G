@@ -17,7 +17,8 @@ public enum ErrorCode {
     COMMUNITY_PASSWORD_MISMATCH(401, "커뮤니티 비밀번호가 틀렸습니다."),
     USER_NOT_COMMUNITY_MEMBER(422, "사용자가 해당 커뮤니티 멤버가 아닙니다."),
 
-    BOARD_NOT_FOUND(404,"게시물을 찾을 수 없습니다.");
+    BOARD_NOT_FOUND(404,"게시물을 찾을 수 없습니다."),
+    LIKE_OVERLAP(404, "좋아요는 한 번만 가능합니다.")
     ;
 
     private final int status;

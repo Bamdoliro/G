@@ -58,4 +58,12 @@ public class BoardController {
     ) {
         return boardService.getCommunityPosts(communityId);
     }
+
+    @PutMapping("/like/{boardId}")
+    public void like(
+            @PathVariable Long boardId
+    ) {
+        boardService.like(boardId);
+    }
+
 }

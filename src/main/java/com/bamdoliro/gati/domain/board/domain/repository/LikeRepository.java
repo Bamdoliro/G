@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface BoardLikeRepository extends JpaRepository<BoardLike, Long> {
+public interface LikeRepository extends JpaRepository<BoardLike, Long> {
 
     boolean existsByBoardAndLiker(Board board, User user);
     void deleteByBoardAndLiker(Board board, User liker);

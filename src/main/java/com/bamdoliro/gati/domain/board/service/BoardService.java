@@ -1,10 +1,10 @@
 package com.bamdoliro.gati.domain.board.service;
 
 import com.bamdoliro.gati.domain.board.domain.Board;
-import com.bamdoliro.gati.domain.board.domain.BoardLike;
-import com.bamdoliro.gati.domain.board.domain.repository.BoardLikeRepository;
 import com.bamdoliro.gati.domain.board.domain.repository.BoardRepository;
-import com.bamdoliro.gati.domain.board.domain.type.Status;
+import com.bamdoliro.gati.domain.board.domain.repository.LikeRepository;
+import com.bamdoliro.gati.domain.board.domain.repository.ReportRepository;
+import com.bamdoliro.gati.domain.board.domain.type.board.Status;
 import com.bamdoliro.gati.domain.board.facade.BoardFacade;
 import com.bamdoliro.gati.domain.board.presentation.dto.request.CreateBoardRequestDto;
 import com.bamdoliro.gati.domain.board.presentation.dto.request.UpdateBoardRequestDto;
@@ -13,7 +13,6 @@ import com.bamdoliro.gati.domain.board.presentation.dto.response.BoardResponseDt
 import com.bamdoliro.gati.domain.community.domain.Community;
 import com.bamdoliro.gati.domain.community.facade.CommunityFacade;
 import com.bamdoliro.gati.domain.community.facade.MemberFacade;
-import com.bamdoliro.gati.domain.user.domain.User;
 import com.bamdoliro.gati.domain.user.facade.UserFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -31,7 +30,6 @@ public class BoardService {
     private final UserFacade userFacade;
     private final CommunityFacade communityFacade;
     private final MemberFacade memberFacade;
-    private final BoardLikeRepository boardLikeRepository;
 
     // 게시물 게시
     @Transactional
@@ -72,24 +70,4 @@ public class BoardService {
                 .stream().map(BoardResponseDto::of).collect(Collectors.toList());
     }
 
-    // 좋아요 누르기
-    @Transactional
-    public void like(Long boardId) {
-        Board board = boardFacade.findBoardById(boardId);
-        User user = userFacade.getCurrentUser();
-
-        boardFacade.validateLike(board, user);
-
-        BoardLike like = BoardLike.getBoardLike(board, user);
-
-        boardLikeRepository.save(like);
-    }
-
-    @Transactional
-    public void cancelLike(Long boardId) {
-        Board board = boardFacade.findBoardById(boardId);
-        User user = userFacade.getCurrentUser();
-
-        boardLikeRepository.deleteByBoardAndLiker(board, user);
-    }
 }

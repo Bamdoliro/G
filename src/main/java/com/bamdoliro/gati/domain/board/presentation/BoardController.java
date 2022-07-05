@@ -58,20 +58,4 @@ public class BoardController {
         return boardService.getCommunityPosts(communityId);
     }
 
-    // 좋아요
-    @PutMapping("/{boardId}/like")
-    public void like(
-            @PathVariable Long boardId
-    ) {
-        boardService.like(boardId);
-    }
-
-    // 좋아요 취소
-    @DeleteMapping("/{boardId}/like")
-    public void cancelLike(
-            @PathVariable Long boardId
-    ) {
-        boardService.cancelLike(boardId);
-    }
-
 }

@@ -39,7 +39,7 @@ public class BoardLike {
                 .build();
     }
 
-    public static BoardLike getBoardLike(Board board, User user) {
+    public static BoardLike createBoardLike(Board board, User user) {
         BoardLike like = BoardLike.of(board, user);
         board.getLikes().add(like);
         user.getLikes().add(like);

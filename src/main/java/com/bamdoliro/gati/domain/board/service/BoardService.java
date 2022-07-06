@@ -2,8 +2,6 @@ package com.bamdoliro.gati.domain.board.service;
 
 import com.bamdoliro.gati.domain.board.domain.Board;
 import com.bamdoliro.gati.domain.board.domain.repository.BoardRepository;
-import com.bamdoliro.gati.domain.board.domain.repository.LikeRepository;
-import com.bamdoliro.gati.domain.board.domain.repository.ReportRepository;
 import com.bamdoliro.gati.domain.board.domain.type.board.Status;
 import com.bamdoliro.gati.domain.board.facade.BoardFacade;
 import com.bamdoliro.gati.domain.board.presentation.dto.request.CreateBoardRequestDto;

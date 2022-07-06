@@ -1,7 +1,7 @@
 package com.bamdoliro.gati.domain.board.domain;
 
 
-import com.bamdoliro.gati.domain.board.domain.type.Status;
+import com.bamdoliro.gati.domain.board.domain.type.board.Status;
 import com.bamdoliro.gati.domain.community.domain.Community;
 import com.bamdoliro.gati.domain.user.domain.User;
 import com.bamdoliro.gati.global.entity.BaseTimeEntity;

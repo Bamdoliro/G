@@ -28,9 +28,7 @@ public class LikeService {
 
         likeFacade.validateLike(board, user);
 
-        BoardLike like = BoardLike.createBoardLike(board, user);
-
-        likeRepository.save(like);
+        likeRepository.save(BoardLike.createBoardLike(board, user));
     }
 
     // 좋아요 취소

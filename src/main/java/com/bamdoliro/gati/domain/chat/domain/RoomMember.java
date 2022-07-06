@@ -10,10 +10,10 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "chat_member_table")
+@Table(name = "room_member_table")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class ChatMember extends BaseTimeEntity {
+public class RoomMember extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,15 +21,15 @@ public class ChatMember extends BaseTimeEntity {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "chat_member_user")
+    @JoinColumn(name = "room_member_user")
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "chat_member_room")
+    @JoinColumn(name = "room_member_room")
     private Room room;
 
     @Builder
-    public ChatMember(User user, Room room) {
+    public RoomMember(User user, Room room) {
         this.user = user;
         this.room = room;
     }

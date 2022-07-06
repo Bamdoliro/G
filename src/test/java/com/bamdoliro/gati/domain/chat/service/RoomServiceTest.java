@@ -1,6 +1,6 @@
 package com.bamdoliro.gati.domain.chat.service;
 
-import com.bamdoliro.gati.domain.chat.domain.ChatMember;
+import com.bamdoliro.gati.domain.chat.domain.RoomMember;
 import com.bamdoliro.gati.domain.chat.domain.Message;
 import com.bamdoliro.gati.domain.chat.domain.Room;
 import com.bamdoliro.gati.domain.chat.domain.repository.RoomRepository;
@@ -48,7 +48,7 @@ class RoomServiceTest {
         verify(roomRepository, times(1)).save(captor.capture());
         Room savedRoom = captor.getValue();
         assertEquals("귀요미팟", savedRoom.getName());
-        assertEquals(new ArrayList<ChatMember>(), savedRoom.getChatMembers());
+        assertEquals(new ArrayList<RoomMember>(), savedRoom.getMembers());
         assertEquals(new ArrayList<Message>(), savedRoom.getMessages());
     }
 }

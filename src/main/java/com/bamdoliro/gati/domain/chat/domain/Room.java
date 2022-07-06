@@ -25,7 +25,7 @@ public class Room extends BaseTimeEntity {
     private String name;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "room")
-    private List<ChatMember> chatMembers = new ArrayList<>();
+    private List<RoomMember> members = new ArrayList<>();
 
     @OneToMany(mappedBy = "room", cascade = CascadeType.ALL)
     private List<Message> messages = new ArrayList<>();

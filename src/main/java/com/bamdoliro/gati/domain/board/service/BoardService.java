@@ -2,7 +2,7 @@ package com.bamdoliro.gati.domain.board.service;
 
 import com.bamdoliro.gati.domain.board.domain.Board;
 import com.bamdoliro.gati.domain.board.domain.repository.BoardRepository;
-import com.bamdoliro.gati.domain.board.domain.type.Status;
+import com.bamdoliro.gati.domain.board.domain.type.board.Status;
 import com.bamdoliro.gati.domain.board.facade.BoardFacade;
 import com.bamdoliro.gati.domain.board.presentation.dto.request.CreateBoardRequestDto;
 import com.bamdoliro.gati.domain.board.presentation.dto.request.UpdateBoardRequestDto;
@@ -16,7 +16,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -68,4 +67,5 @@ public class BoardService {
         return boardFacade.findByCommunityAndStatus(community, Status.EXISTED)
                 .stream().map(BoardResponseDto::of).collect(Collectors.toList());
     }
+
 }

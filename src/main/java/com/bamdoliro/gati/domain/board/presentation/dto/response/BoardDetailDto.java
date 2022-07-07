@@ -11,12 +11,14 @@ public class BoardDetailDto {
     private String writer;
     private String title;
     private String content;
+    private int numberOfLikes;
 
     public static BoardDetailDto of(Board board) {
         return BoardDetailDto.builder()
                 .writer(board.getWriter().getName())
                 .title(board.getTitle())
                 .content(board.getContent())
+                .numberOfLikes(board.getLikes().size())
                 .build();
     }
 }

@@ -1,9 +1,8 @@
 package com.bamdoliro.gati.domain.board.domain.repository;
 
 import com.bamdoliro.gati.domain.board.domain.Board;
-import com.bamdoliro.gati.domain.board.domain.type.Status;
+import com.bamdoliro.gati.domain.board.domain.type.board.Status;
 import com.bamdoliro.gati.domain.community.domain.Community;
-import com.bamdoliro.gati.domain.user.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

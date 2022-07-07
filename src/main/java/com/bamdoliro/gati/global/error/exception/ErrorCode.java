@@ -19,7 +19,9 @@ public enum ErrorCode {
     MEMBER_NOT_FOUND(404, "멤버를 찾을 수 없습니다."),
     AUTHORITY_MISMATCH(401, "권한이 없습니다."),
 
-    BOARD_NOT_FOUND(404,"게시물을 찾을 수 없습니다.");
+    BOARD_NOT_FOUND(404,"게시물을 찾을 수 없습니다."),
+
+    ROOM_NOT_FOUND(404, "채팅방을 찾을 수 없습니다.")
     ;
 
     private final int status;

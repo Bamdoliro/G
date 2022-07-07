@@ -45,6 +45,9 @@ public class Board extends BaseTimeEntity {
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
     private List<BoardLike> likes = new ArrayList<>();
 
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
+    private List<Report> reportList = new ArrayList<>();
+
     @Builder
     public Board(Community community, User writer, String title, String content) {
         this.community = community;

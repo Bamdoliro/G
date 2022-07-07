@@ -18,7 +18,6 @@ public class BoardController {
 
     private final BoardService boardService;
 
-
     // 게시물 저장
     @PostMapping
     public void savePost(
@@ -58,4 +57,5 @@ public class BoardController {
     ) {
         return boardService.getCommunityPosts(communityId);
     }
+
 }

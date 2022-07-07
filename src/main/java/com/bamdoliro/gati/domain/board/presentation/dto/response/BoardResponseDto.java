@@ -16,12 +16,14 @@ public class BoardResponseDto {
     private String content;
     @NotNull
     private String writer;
+    private int numberOfLikes;
 
     public static BoardResponseDto of (Board board) {
         return BoardResponseDto.builder()
                 .title(board.getTitle())
                 .content(board.getContent())
                 .writer(board.getWriter().getName())
+                .numberOfLikes(board.getLikes().size())
                 .build();
     }
 }

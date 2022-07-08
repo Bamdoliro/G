@@ -2,6 +2,7 @@ package com.bamdoliro.gati.domain.community.facade;
 
 import com.bamdoliro.gati.domain.community.domain.Community;
 import com.bamdoliro.gati.domain.community.domain.repository.CommunityRepository;
+import com.bamdoliro.gati.domain.community.domain.type.Status;
 import com.bamdoliro.gati.domain.community.exception.BadPasswordAndCommunityTypeException;
 import com.bamdoliro.gati.domain.community.exception.CannotDeleteCommunityException;
 import com.bamdoliro.gati.domain.community.exception.CommunityNotFoundException;
@@ -41,13 +42,13 @@ class CommunityFacadeTest {
     @Test
     void givenId_whenFindingCommunity_thenReturnsCommunity() {
         // given
-        given(communityRepository.findById(any())).willReturn(Optional.of(defaultCommunity));
+        given(communityRepository.findByIdAndStatus(any(), any(Status.class))).willReturn(Optional.of(defaultCommunity));
 
         // when
         Community foundCommunity = communityFacade.findCommunityById(defaultCommunity.getId());
 
         // then
-        verify(communityRepository, times(1)).findById(any());
+        verify(communityRepository, times(1)).findByIdAndStatus(any(), any(Status.class));
         assertEquals(defaultCommunity.getName(), foundCommunity.getName());
         assertEquals(defaultCommunity.getIntroduction(), foundCommunity.getIntroduction());
         assertEquals(defaultCommunity.getNumberOfPeople(), foundCommunity.getNumberOfPeople());
@@ -58,25 +59,25 @@ class CommunityFacadeTest {
     @Test
     void givenInvalidId_whenFindingCommunity_thenThrowsCommunityNotFoundException() {
         // given
-        given(communityRepository.findById(any())).willReturn(Optional.empty());
+        given(communityRepository.findByIdAndStatus(any(), any(Status.class))).willReturn(Optional.empty());
 
         // when and then
         assertThrows(CommunityNotFoundException.class, () ->
                 communityFacade.findCommunityById(defaultCommunity.getId()));
-        verify(communityRepository, times(1)).findById(any());
+        verify(communityRepository, times(1)).findByIdAndStatus(any(), any(Status.class));
     }
 
     @DisplayName("[Facade] Community Code 로 찾기")
     @Test
     void givenCode_whenFindingCommunity_thenReturnsCommunity() {
         // given
-        given(communityRepository.findByCode(any())).willReturn(Optional.of(defaultCommunity));
+        given(communityRepository.findByCodeAndStatus(any(), any(Status.class))).willReturn(Optional.of(defaultCommunity));
 
         // when
         Community foundCommunity = communityFacade.findCommunityByCode(defaultCommunity.getCode());
 
         // then
-        verify(communityRepository, times(1)).findByCode(any());
+        verify(communityRepository, times(1)).findByCodeAndStatus(any(), any(Status.class));
         assertEquals(defaultCommunity.getName(), foundCommunity.getName());
         assertEquals(defaultCommunity.getIntroduction(), foundCommunity.getIntroduction());
         assertEquals(defaultCommunity.getNumberOfPeople(), foundCommunity.getNumberOfPeople());
@@ -87,19 +88,19 @@ class CommunityFacadeTest {
     @Test
     void givenInvalidCode_whenFindingCommunity_thenThrowsCommunityNotFoundException() {
         // given
-        given(communityRepository.findByCode(any())).willReturn(Optional.empty());
+        given(communityRepository.findByCodeAndStatus(any(), any(Status.class))).willReturn(Optional.empty());
 
         // when and then
         assertThrows(CommunityNotFoundException.class, () ->
                 communityFacade.findCommunityByCode(defaultCommunity.getCode()));
-        verify(communityRepository, times(1)).findByCode(any());
+        verify(communityRepository, times(1)).findByCodeAndStatus(any(), any(Status.class));
     }
 
     @DisplayName("[Facade] checkCode")
     @Test
     void givenCode_whenCheckingCode_thenChecksAndReturnsTrue() {
         // given
-        given(communityRepository.existsByCode(anyString())).willReturn(false);
+        given(communityRepository.existsByCodeAndStatus(anyString(), any(Status.class))).willReturn(false);
 
         // when
         boolean result = communityFacade.checkCode("imC0DE");
@@ -112,7 +113,7 @@ class CommunityFacadeTest {
     @Test
     void givenCode_whenCheckingCode_thenChecksAndReturnsFalse() {
         // given
-        given(communityRepository.existsByCode(anyString())).willReturn(true);
+        given(communityRepository.existsByCodeAndStatus(anyString(), any(Status.class))).willReturn(true);
 
         // when
         boolean result = communityFacade.checkCode("imC0DE");

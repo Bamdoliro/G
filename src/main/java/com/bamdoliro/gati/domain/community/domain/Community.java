@@ -1,6 +1,7 @@
 package com.bamdoliro.gati.domain.community.domain;
 
 import com.bamdoliro.gati.domain.board.domain.Board;
+import com.bamdoliro.gati.domain.community.domain.type.Status;
 import com.bamdoliro.gati.global.entity.BaseTimeEntity;
 import com.bamdoliro.gati.global.utils.BooleanToYNConverter;
 import lombok.*;
@@ -43,6 +44,10 @@ public class Community extends BaseTimeEntity {
     @Column(length = 4, nullable = true)
     private String password;
 
+    @Enumerated(EnumType.STRING)
+    @Column(length = 10, nullable = false)
+    private Status status;
+
     @OneToMany(mappedBy = "community")
     private List<Member> members = new ArrayList<>();
 
@@ -54,6 +59,7 @@ public class Community extends BaseTimeEntity {
         this.code = code;
         this.isPublic = isPublic;
         this.password = password;
+        this.status = Status.EXISTED;
     }
 
     public void updateCommunity(String name, String introduction, Boolean isPublic, @NotNull Boolean aPublic, String password) {
@@ -61,5 +67,9 @@ public class Community extends BaseTimeEntity {
         this.introduction = introduction;
         this.isPublic = isPublic;
         this.password = password;
+    }
+
+    public void deleteCommunity() {
+        this.status = Status.DELETED;
     }
 }

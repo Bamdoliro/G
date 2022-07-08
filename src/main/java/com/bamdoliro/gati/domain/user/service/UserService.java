@@ -2,7 +2,6 @@ package com.bamdoliro.gati.domain.user.service;
 
 import com.bamdoliro.gati.domain.user.domain.User;
 import com.bamdoliro.gati.domain.user.domain.repository.UserRepository;
-import com.bamdoliro.gati.domain.user.exception.PasswordMismatchException;
 import com.bamdoliro.gati.domain.user.facade.UserFacade;
 import com.bamdoliro.gati.domain.user.presentation.dto.request.*;
 import com.bamdoliro.gati.domain.user.presentation.dto.response.GetUserResponseDto;

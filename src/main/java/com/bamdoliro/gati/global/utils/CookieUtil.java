@@ -33,5 +33,4 @@ public class CookieUtil {
         cookieToDelete.setPath("/");
         return cookieToDelete;
     }
-
 }

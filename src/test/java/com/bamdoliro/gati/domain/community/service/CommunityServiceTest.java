@@ -4,6 +4,7 @@ import com.bamdoliro.gati.domain.community.domain.Community;
 import com.bamdoliro.gati.domain.community.domain.Member;
 import com.bamdoliro.gati.domain.community.domain.repository.CommunityRepository;
 import com.bamdoliro.gati.domain.community.domain.type.Authority;
+import com.bamdoliro.gati.domain.community.domain.type.Status;
 import com.bamdoliro.gati.domain.community.facade.CommunityFacade;
 import com.bamdoliro.gati.domain.community.facade.MemberFacade;
 import com.bamdoliro.gati.domain.community.presentation.dto.request.CreateCommunityRequestDto;
@@ -29,6 +30,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
+@DisplayName("[Service] Community")
 class CommunityServiceTest {
 
     @InjectMocks
@@ -209,5 +211,20 @@ class CommunityServiceTest {
         assertEquals("수정된소개글", defaultCommunity.getIntroduction());
         assertFalse(defaultCommunity.getIsPublic());
         assertEquals("1234", defaultCommunity.getPassword());
+    }
+
+    @DisplayName("[Service] Community 삭제")
+    @Test
+    void givenCommunityId_whenDeletingCommunity_thenDeletesCommunity() {
+        // given
+        given(communityFacade.findCommunityById(defaultCommunity.getId())).willReturn(defaultCommunity);
+        given(userFacade.getCurrentUser()).willReturn(leaderUser);
+        given(memberFacade.findMemberByUserAndCommunity(leaderUser, defaultCommunity)).willReturn(leaderMember);
+
+        // when
+        communityService.deleteCommunity(defaultMember.getId());
+
+        // then
+        assertEquals(Status.DELETED, defaultCommunity.getStatus());
     }
 }

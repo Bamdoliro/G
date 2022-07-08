@@ -29,6 +29,7 @@ import static org.mockito.BDDMockito.willDoNothing;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
+@DisplayName("[Service] Community Member")
 class MemberServiceTest {
 
     @InjectMocks

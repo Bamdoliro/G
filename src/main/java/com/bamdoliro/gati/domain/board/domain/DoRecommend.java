@@ -10,6 +10,7 @@ import javax.persistence.*;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(name = "do_recommend_table")
 public class DoRecommend {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)

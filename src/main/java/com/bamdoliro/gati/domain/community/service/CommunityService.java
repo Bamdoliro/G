@@ -3,6 +3,7 @@ package com.bamdoliro.gati.domain.community.service;
 import com.bamdoliro.gati.domain.community.domain.Community;
 import com.bamdoliro.gati.domain.community.domain.repository.CommunityRepository;
 import com.bamdoliro.gati.domain.community.domain.type.Authority;
+import com.bamdoliro.gati.domain.community.domain.type.Status;
 import com.bamdoliro.gati.domain.community.facade.CommunityFacade;
 import com.bamdoliro.gati.domain.community.facade.MemberFacade;
 import com.bamdoliro.gati.domain.community.presentation.dto.request.CreateCommunityRequestDto;
@@ -19,6 +20,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static com.bamdoliro.gati.domain.community.domain.property.CommunityProperty.MAX_NUMBER_OF_MEMBER_WHEN_DELETE;
 
 @Service
 @RequiredArgsConstructor
@@ -44,7 +47,7 @@ public class CommunityService {
 
     @Transactional(readOnly = true)
     public List<CommunityResponseDto> searchCommunity(String name) {
-        return communityRepository.findByNameContaining(name).stream()
+        return communityRepository.findByNameContainingAndStatus(name, Status.EXISTED).stream()
                 .map(CommunityResponseDto::of).collect(Collectors.toList());
     }
 
@@ -85,5 +88,17 @@ public class CommunityService {
         communityFacade.checkPasswordAndCommunityType(dto.getPassword(), dto.getIsPublic());
 
         community.updateCommunity(dto.getName(), dto.getIntroduction(), dto.getIsPublic(), dto.getPassword());
+    }
+  
+    @Transactional
+    public void deleteCommunity(Long id) {
+        Community community = communityFacade.findCommunityById(id);
+        communityFacade.checkNumberOfMembers(community, MAX_NUMBER_OF_MEMBER_WHEN_DELETE);
+        memberFacade.checkMemberAuthority(
+                memberFacade.findMemberByUserAndCommunity(userFacade.getCurrentUser(), community),
+                Authority.LEADER
+        );
+
+        community.deleteCommunity();
     }
 }

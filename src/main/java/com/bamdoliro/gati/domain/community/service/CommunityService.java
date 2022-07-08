@@ -21,6 +21,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.bamdoliro.gati.domain.community.domain.property.CommunityProperty.MAX_NUMBER_OF_MEMBER_WHEN_DELETE;
+
 @Service
 @RequiredArgsConstructor
 public class CommunityService {
@@ -91,7 +93,7 @@ public class CommunityService {
     @Transactional
     public void deleteCommunity(Long id) {
         Community community = communityFacade.findCommunityById(id);
-        communityFacade.checkNumberOfMembers(community, 5);
+        communityFacade.checkNumberOfMembers(community, MAX_NUMBER_OF_MEMBER_WHEN_DELETE);
         memberFacade.checkMemberAuthority(
                 memberFacade.findMemberByUserAndCommunity(userFacade.getCurrentUser(), community),
                 Authority.LEADER

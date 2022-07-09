@@ -35,11 +35,12 @@ public class BoardController {
     }
 
     // 게시물 수정
-    @PutMapping
+    @PutMapping("/{id}")
     public void updatePost(
+            @PathVariable Long id,
             @RequestBody @Valid UpdateBoardRequestDto request
     ) {
-        boardService.updatePost(request);
+        boardService.updatePost(id, request);
     }
 
     // 게시물 삭제

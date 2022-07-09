@@ -12,9 +12,6 @@ import javax.validation.constraints.Size;
 public class UpdateBoardRequestDto {
 
     @NotNull
-    private Long id;
-
-    @NotNull
     @Size(min = 3, max = 20)
     private String title;
 

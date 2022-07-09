@@ -57,9 +57,9 @@ public class User extends BaseTimeEntity {
     private List<Report> reportList = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<DoRecommend> recommendList = new ArrayList<>();
+    private List<DoRecommendation> recommendList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "writer", cascade = CascadeType.ALL)
     private List<DoPost> doPostList = new ArrayList<>();
 
     @Builder

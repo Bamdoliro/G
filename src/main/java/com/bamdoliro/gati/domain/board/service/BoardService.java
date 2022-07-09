@@ -47,8 +47,8 @@ public class BoardService {
 
     // 게시물 수정
     @Transactional
-    public void updatePost(UpdateBoardRequestDto request) {
-        Board board = boardFacade.findBoardById(request.getId());
+    public void updatePost(UpdateBoardRequestDto request, Long id) {
+        Board board = boardFacade.findBoardById(id);
         board.updatePost(request.getTitle(), request.getContent());
     }
 

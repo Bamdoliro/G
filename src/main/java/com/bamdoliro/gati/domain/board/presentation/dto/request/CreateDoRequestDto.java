@@ -26,7 +26,7 @@ public class CreateDoRequestDto {
         return DoPost.builder()
                 .title(title)
                 .content(content)
-                .numberOfPeople(numberOfPeople)
+                .maxNumber(numberOfPeople)
                 .status(Status.OPEN)
                 .build();
     }

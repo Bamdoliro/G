@@ -16,14 +16,19 @@ public class ReportDetailResponseDto {
 
     @NotNull
     private String boardTitle;
+
     @NotNull
     private String userName;
+
     @NotNull
     private ReportType reportType;
+
     @NotNull
     private ReportCategory reportCategory;
+
     @NotNull
     private String title;
+
     @NotNull
     private String content;
 

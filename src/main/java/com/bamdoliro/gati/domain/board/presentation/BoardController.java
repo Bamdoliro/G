@@ -14,7 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/board")
 @RequiredArgsConstructor
-public class BoardController {
+public class  BoardController {
 
     private final BoardService boardService;
 
@@ -35,11 +35,12 @@ public class BoardController {
     }
 
     // 게시물 수정
-    @PutMapping
+    @PutMapping("/{id}")
     public void updatePost(
-            @RequestBody @Valid UpdateBoardRequestDto request
+            @RequestBody @Valid UpdateBoardRequestDto request,
+            @PathVariable(name = "id") Long id
     ) {
-        boardService.updatePost(request);
+        boardService.updatePost(request, id);
     }
 
     // 게시물 삭제

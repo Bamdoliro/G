@@ -43,6 +43,9 @@ public class DoPost extends BaseTimeEntity {
     @OneToMany(mappedBy = "doPost", cascade = CascadeType.ALL)
     private List<DoRecommendation> recommendList = new ArrayList<>();
 
+    @OneToMany(mappedBy = "doPost", cascade = CascadeType.ALL)
+    private List<DoJoin> joinList = new ArrayList<>();
+
     @Builder
     public DoPost(String title, String content, Status status, int maxNumber) {
         this.title = title;

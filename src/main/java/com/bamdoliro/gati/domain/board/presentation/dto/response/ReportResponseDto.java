@@ -14,8 +14,10 @@ public class ReportResponseDto {
 
     @NotNull
     private String title;
+
     @NotNull
     private String boardTitle;
+
     @NotNull
     private String userName;
 

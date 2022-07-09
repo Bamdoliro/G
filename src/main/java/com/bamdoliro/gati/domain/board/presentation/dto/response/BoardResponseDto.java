@@ -12,10 +12,14 @@ public class BoardResponseDto {
 
     @NotNull
     private String title;
+
     @NotNull
     private String content;
+
     @NotNull
     private String writer;
+
+    @NotNull
     private int numberOfLikes;
 
     public static BoardResponseDto of (Board board) {

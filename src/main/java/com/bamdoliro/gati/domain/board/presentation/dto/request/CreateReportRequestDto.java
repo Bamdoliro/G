@@ -19,11 +19,14 @@ public class CreateReportRequestDto {
 
     @NotNull
     private ReportType reportType;
+
     @NotNull
     private ReportCategory reportCategory;
+
     @NotNull
     @Size(min = 3, max = 20)
     private String title;
+
     @NotNull
     @Size(min = 10, max = 250)
     private String content;

@@ -15,19 +15,20 @@ import java.util.List;
 public class DoPost extends BaseTimeEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "do_post_id")
+    @Column(name = "do_post_id", nullable = false)
     private Long id;
     private String title;
 
-    @Size(min = 10, max = 2000)
+    @Column(name = "content", length = 4000, nullable = false)
     private String content;
 
     @Enumerated(EnumType.STRING)
     private Status status;
+
     private int numberOfPeople;
 
     @OneToMany(mappedBy = "doPost", cascade = CascadeType.ALL)
-    private List<DoRecommend> recommendList = new ArrayList<>();
+    private List<DoRecommendation> recommendList = new ArrayList<>();
 
     @Builder
     public DoPost(String title, String content, Status status, int numberOfPeople) {

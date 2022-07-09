@@ -2,7 +2,7 @@ package com.bamdoliro.gati.domain.user.domain;
 
 import com.bamdoliro.gati.domain.board.domain.Board;
 import com.bamdoliro.gati.domain.board.domain.BoardLike;
-import com.bamdoliro.gati.domain.board.domain.DoRecommend;
+import com.bamdoliro.gati.domain.board.domain.DoRecommendation;
 import com.bamdoliro.gati.domain.board.domain.Report;
 import com.bamdoliro.gati.domain.user.domain.type.Authority;
 import com.bamdoliro.gati.domain.user.domain.type.Gender;
@@ -60,7 +60,7 @@ public class User extends BaseTimeEntity {
     private List<Report> reportList = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<DoRecommend> recommendList = new ArrayList<>();
+    private List<DoRecommendation> recommendList = new ArrayList<>();
 
     @Builder
     public User(String email, String password, String name, LocalDate birth, Gender gender, Authority authority, Status status) {

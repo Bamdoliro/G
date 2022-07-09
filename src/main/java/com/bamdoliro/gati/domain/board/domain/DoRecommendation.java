@@ -10,10 +10,10 @@ import javax.persistence.*;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class DoRecommend {
+public class DoRecommendation {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "do_recomend_id")
+    @Column(name = "do_recommendation_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)

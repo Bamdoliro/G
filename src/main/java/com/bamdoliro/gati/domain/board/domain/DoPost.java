@@ -20,7 +20,7 @@ import java.util.List;
 public class DoPost extends BaseTimeEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "do_post_id")
+    @Column(name = "do_post_id", nullable = false)
     private Long id;
 
     @Column(name = "title", length = 20, nullable = false)

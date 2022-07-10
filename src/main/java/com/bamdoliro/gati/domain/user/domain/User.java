@@ -62,6 +62,9 @@ public class User extends BaseTimeEntity {
     @OneToMany(mappedBy = "writer", cascade = CascadeType.ALL)
     private List<DoPost> doPostList = new ArrayList<>();
 
+    @OneToMany(mappedBy = "joiner", cascade = CascadeType.ALL)
+    private List<DoJoin> joinList = new ArrayList<>();
+
     @Builder
     public User(String email, String password, String name, LocalDate birth, Gender gender, Authority authority, Status status) {
         this.email = email;

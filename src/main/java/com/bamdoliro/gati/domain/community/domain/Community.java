@@ -1,6 +1,7 @@
 package com.bamdoliro.gati.domain.community.domain;
 
 import com.bamdoliro.gati.domain.board.domain.Board;
+import com.bamdoliro.gati.domain.ddo.domain.Ddo;
 import com.bamdoliro.gati.global.entity.BaseTimeEntity;
 import com.bamdoliro.gati.global.utils.BooleanToYNConverter;
 import lombok.*;
@@ -45,6 +46,9 @@ public class Community extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "community")
     private List<Member> members = new ArrayList<>();
+
+    @OneToMany(mappedBy = "community", cascade = CascadeType.ALL)
+    private List<Ddo> ddoList = new ArrayList<>();
 
     @Builder
     public Community(String name, String introduction, int numberOfPeople, String code, Boolean isPublic, String password) {

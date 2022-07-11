@@ -58,9 +58,11 @@ public class Ddo extends BaseTimeEntity {
         this.maxNumber = maxNumber;
     }
 
-    public void setRelation(User user) {
+    public void setRelation(User user, Community community) {
         user.getDdoList().add(this);
+        community.getDdoList().add(this);
         this.writer = user;
+        this.community = community;
     }
 
 }

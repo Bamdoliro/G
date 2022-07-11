@@ -1,4 +1,4 @@
-package com.bamdoliro.gati.domain.board.domain;
+package com.bamdoliro.gati.domain.ddo.domain;
 
 import com.bamdoliro.gati.domain.user.domain.User;
 import lombok.AccessLevel;
@@ -10,19 +10,19 @@ import javax.persistence.*;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "do_recommendation_table")
-public class DoRecommendation {
+@Table(name = "recommendation_table")
+public class Recommendation {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "do_recommendation_id")
+    @Column(name = "recommendation_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "recommender_id")
+    @JoinColumn(name = "user_id")
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "do_post_id")
-    private DoPost doPost;
+    @JoinColumn(name = "ddo_id")
+    private Ddo ddo;
 
 }

@@ -1,6 +1,7 @@
-package com.bamdoliro.gati.domain.board.domain;
+package com.bamdoliro.gati.domain.ddo.domain;
 
-import com.bamdoliro.gati.domain.board.domain.type.doPost.Status;
+import com.bamdoliro.gati.domain.community.domain.Community;
+import com.bamdoliro.gati.domain.ddo.domain.type.ddo.Status;
 import com.bamdoliro.gati.domain.user.domain.User;
 import com.bamdoliro.gati.global.entity.BaseTimeEntity;
 import lombok.AccessLevel;
@@ -9,18 +10,17 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "do_post_table")
-public class DoPost extends BaseTimeEntity {
+@Table(name = "ddo_table")
+public class Ddo extends BaseTimeEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "do_post_id")
+    @Column(name = "ddo_id")
     private Long id;
 
     @Column(name = "title", length = 20, nullable = false)
@@ -40,14 +40,18 @@ public class DoPost extends BaseTimeEntity {
     @JoinColumn(name = "writer_id")
     private User writer;
 
-    @OneToMany(mappedBy = "doPost", cascade = CascadeType.ALL)
-    private List<DoRecommendation> recommendList = new ArrayList<>();
+    @OneToMany(mappedBy = "ddo", cascade = CascadeType.ALL)
+    private List<Recommendation> recommendList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "doPost", cascade = CascadeType.ALL)
-    private List<DoJoin> joinList = new ArrayList<>();
+    @OneToMany(mappedBy = "ddo", cascade = CascadeType.ALL)
+    private List<Join> joinList = new ArrayList<>();
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "community_id")
+    private Community community;
 
     @Builder
-    public DoPost(String title, String content, Status status, int maxNumber) {
+    public Ddo(String title, String content, Status status, int maxNumber) {
         this.title = title;
         this.content = content;
         this.status = status;
@@ -55,7 +59,7 @@ public class DoPost extends BaseTimeEntity {
     }
 
     public void setRelation(User user) {
-        user.getDoPostList().add(this);
+        user.getDdoList().add(this);
         this.writer = user;
     }
 

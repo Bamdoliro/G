@@ -12,6 +12,9 @@ import javax.validation.constraints.Size;
 public class CreateDdoRequestDto {
 
     @NotNull
+    private Long communityId;
+
+    @NotNull
     @Length(min = 5, max = 15)
     private String title;
 
@@ -22,9 +25,6 @@ public class CreateDdoRequestDto {
     @NotNull
     @Size(min = 1, max = 99)
     private int numberOfPeople;
-
-    @NotNull
-    private Long communityId;
 
     public Ddo toEntity() {
         return Ddo.builder()

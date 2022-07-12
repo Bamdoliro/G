@@ -22,7 +22,8 @@ public enum ErrorCode {
     BOARD_NOT_FOUND(404,"게시물을 찾을 수 없습니다."),
     LIKE_OVERLAP(404, "좋아요는 한 번만 가능합니다."),
 
-    ROOM_NOT_FOUND(404, "채팅방을 찾을 수 없습니다.")
+    ROOM_NOT_FOUND(404, "채팅방을 찾을 수 없습니다."),
+    ROOM_MEMBER_NOT_FOUND(404, "채팅방 멤버가 아닙니다.")
     ;
 
     private final int status;

@@ -21,7 +21,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("[Service] Room Member - room, user를 이미 가지고 있는 경우")
+@DisplayName("[Service] Room Member")
 class RoomMemberServiceTest {
 
     @InjectMocks

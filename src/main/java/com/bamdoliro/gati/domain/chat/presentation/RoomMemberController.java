@@ -15,4 +15,9 @@ public class RoomMemberController {
     public void joinRoom(@PathVariable Long roomId) {
         roomMemberService.joinRoom(roomId);
     }
+
+    @DeleteMapping("/leave/{roomId}")
+    public void leaveRoom(@PathVariable Long roomId) {
+        roomMemberService.leaveRoom(roomId);
+    }
 }

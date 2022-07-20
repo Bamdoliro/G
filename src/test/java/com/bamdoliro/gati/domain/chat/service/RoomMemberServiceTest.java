@@ -4,6 +4,7 @@ import com.bamdoliro.gati.domain.chat.domain.Room;
 import com.bamdoliro.gati.domain.chat.domain.RoomMember;
 import com.bamdoliro.gati.domain.chat.domain.repository.RoomMemberRepository;
 import com.bamdoliro.gati.domain.chat.facade.RoomFacade;
+import com.bamdoliro.gati.domain.chat.facade.RoomMemberFacade;
 import com.bamdoliro.gati.domain.user.domain.User;
 import com.bamdoliro.gati.domain.user.facade.UserFacade;
 import org.junit.jupiter.api.DisplayName;
@@ -17,11 +18,12 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.willDoNothing;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("[Service] Room Member - room, user를 이미 가지고 있는 경우")
+@DisplayName("[Service] Room Member")
 class RoomMemberServiceTest {
 
     @InjectMocks
@@ -32,6 +34,9 @@ class RoomMemberServiceTest {
 
     @Mock
     private RoomFacade roomFacade;
+
+    @Mock
+    private RoomMemberFacade roomMemberFacade;
 
     @Mock
     private UserFacade userFacade;
@@ -86,5 +91,24 @@ class RoomMemberServiceTest {
         RoomMember savedRoomMember = captor.getValue();
         assertEquals(defaultRoomMember.getRoom(), savedRoomMember.getRoom());
         assertEquals(defaultRoomMember.getUser(), savedRoomMember.getUser());
+    }
+
+    @Test
+    @DisplayName("[Service] Room 나가기")
+    void givenRoomId_whenLeavingRoom_thenDeletesRoomMember() {
+        // given
+        given(roomFacade.findRoomById(any())).willReturn(defaultRoom);
+        given(userFacade.getCurrentUser()).willReturn(defaultUser);
+        given(roomMemberFacade.findRoomMemberByRoomAndUser(defaultRoom, defaultUser)).willReturn(defaultRoomMember);
+        willDoNothing().given(roomMemberRepository).delete(defaultRoomMember);
+
+        // when
+        roomMemberService.leaveRoom(defaultRoom.getId());
+
+        // then
+        verify(roomFacade, times(1)).findRoomById(any());
+        verify(userFacade, times(1)).getCurrentUser();
+        verify(roomMemberFacade, times(1)).findRoomMemberByRoomAndUser(defaultRoom, defaultUser);
+        verify(roomMemberRepository, times(1)).delete(defaultRoomMember);
     }
 }

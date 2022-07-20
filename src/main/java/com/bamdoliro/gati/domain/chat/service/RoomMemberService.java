@@ -4,6 +4,7 @@ import com.bamdoliro.gati.domain.chat.domain.Room;
 import com.bamdoliro.gati.domain.chat.domain.RoomMember;
 import com.bamdoliro.gati.domain.chat.domain.repository.RoomMemberRepository;
 import com.bamdoliro.gati.domain.chat.facade.RoomFacade;
+import com.bamdoliro.gati.domain.chat.facade.RoomMemberFacade;
 import com.bamdoliro.gati.domain.user.domain.User;
 import com.bamdoliro.gati.domain.user.facade.UserFacade;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,7 @@ public class RoomMemberService {
 
     private final RoomMemberRepository roomMemberRepository;
     private final RoomFacade roomFacade;
+    private final RoomMemberFacade roomMemberFacade;
     private final UserFacade userFacade;
 
     @Transactional
@@ -35,6 +37,15 @@ public class RoomMemberService {
                         .room(room)
                         .user(user)
                         .build()
+        );
+    }
+
+    @Transactional
+    public void leaveRoom(Long roomId) {
+        roomMemberRepository.delete(
+                roomMemberFacade.findRoomMemberByRoomAndUser(
+                        roomFacade.findRoomById(roomId), userFacade.getCurrentUser()
+                )
         );
     }
 }

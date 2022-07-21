@@ -23,5 +23,11 @@ public class DdoController {
         ddoService.post(request);
     }
 
+    @GetMapping("/{id}")
+    public DdoDetailResponseDto getDoDetail(
+            @PathVariable(name = "id") Long id
+    ) {
+        return ddoService.getDoDetail(id);
+    }
     
 }

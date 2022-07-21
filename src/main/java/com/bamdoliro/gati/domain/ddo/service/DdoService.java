@@ -40,5 +40,9 @@ public class DdoService {
         doRepository.save(ddo);
     }
 
-    
+    @Transactional(readOnly = true)
+    public DdoDetailResponseDto getDoDetail(Long id) {
+        return DdoDetailResponseDto.of(ddoFacade.findById(id));
+    }
+
 }

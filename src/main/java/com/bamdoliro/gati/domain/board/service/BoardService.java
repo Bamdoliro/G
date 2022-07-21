@@ -34,7 +34,8 @@ public class BoardService {
     public void savePost(CreateBoardRequestDto request) {
         Board board = request.toEntity(
                 userFacade.getCurrentUser(),
-                communityFacade.findCommunityById(request.getCommunityId()));
+                communityFacade.findCommunityById(request.getCommunityId())
+        );
         boardRepository.save(board);
     }
 

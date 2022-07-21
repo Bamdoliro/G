@@ -11,4 +11,5 @@ import java.util.Optional;
 public interface DdoRepository extends JpaRepository<Ddo, Long> {
 
     Optional<List<Ddo>> findByCommunityAndStatus(Community community, Status status);
+
 }

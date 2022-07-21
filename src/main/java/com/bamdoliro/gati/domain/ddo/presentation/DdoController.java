@@ -2,12 +2,9 @@ package com.bamdoliro.gati.domain.ddo.presentation;
 
 import com.bamdoliro.gati.domain.ddo.presentation.dto.request.CreateDdoRequestDto;
 import com.bamdoliro.gati.domain.ddo.presentation.dto.response.DdoDetailResponseDto;
-import com.bamdoliro.gati.domain.ddo.presentation.dto.response.DdoResponseDto;
 import com.bamdoliro.gati.domain.ddo.service.DdoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/do")
@@ -29,5 +26,5 @@ public class DdoController {
     ) {
         return ddoService.getDoDetail(id);
     }
-    
+
 }

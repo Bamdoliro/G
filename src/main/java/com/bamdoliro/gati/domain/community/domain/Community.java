@@ -1,13 +1,13 @@
 package com.bamdoliro.gati.domain.community.domain;
 
 import com.bamdoliro.gati.domain.board.domain.Board;
+import com.bamdoliro.gati.domain.board.domain.type.board.Status;
 import com.bamdoliro.gati.domain.ddo.domain.Ddo;
 import com.bamdoliro.gati.global.entity.BaseTimeEntity;
 import com.bamdoliro.gati.global.utils.BooleanToYNConverter;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 

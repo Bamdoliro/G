@@ -24,9 +24,12 @@ public enum ErrorCode {
     LIKE_OVERLAP(422, "좋아요는 한 번만 가능합니다."),
     REPORT_OVERLAP(422, "신고는 한 게시물 당 한 번만 가능합니다."),
 
+    ROOM_NOT_FOUND(404, "채팅방을 찾을 수 없습니다."),
+
     DDO_NOT_FOUND(404, "뚜를 찾을 수 없습니다."),
     ALREADY_JOIN(422, "이미 참여중입니다."),
     EXCESS_OF_CAPACITY(422, "정원이 초과되었습니다.");
+
     ;
 
     private final int status;

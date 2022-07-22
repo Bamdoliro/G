@@ -28,6 +28,6 @@ public class DdoFacade {
         }
         if (ddo.getJoinList().size() >= ddo.getMaxNumber()) {
             throw ExcessOfCapacityException.EXCEPTION;
-        }   
+        }
     }
 }

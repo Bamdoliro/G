@@ -44,6 +44,10 @@ public class Community extends BaseTimeEntity {
     @Column(length = 4, nullable = true)
     private String password;
 
+    @Enumerated(EnumType.STRING)
+    @Column(length = 10, nullable = false)
+    private Status status;
+
     @OneToMany(mappedBy = "community")
     private List<Member> members = new ArrayList<>();
 
@@ -58,6 +62,7 @@ public class Community extends BaseTimeEntity {
         this.code = code;
         this.isPublic = isPublic;
         this.password = password;
+        this.status = Status.EXISTED;
     }
 
     public void updateCommunity(String name, String introduction, Boolean isPublic, String password) {
@@ -65,5 +70,9 @@ public class Community extends BaseTimeEntity {
         this.introduction = introduction;
         this.isPublic = isPublic;
         this.password = password;
+    }
+
+    public void deleteCommunity() {
+        this.status = Status.DELETED;
     }
 }

@@ -5,8 +5,9 @@ import com.bamdoliro.gati.domain.ddo.domain.type.ddo.Status;
 import lombok.Getter;
 import org.hibernate.validator.constraints.Length;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 @Getter
 public class CreateDdoRequestDto {
@@ -23,7 +24,8 @@ public class CreateDdoRequestDto {
     private String content;
 
     @NotNull
-    @Size(min = 1, max = 99)
+    @Min(1)
+    @Max(99)
     private int numberOfPeople;
 
     public Ddo toEntity() {

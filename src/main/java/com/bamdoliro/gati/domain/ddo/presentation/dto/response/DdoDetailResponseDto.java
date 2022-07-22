@@ -4,10 +4,8 @@ import com.bamdoliro.gati.domain.ddo.domain.Ddo;
 import com.bamdoliro.gati.domain.ddo.domain.type.ddo.Status;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Getter;
 
 @AllArgsConstructor
-@Getter
 @Builder
 public class DdoDetailResponseDto {
 

@@ -8,6 +8,6 @@ public class DdoNotFoundException extends GatiException {
     public static final DdoNotFoundException EXCEPTION = new DdoNotFoundException();
 
     private DdoNotFoundException() {
-        super(ErrorCode.DDO_NOT_FOUND, ErrorCode.DDO_NOT_FOUND.getMessage());
+        super(ErrorCode.DDO_NOT_FOUND);
     }
 }

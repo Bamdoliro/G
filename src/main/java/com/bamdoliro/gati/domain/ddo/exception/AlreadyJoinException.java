@@ -8,6 +8,6 @@ public class AlreadyJoinException extends GatiException {
     public static final AlreadyJoinException EXCEPTION = new AlreadyJoinException();
 
     private AlreadyJoinException() {
-        super(ErrorCode.ALREADY_JOIN, ErrorCode.ALREADY_JOIN.getMessage());
+        super(ErrorCode.ALREADY_JOIN);
     }
 }

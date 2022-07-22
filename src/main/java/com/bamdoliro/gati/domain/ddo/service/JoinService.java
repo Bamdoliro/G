@@ -22,7 +22,7 @@ public class JoinService {
 
     @Transactional
     public void join(Long id) {
-        Ddo ddo = ddoFacade.findById(id);
+        Ddo ddo = ddoFacade.findDdoById(id);
         User user = userFacade.getCurrentUser();
 
         memberFacade.checkMember(user, ddo.getCommunity());

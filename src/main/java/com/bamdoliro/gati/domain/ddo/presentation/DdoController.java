@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/do")
+@RequestMapping("/ddo")
 @RequiredArgsConstructor
 public class DdoController {
 

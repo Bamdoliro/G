@@ -1,9 +1,9 @@
 package com.bamdoliro.gati.domain.ddo.service;
 
 import com.bamdoliro.gati.domain.community.facade.MemberFacade;
-import com.bamdoliro.gati.domain.ddo.domain.Ddo;
-import com.bamdoliro.gati.domain.ddo.domain.Join;
-import com.bamdoliro.gati.domain.ddo.domain.repository.JoinRepository;
+import com.bamdoliro.gati.domain.ddo.facade.domain.Ddo;
+import com.bamdoliro.gati.domain.ddo.facade.domain.DdoJoin;
+import com.bamdoliro.gati.domain.ddo.facade.domain.repository.DdoJoinRepository;
 import com.bamdoliro.gati.domain.ddo.facade.DdoFacade;
 import com.bamdoliro.gati.domain.user.domain.User;
 import com.bamdoliro.gati.domain.user.facade.UserFacade;
@@ -13,11 +13,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-public class JoinService {
+public class DdoJoinService {
 
     private final DdoFacade ddoFacade;
     private final UserFacade userFacade;
-    private final JoinRepository joinRepository;
+    private final DdoJoinRepository ddoJoinRepository;
     private final MemberFacade memberFacade;
 
     @Transactional
@@ -28,6 +28,6 @@ public class JoinService {
         memberFacade.checkMember(user, ddo.getCommunity());
         ddoFacade.validationJoin(ddo, user);
 
-        joinRepository.save(Join.createDoJoin(ddo, user));
+        ddoJoinRepository.save(DdoJoin.createDoJoin(ddo, user));
     }
 }

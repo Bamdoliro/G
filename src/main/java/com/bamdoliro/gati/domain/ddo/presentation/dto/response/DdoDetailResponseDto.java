@@ -1,7 +1,7 @@
 package com.bamdoliro.gati.domain.ddo.presentation.dto.response;
 
-import com.bamdoliro.gati.domain.ddo.domain.Ddo;
-import com.bamdoliro.gati.domain.ddo.domain.type.ddo.Status;
+import com.bamdoliro.gati.domain.ddo.facade.domain.Ddo;
+import com.bamdoliro.gati.domain.ddo.facade.ddo.Status;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 
@@ -29,7 +29,7 @@ public class DdoDetailResponseDto {
                 .content(ddo.getContent())
                 .status(ddo.getStatus())
                 .maxNumber(ddo.getMaxNumber())
-                .numberOfJoiner(ddo.getJoinList().size())
+                .numberOfJoiner(ddo.getDdoJoinList().size())
                 .numberOfRecommendation(ddo.getRecommendList().size())
                 .writerName(ddo.getWriter().getName())
                 .build();

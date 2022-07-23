@@ -1,6 +1,6 @@
 package com.bamdoliro.gati.domain.ddo.presentation;
 
-import com.bamdoliro.gati.domain.ddo.service.JoinService;
+import com.bamdoliro.gati.domain.ddo.service.DdoJoinService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -10,14 +10,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/ddo/join")
 @RequiredArgsConstructor
-public class JoinController {
+public class DdoJoinController {
 
-    private final JoinService joinService;
+    private final DdoJoinService ddoJoinService;
 
     @PostMapping("/{id}")
     public void join(
             @PathVariable(name = "id") Long id
     ) {
-        joinService.join(id);
+        ddoJoinService.join(id);
     }
 }

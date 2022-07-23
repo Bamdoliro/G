@@ -1,4 +1,4 @@
-package com.bamdoliro.gati.domain.ddo.domain;
+package com.bamdoliro.gati.domain.ddo.facade.domain;
 
 import com.bamdoliro.gati.domain.user.domain.User;
 import lombok.AccessLevel;
@@ -12,7 +12,7 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "join_table")
-public class Join {
+public class DdoJoin {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "join_id")
@@ -27,21 +27,21 @@ public class Join {
     private Ddo ddo;
 
     @Builder
-    public Join(Ddo ddo, User joiner) {
+    public DdoJoin(Ddo ddo, User joiner) {
         this.ddo = ddo;
         this.joiner = joiner;
     }
 
-    public static Join createDoJoin(Ddo ddo, User joiner) {
+    public static DdoJoin createDoJoin(Ddo ddo, User joiner) {
 
-        Join join = Join.builder()
+        DdoJoin ddoJoin = DdoJoin.builder()
                 .ddo(ddo)
                 .joiner(joiner)
                 .build();
 
-        ddo.getJoinList().add(join);
-        joiner.getJoinList().add(join);
+        ddo.getDdoJoinList().add(ddoJoin);
+        joiner.getDdoJoinList().add(ddoJoin);
 
-        return join;
+        return ddoJoin;
     }
 }

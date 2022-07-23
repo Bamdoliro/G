@@ -1,7 +1,7 @@
-package com.bamdoliro.gati.domain.ddo.domain;
+package com.bamdoliro.gati.domain.ddo.facade.domain;
 
 import com.bamdoliro.gati.domain.community.domain.Community;
-import com.bamdoliro.gati.domain.ddo.domain.type.ddo.Status;
+import com.bamdoliro.gati.domain.ddo.facade.ddo.Status;
 import com.bamdoliro.gati.domain.user.domain.User;
 import com.bamdoliro.gati.global.entity.BaseTimeEntity;
 import lombok.AccessLevel;
@@ -44,7 +44,7 @@ public class Ddo extends BaseTimeEntity {
     private List<Recommendation> recommendList = new ArrayList<>();
 
     @OneToMany(mappedBy = "ddo", cascade = CascadeType.ALL)
-    private List<Join> joinList = new ArrayList<>();
+    private List<DdoJoin> ddoJoinList = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "community_id")

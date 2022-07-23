@@ -1,6 +1,6 @@
 package com.bamdoliro.gati.domain.ddo.presentation.dto.response;
 
-import com.bamdoliro.gati.domain.ddo.domain.Ddo;
+import com.bamdoliro.gati.domain.ddo.facade.domain.Ddo;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -25,7 +25,7 @@ public class DdoResponseDto {
                 .title(ddo.getTitle())
                 .writerName(ddo.getWriter().getName())
                 .numberOfRecommendation(ddo.getRecommendList().size())
-                .numberOfJoiner(ddo.getJoinList().size())
+                .numberOfJoiner(ddo.getDdoJoinList().size())
                 .numberOfRecommendation(ddo.getRecommendList().size())
                 .build();
     }

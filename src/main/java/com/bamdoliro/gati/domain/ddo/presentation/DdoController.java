@@ -17,7 +17,7 @@ public class DdoController {
     public void post(
             @RequestBody CreateDdoRequestDto request
     ) {
-        ddoService.post(request);
+        ddoService.savePost(request);
     }
 
     @GetMapping("/{id}")

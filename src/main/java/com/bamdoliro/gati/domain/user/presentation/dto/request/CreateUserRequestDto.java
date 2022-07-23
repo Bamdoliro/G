@@ -3,7 +3,7 @@ package com.bamdoliro.gati.domain.user.presentation.dto.request;
 import com.bamdoliro.gati.domain.user.domain.User;
 import com.bamdoliro.gati.domain.user.domain.type.Authority;
 import com.bamdoliro.gati.domain.user.domain.type.Gender;
-import com.bamdoliro.gati.domain.user.domain.type.Status;
+import com.bamdoliro.gati.domain.user.domain.type.UserStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -48,7 +48,7 @@ public class CreateUserRequestDto {
                 .birth(LocalDate.of(birthYear, birthMonth, birthDay))
                 .gender(gender)
                 .authority(Authority.ROLE_USER)
-                .status(Status.NOT_VERIFIED)
+                .status(UserStatus.NOT_VERIFIED)
                 .build();
     }
 }

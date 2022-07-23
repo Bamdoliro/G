@@ -3,14 +3,12 @@ package com.bamdoliro.gati.domain.board.presentation.dto.request;
 import com.bamdoliro.gati.domain.board.domain.Board;
 import com.bamdoliro.gati.domain.community.domain.Community;
 import com.bamdoliro.gati.domain.user.domain.User;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Getter
-@AllArgsConstructor
 public class CreateBoardRequestDto {
 
     @NotNull

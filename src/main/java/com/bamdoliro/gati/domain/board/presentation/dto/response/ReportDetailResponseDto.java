@@ -3,14 +3,12 @@ package com.bamdoliro.gati.domain.board.presentation.dto.response;
 import com.bamdoliro.gati.domain.board.domain.Report;
 import com.bamdoliro.gati.domain.board.domain.type.report.ReportCategory;
 import com.bamdoliro.gati.domain.board.domain.type.report.ReportType;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
 import javax.validation.constraints.NotNull;
 
 @Getter
-@AllArgsConstructor
 @Builder
 public class ReportDetailResponseDto {
 

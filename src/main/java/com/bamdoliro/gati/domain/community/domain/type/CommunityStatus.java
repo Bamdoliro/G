@@ -1,5 +1,5 @@
 package com.bamdoliro.gati.domain.community.domain.type;
 
-public enum Status {
+public enum CommunityStatus {
     EXISTED, DELETED
 }

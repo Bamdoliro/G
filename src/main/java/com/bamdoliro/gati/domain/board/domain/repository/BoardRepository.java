@@ -10,5 +10,5 @@ import java.util.Optional;
 
 public interface BoardRepository extends JpaRepository<Board, Long> {
 
-    Optional<List<Board>> findByCommunityAndStatus(Community community, BoardStatus existed);
+    Optional<List<Board>> findByCommunityAndBoardStatus(Community community, BoardStatus existed);
 }

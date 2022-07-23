@@ -1,7 +1,7 @@
 package com.bamdoliro.gati.domain.ddo.presentation.dto.response;
 
 import com.bamdoliro.gati.domain.ddo.domain.Ddo;
-import com.bamdoliro.gati.domain.ddo.domain.type.ddo.Status;
+import com.bamdoliro.gati.domain.ddo.domain.type.Status;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 

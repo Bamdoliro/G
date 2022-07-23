@@ -1,7 +1,7 @@
 package com.bamdoliro.gati.domain.ddo.presentation.dto.request;
 
 import com.bamdoliro.gati.domain.ddo.domain.Ddo;
-import com.bamdoliro.gati.domain.ddo.domain.type.ddo.Status;
+import com.bamdoliro.gati.domain.ddo.domain.type.Status;
 import lombok.Builder;
 import lombok.Getter;
 import org.hibernate.validator.constraints.Length;

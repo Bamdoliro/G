@@ -2,7 +2,7 @@ package com.bamdoliro.gati.domain.ddo.domain.repository;
 
 import com.bamdoliro.gati.domain.community.domain.Community;
 import com.bamdoliro.gati.domain.ddo.domain.Ddo;
-import com.bamdoliro.gati.domain.ddo.domain.type.ddo.Status;
+import com.bamdoliro.gati.domain.ddo.domain.type.Status;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

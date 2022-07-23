@@ -4,7 +4,7 @@ import com.bamdoliro.gati.domain.community.domain.Community;
 import com.bamdoliro.gati.domain.community.domain.Member;
 import com.bamdoliro.gati.domain.community.domain.repository.CommunityRepository;
 import com.bamdoliro.gati.domain.community.domain.type.Authority;
-import com.bamdoliro.gati.domain.community.domain.type.Status;
+import com.bamdoliro.gati.domain.community.domain.type.CommunityStatus;
 import com.bamdoliro.gati.domain.community.facade.CommunityFacade;
 import com.bamdoliro.gati.domain.community.facade.MemberFacade;
 import com.bamdoliro.gati.domain.community.presentation.dto.request.CreateCommunityRequestDto;
@@ -225,6 +225,6 @@ class CommunityServiceTest {
         communityService.deleteCommunity(defaultMember.getId());
 
         // then
-        assertEquals(Status.DELETED, defaultCommunity.getStatus());
+        assertEquals(CommunityStatus.DELETED, defaultCommunity.getCommunityStatus());
     }
 }

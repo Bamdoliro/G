@@ -1,5 +1,5 @@
 package com.bamdoliro.gati.domain.board.domain.type.board;
 
-public enum Status {
+public enum BoardStatus {
     EXISTED, DELETED;
 }

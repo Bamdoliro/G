@@ -11,7 +11,7 @@ public class RoomController {
 
     private final RoomService roomService;
 
-    @PutMapping("/update/{roomId}")
+    @PutMapping("/{roomId}")
     public void updateRoom(@PathVariable Long roomId, @RequestParam String name) {
         roomService.updateRoom(roomId, name);
     }

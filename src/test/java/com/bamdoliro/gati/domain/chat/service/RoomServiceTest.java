@@ -4,6 +4,7 @@ import com.bamdoliro.gati.domain.chat.domain.RoomMember;
 import com.bamdoliro.gati.domain.chat.domain.Message;
 import com.bamdoliro.gati.domain.chat.domain.Room;
 import com.bamdoliro.gati.domain.chat.domain.repository.RoomRepository;
+import com.bamdoliro.gati.domain.chat.domain.type.RoomStatus;
 import com.bamdoliro.gati.domain.chat.facade.RoomFacade;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -67,5 +68,18 @@ class RoomServiceTest {
 
         // then
         assertEquals("변경된 이름", defaultRoom.getName());
+    }
+
+    @Test
+    @DisplayName("[Service] Room 종료")
+    void givenRoomId_whenEndingRoom_thenUpdatesStatusEnd() {
+        // given
+        given(roomFacade.findRoomById(any())).willReturn(defaultRoom);
+
+        // when
+        roomService.endRoom(defaultRoom.getId());
+
+        // then
+        assertEquals(RoomStatus.ENDED, defaultRoom.getStatus());
     }
 }

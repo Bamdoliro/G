@@ -43,4 +43,10 @@ public class RoomService {
                 .map(RoomResponseDto::new)
                 .collect(Collectors.toList());
     }
+
+    @Transactional
+    public void endRoom(Long roomId) {
+        Room room = roomFacade.findRoomById(roomId);
+        room.endRoom();
+    }
 }

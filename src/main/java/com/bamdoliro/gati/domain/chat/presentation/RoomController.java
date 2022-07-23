@@ -23,4 +23,9 @@ public class RoomController {
     public List<RoomResponseDto> getUserRoom() {
         return roomService.getUserRoom();
     }
+
+    @DeleteMapping("/{roomId}")
+    public void endRoom(@PathVariable Long roomId) {
+        roomService.endRoom(roomId);
+    }
 }

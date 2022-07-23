@@ -44,4 +44,8 @@ public class Room extends BaseTimeEntity {
     public void updateName(String name) {
         this.name = name;
     }
+
+    public void endRoom() {
+        this.status = RoomStatus.ENDED;
+    }
 }

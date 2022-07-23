@@ -1,19 +1,19 @@
 package com.bamdoliro.gati.domain.ddo.presentation.dto.response;
 
 import com.bamdoliro.gati.domain.ddo.domain.Ddo;
-import com.bamdoliro.gati.domain.ddo.domain.type.Status;
-import lombok.AllArgsConstructor;
+import com.bamdoliro.gati.domain.ddo.domain.type.DdoStatus;
 import lombok.Builder;
+import lombok.Getter;
 
-@AllArgsConstructor
 @Builder
+@Getter
 public class DdoDetailResponseDto {
 
     private String title;
 
     private String content;
 
-    private Status status;
+    private DdoStatus status;
 
     private int maxNumber;
 

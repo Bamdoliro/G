@@ -30,7 +30,7 @@ public class DdoService {
     }
 
     @Transactional(readOnly = true)
-    public DdoDetailResponseDto getDoDetail(Long id) {
+    public DdoDetailResponseDto getDdoDetail(Long id) {
         return DdoDetailResponseDto.of(ddoFacade.findDdoById(id));
     }
 

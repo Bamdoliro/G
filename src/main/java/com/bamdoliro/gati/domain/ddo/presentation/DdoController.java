@@ -24,7 +24,7 @@ public class DdoController {
     public DdoDetailResponseDto getDoDetail(
             @PathVariable(name = "id") Long id
     ) {
-        return ddoService.getDoDetail(id);
+        return ddoService.getDdoDetail(id);
     }
 
 }

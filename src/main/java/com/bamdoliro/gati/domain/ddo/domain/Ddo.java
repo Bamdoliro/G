@@ -1,7 +1,7 @@
 package com.bamdoliro.gati.domain.ddo.domain;
 
 import com.bamdoliro.gati.domain.community.domain.Community;
-import com.bamdoliro.gati.domain.ddo.domain.type.Status;
+import com.bamdoliro.gati.domain.ddo.domain.type.DdoStatus;
 import com.bamdoliro.gati.domain.user.domain.User;
 import com.bamdoliro.gati.global.entity.BaseTimeEntity;
 import lombok.AccessLevel;
@@ -31,7 +31,7 @@ public class Ddo extends BaseTimeEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
-    private Status status;
+    private DdoStatus status;
 
     @Column(name = "maxNumber", nullable = false)
     private int maxNumber;
@@ -51,7 +51,7 @@ public class Ddo extends BaseTimeEntity {
     private Community community;
 
     @Builder
-    public Ddo(String title, String content, Status status, int maxNumber, Community community, User writer) {
+    public Ddo(String title, String content, DdoStatus status, int maxNumber, Community community, User writer) {
         this.title = title;
         this.content = content;
         this.status = status;

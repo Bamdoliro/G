@@ -1,7 +1,7 @@
 package com.bamdoliro.gati.domain.board.domain;
 
 
-import com.bamdoliro.gati.domain.board.domain.type.board.Status;
+import com.bamdoliro.gati.domain.board.domain.type.board.BoardStatus;
 import com.bamdoliro.gati.domain.community.domain.Community;
 import com.bamdoliro.gati.domain.user.domain.User;
 import com.bamdoliro.gati.global.entity.BaseTimeEntity;
@@ -40,7 +40,7 @@ public class Board extends BaseTimeEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
-    private Status status;
+    private BoardStatus boardStatus;
 
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
     private List<BoardLike> likes = new ArrayList<>();
@@ -54,7 +54,7 @@ public class Board extends BaseTimeEntity {
         this.writer = writer;
         this.title = title;
         this.content = content;
-        this.status = Status.EXISTED;
+        this.boardStatus = BoardStatus.EXISTED;
     }
 
     public void updatePost(String title, String content) {
@@ -63,6 +63,6 @@ public class Board extends BaseTimeEntity {
     }
 
     public void deletePost() {
-        this.status = Status.DELETED;
+        this.boardStatus = BoardStatus.DELETED;
     }
 }

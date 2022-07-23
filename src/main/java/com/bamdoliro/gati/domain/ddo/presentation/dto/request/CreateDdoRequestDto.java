@@ -1,7 +1,7 @@
 package com.bamdoliro.gati.domain.ddo.presentation.dto.request;
 
 import com.bamdoliro.gati.domain.ddo.domain.Ddo;
-import com.bamdoliro.gati.domain.ddo.domain.type.Status;
+import com.bamdoliro.gati.domain.ddo.domain.type.DdoStatus;
 import lombok.Builder;
 import lombok.Getter;
 import org.hibernate.validator.constraints.Length;
@@ -35,7 +35,7 @@ public class CreateDdoRequestDto {
                 .title(title)
                 .content(content)
                 .maxNumber(maxNumber)
-                .status(Status.OPEN)
+                .status(DdoStatus.OPEN)
                 .build();
     }
 }

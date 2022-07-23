@@ -2,7 +2,7 @@ package com.bamdoliro.gati.domain.board.service;
 
 import com.bamdoliro.gati.domain.board.domain.Board;
 import com.bamdoliro.gati.domain.board.domain.repository.BoardRepository;
-import com.bamdoliro.gati.domain.board.domain.type.board.Status;
+import com.bamdoliro.gati.domain.board.domain.type.board.BoardStatus;
 import com.bamdoliro.gati.domain.board.facade.BoardFacade;
 import com.bamdoliro.gati.domain.board.presentation.dto.request.CreateBoardRequestDto;
 import com.bamdoliro.gati.domain.board.presentation.dto.request.UpdateBoardRequestDto;
@@ -34,7 +34,8 @@ public class BoardService {
     public void savePost(CreateBoardRequestDto request) {
         Board board = request.toEntity(
                 userFacade.getCurrentUser(),
-                communityFacade.findCommunityById(request.getCommunityId()));
+                communityFacade.findCommunityById(request.getCommunityId())
+        );
         boardRepository.save(board);
     }
 
@@ -47,8 +48,8 @@ public class BoardService {
 
     // 게시물 수정
     @Transactional
-    public void updatePost(UpdateBoardRequestDto request) {
-        Board board = boardFacade.findBoardById(request.getId());
+    public void updatePost(UpdateBoardRequestDto request, Long id) {
+        Board board = boardFacade.findBoardById(id);
         board.updatePost(request.getTitle(), request.getContent());
     }
 
@@ -64,7 +65,7 @@ public class BoardService {
     public List<BoardResponseDto> getCommunityPosts(Long communityId) {
         Community community = communityFacade.findCommunityById(communityId);
         memberFacade.checkMember(userFacade.getCurrentUser(), community);
-        return boardFacade.findByCommunityAndStatus(community, Status.EXISTED)
+        return boardFacade.findByCommunityAndStatus(community, BoardStatus.EXISTED)
                 .stream().map(BoardResponseDto::of).collect(Collectors.toList());
     }
 

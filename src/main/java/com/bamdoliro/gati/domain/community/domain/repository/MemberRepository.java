@@ -10,5 +10,6 @@ import java.util.Optional;
 public interface MemberRepository extends JpaRepository<Member, Long> {
 
     boolean existsByUserAndCommunity(User user, Community community);
+
     Optional<Member> findByUserAndCommunity(User user, Community community);
 }

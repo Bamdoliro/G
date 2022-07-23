@@ -1,12 +1,13 @@
 package com.bamdoliro.gati.domain.community.domain;
 
 import com.bamdoliro.gati.domain.board.domain.Board;
+import com.bamdoliro.gati.domain.ddo.domain.Ddo;
+import com.bamdoliro.gati.domain.community.domain.type.CommunityStatus;
 import com.bamdoliro.gati.global.entity.BaseTimeEntity;
 import com.bamdoliro.gati.global.utils.BooleanToYNConverter;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,8 +44,16 @@ public class Community extends BaseTimeEntity {
     @Column(length = 4, nullable = true)
     private String password;
 
+    @Enumerated(EnumType.STRING)
+    @Column(length = 10, nullable = false)
+    private CommunityStatus communityStatus;
+
     @OneToMany(mappedBy = "community")
     private List<Member> members = new ArrayList<>();
+
+    @OneToMany(mappedBy = "community", cascade = CascadeType.ALL)
+    private List<Ddo> ddoList = new ArrayList<>();
+
 
     @Builder
     public Community(String name, String introduction, int numberOfPeople, String code, Boolean isPublic, String password) {
@@ -54,6 +63,7 @@ public class Community extends BaseTimeEntity {
         this.code = code;
         this.isPublic = isPublic;
         this.password = password;
+        this.communityStatus = CommunityStatus.EXISTED;
     }
 
     public void updateCommunity(String name, String introduction, Boolean isPublic, String password) {
@@ -61,5 +71,9 @@ public class Community extends BaseTimeEntity {
         this.introduction = introduction;
         this.isPublic = isPublic;
         this.password = password;
+    }
+
+    public void deleteCommunity() {
+        this.communityStatus = CommunityStatus.DELETED;
     }
 }

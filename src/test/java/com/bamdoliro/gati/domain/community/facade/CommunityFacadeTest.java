@@ -43,13 +43,13 @@ class CommunityFacadeTest {
     @Test
     void givenId_whenFindingCommunity_thenReturnsCommunity() {
         // given
-        given(communityRepository.findByIdAndStatus(any(), any(CommunityStatus.class))).willReturn(Optional.of(defaultCommunity));
+        given(communityRepository.findByIdAndCommunityStatus(any(), any(CommunityStatus.class))).willReturn(Optional.of(defaultCommunity));
 
         // when
         Community foundCommunity = communityFacade.findCommunityById(defaultCommunity.getId());
 
         // then
-        verify(communityRepository, times(1)).findByIdAndStatus(any(), any(CommunityStatus.class));
+        verify(communityRepository, times(1)).findByIdAndCommunityStatus(any(), any(CommunityStatus.class));
         assertEquals(defaultCommunity.getName(), foundCommunity.getName());
         assertEquals(defaultCommunity.getIntroduction(), foundCommunity.getIntroduction());
         assertEquals(defaultCommunity.getNumberOfPeople(), foundCommunity.getNumberOfPeople());
@@ -60,12 +60,12 @@ class CommunityFacadeTest {
     @Test
     void givenInvalidId_whenFindingCommunity_thenThrowsCommunityNotFoundException() {
         // given
-        given(communityRepository.findByIdAndStatus(any(), any(CommunityStatus.class))).willReturn(Optional.empty());
+        given(communityRepository.findByIdAndCommunityStatus(any(), any(CommunityStatus.class))).willReturn(Optional.empty());
 
         // when and then
         assertThrows(CommunityNotFoundException.class, () ->
                 communityFacade.findCommunityById(defaultCommunity.getId()));
-        verify(communityRepository, times(1)).findByIdAndStatus(any(), any(CommunityStatus.class));
+        verify(communityRepository, times(1)).findByIdAndCommunityStatus(any(), any(CommunityStatus.class));
     }
 
     @DisplayName("[Facade] Community Code 로 찾기")

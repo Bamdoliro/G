@@ -1,9 +1,9 @@
 package com.bamdoliro.gati.domain.ddo.facade;
 
 import com.bamdoliro.gati.domain.board.exception.BoardNotFoundException;
-import com.bamdoliro.gati.domain.ddo.facade.domain.Ddo;
-import com.bamdoliro.gati.domain.ddo.facade.domain.repository.DdoRepository;
-import com.bamdoliro.gati.domain.ddo.facade.domain.repository.DdoJoinRepository;
+import com.bamdoliro.gati.domain.ddo.domain.Ddo;
+import com.bamdoliro.gati.domain.ddo.domain.repository.DdoRepository;
+import com.bamdoliro.gati.domain.ddo.domain.repository.DdoJoinRepository;
 import com.bamdoliro.gati.domain.ddo.exception.AlreadyJoinException;
 import com.bamdoliro.gati.domain.ddo.exception.ExcessOfCapacityException;
 import com.bamdoliro.gati.domain.user.domain.User;

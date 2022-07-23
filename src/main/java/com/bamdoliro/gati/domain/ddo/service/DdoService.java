@@ -1,8 +1,8 @@
 package com.bamdoliro.gati.domain.ddo.service;
 
 import  com.bamdoliro.gati.domain.community.facade.CommunityFacade;
-import com.bamdoliro.gati.domain.ddo.facade.domain.Ddo;
-import com.bamdoliro.gati.domain.ddo.facade.domain.repository.DdoRepository;
+import com.bamdoliro.gati.domain.ddo.domain.Ddo;
+import com.bamdoliro.gati.domain.ddo.domain.repository.DdoRepository;
 import com.bamdoliro.gati.domain.ddo.facade.DdoFacade;
 import com.bamdoliro.gati.domain.ddo.presentation.dto.request.CreateDdoRequestDto;
 import com.bamdoliro.gati.domain.ddo.presentation.dto.response.DdoDetailResponseDto;

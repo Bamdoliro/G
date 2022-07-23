@@ -1,4 +1,4 @@
-package com.bamdoliro.gati.domain.ddo.facade.domain;
+package com.bamdoliro.gati.domain.ddo.domain;
 
 import com.bamdoliro.gati.domain.user.domain.User;
 import lombok.AccessLevel;

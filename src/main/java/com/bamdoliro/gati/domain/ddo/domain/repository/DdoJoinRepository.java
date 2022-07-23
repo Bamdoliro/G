@@ -1,8 +1,8 @@
-package com.bamdoliro.gati.domain.ddo.facade.domain.repository;
+package com.bamdoliro.gati.domain.ddo.domain.repository;
 
 
-import com.bamdoliro.gati.domain.ddo.facade.domain.Ddo;
-import com.bamdoliro.gati.domain.ddo.facade.domain.DdoJoin;
+import com.bamdoliro.gati.domain.ddo.domain.Ddo;
+import com.bamdoliro.gati.domain.ddo.domain.DdoJoin;
 import com.bamdoliro.gati.domain.user.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 

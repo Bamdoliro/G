@@ -3,7 +3,7 @@ package com.bamdoliro.gati.domain.community.service;
 import com.bamdoliro.gati.domain.community.domain.Community;
 import com.bamdoliro.gati.domain.community.domain.repository.CommunityRepository;
 import com.bamdoliro.gati.domain.community.domain.type.Authority;
-import com.bamdoliro.gati.domain.community.domain.type.Status;
+import com.bamdoliro.gati.domain.community.domain.type.CommunityStatus;
 import com.bamdoliro.gati.domain.community.facade.CommunityFacade;
 import com.bamdoliro.gati.domain.community.facade.MemberFacade;
 import com.bamdoliro.gati.domain.community.presentation.dto.request.CreateCommunityRequestDto;
@@ -47,7 +47,7 @@ public class CommunityService {
 
     @Transactional(readOnly = true)
     public List<CommunityResponseDto> searchCommunity(String name) {
-        return communityRepository.findByNameContainingAndStatus(name, Status.EXISTED).stream()
+        return communityRepository.findByNameContainingAndCommunityStatus(name, CommunityStatus.EXISTED).stream()
                 .map(CommunityResponseDto::of).collect(Collectors.toList());
     }
 

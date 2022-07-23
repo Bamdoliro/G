@@ -4,7 +4,7 @@ import com.bamdoliro.gati.domain.user.domain.User;
 import com.bamdoliro.gati.domain.user.domain.repository.UserRepository;
 import com.bamdoliro.gati.domain.user.domain.type.Authority;
 import com.bamdoliro.gati.domain.user.domain.type.Gender;
-import com.bamdoliro.gati.domain.user.domain.type.Status;
+import com.bamdoliro.gati.domain.user.domain.type.UserStatus;
 import com.bamdoliro.gati.domain.user.facade.UserFacade;
 import com.bamdoliro.gati.domain.user.presentation.dto.request.CreateUserRequestDto;
 import com.bamdoliro.gati.domain.user.presentation.dto.request.UpdateUserNameRequestDto;
@@ -46,7 +46,7 @@ class UserServiceTest {
             .authority(Authority.ROLE_USER)
             .gender(Gender.FEMALE)
             .birth(LocalDate.of(2022,2,2))
-            .status(Status.NOT_VERIFIED)
+            .status(UserStatus.NOT_VERIFIED)
             .build();
 
     @DisplayName("[Service] User 생성")

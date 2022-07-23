@@ -4,7 +4,7 @@ import com.bamdoliro.gati.domain.user.domain.User;
 import com.bamdoliro.gati.domain.user.domain.repository.UserRepository;
 import com.bamdoliro.gati.domain.user.domain.type.Authority;
 import com.bamdoliro.gati.domain.user.domain.type.Gender;
-import com.bamdoliro.gati.domain.user.domain.type.Status;
+import com.bamdoliro.gati.domain.user.domain.type.UserStatus;
 import com.bamdoliro.gati.domain.user.exception.PasswordMismatchException;
 import com.bamdoliro.gati.domain.user.exception.UserAlreadyExistsException;
 import com.bamdoliro.gati.domain.user.exception.UserNotFoundException;
@@ -46,7 +46,7 @@ class UserFacadeTest {
             .authority(Authority.ROLE_USER)
             .gender(Gender.FEMALE)
             .birth(LocalDate.of(2022,2,2))
-            .status(Status.NOT_VERIFIED)
+            .status(UserStatus.NOT_VERIFIED)
             .build();
 
     @DisplayName("[Facade] findUserByEmail")
@@ -62,7 +62,7 @@ class UserFacadeTest {
         verify(userRepository, times(1)).findByEmail(anyString());
         assertEquals("gati@bamdoliro.com", foundUser.getEmail());
         assertEquals("12345678910", foundUser.getPassword());
-        assertEquals(Status.NOT_VERIFIED, foundUser.getStatus());
+        assertEquals(UserStatus.NOT_VERIFIED, foundUser.getStatus());
     }
 
     @DisplayName("[Facade] findUserByEmail - 유저가 존재하지 않는 경우")

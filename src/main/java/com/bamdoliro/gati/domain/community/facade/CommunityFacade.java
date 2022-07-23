@@ -2,7 +2,7 @@ package com.bamdoliro.gati.domain.community.facade;
 
 import com.bamdoliro.gati.domain.community.domain.Community;
 import com.bamdoliro.gati.domain.community.domain.repository.CommunityRepository;
-import com.bamdoliro.gati.domain.community.domain.type.Status;
+import com.bamdoliro.gati.domain.community.domain.type.CommunityStatus;
 import com.bamdoliro.gati.domain.community.exception.BadPasswordAndCommunityTypeException;
 import com.bamdoliro.gati.domain.community.exception.CannotDeleteCommunityException;
 import com.bamdoliro.gati.domain.community.exception.CommunityNotFoundException;
@@ -16,17 +16,17 @@ public class CommunityFacade {
     private final CommunityRepository communityRepository;
 
     public Community findCommunityById(Long id) {
-        return communityRepository.findByIdAndStatus(id, Status.EXISTED)
+        return communityRepository.findByIdAndCommunityStatus(id, CommunityStatus.EXISTED)
                 .orElseThrow(() -> CommunityNotFoundException.EXCEPTION);
     }
 
     public Community findCommunityByCode(String code) {
-        return communityRepository.findByCodeAndStatus(code, Status.EXISTED)
+        return communityRepository.findByCodeAndCommunityStatus(code, CommunityStatus.EXISTED)
                 .orElseThrow(() -> CommunityNotFoundException.EXCEPTION);
     }
 
     public boolean checkCode(String code) {
-        return !communityRepository.existsByCodeAndStatus(code, Status.EXISTED);
+        return !communityRepository.existsByCodeAndCommunityStatus(code, CommunityStatus.EXISTED);
     }
 
     public void checkPasswordAndCommunityType(String password, Boolean isPublic) {

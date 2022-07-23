@@ -1,10 +1,12 @@
 package com.bamdoliro.gati.domain.user.domain;
 
-import com.bamdoliro.gati.domain.board.domain.Board;
-import com.bamdoliro.gati.domain.board.domain.BoardLike;
+import com.bamdoliro.gati.domain.board.domain.*;
+import com.bamdoliro.gati.domain.ddo.domain.DdoJoin;
+import com.bamdoliro.gati.domain.ddo.domain.Ddo;
+import com.bamdoliro.gati.domain.ddo.domain.Recommendation;
 import com.bamdoliro.gati.domain.user.domain.type.Authority;
 import com.bamdoliro.gati.domain.user.domain.type.Gender;
-import com.bamdoliro.gati.domain.user.domain.type.Status;
+import com.bamdoliro.gati.domain.user.domain.type.UserStatus;
 import com.bamdoliro.gati.global.entity.BaseTimeEntity;
 import lombok.*;
 
@@ -46,7 +48,7 @@ public class User extends BaseTimeEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(length = 15, nullable = false)
-    private Status status;
+    private UserStatus status;
 
     @OneToMany(mappedBy = "writer", cascade = CascadeType.ALL)
     private List<Board> boards = new ArrayList<>();
@@ -54,8 +56,20 @@ public class User extends BaseTimeEntity {
     @OneToMany(mappedBy = "liker", cascade = CascadeType.ALL)
     private List<BoardLike> likes = new ArrayList<>();
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Report> reportList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Recommendation> recommendList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "writer", cascade = CascadeType.ALL)
+    private List<Ddo> ddoList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "joiner", cascade = CascadeType.ALL)
+    private List<DdoJoin> ddoJoinList = new ArrayList<>();
+
     @Builder
-    public User(String email, String password, String name, LocalDate birth, Gender gender, Authority authority, Status status) {
+    public User(String email, String password, String name, LocalDate birth, Gender gender, Authority authority, UserStatus status) {
         this.email = email;
         this.password = password;
         this.name = name;

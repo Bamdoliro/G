@@ -4,6 +4,7 @@ import com.bamdoliro.gati.global.security.auth.AuthDetailsService;
 import com.bamdoliro.gati.global.security.jwt.JwtTokenProvider;
 import com.bamdoliro.gati.global.security.jwt.JwtValidateService;
 import com.bamdoliro.gati.global.security.jwt.filter.JwtAuthenticationFilter;
+import com.bamdoliro.gati.global.security.jwt.filter.JwtExceptionFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -61,6 +62,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http
                 .addFilterBefore(new JwtAuthenticationFilter(authDetailsService, jwtTokenProvider, jwtValidateService),
-                        UsernamePasswordAuthenticationFilter.class);
+                        UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new JwtExceptionFilter(), JwtAuthenticationFilter.class);
     }
 }

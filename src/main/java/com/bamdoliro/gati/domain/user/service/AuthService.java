@@ -40,9 +40,12 @@ public class AuthService {
         redisService.deleteData(user.getEmail());
     }
 
-    // TODO :: new access token with refresh token
-    private void setNewAccessToken(String refreshToken) {
-        String newAccessToken = jwtTokenProvider.createAccessToken(
-                jwtValidateService.getEmail(refreshToken));
+    public TokenResponseDto getNewAccessToken(String refreshToken) {
+        jwtValidateService.validateRefreshToken(refreshToken);
+
+        return TokenResponseDto.builder()
+                .accessToken(jwtTokenProvider.createAccessToken(
+                        jwtValidateService.getEmail(refreshToken)))
+                .build();
     }
 }

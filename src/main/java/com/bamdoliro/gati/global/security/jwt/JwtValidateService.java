@@ -1,5 +1,6 @@
 package com.bamdoliro.gati.global.security.jwt;
 
+import com.bamdoliro.gati.domain.user.exception.ExpiredAuthException;
 import com.bamdoliro.gati.global.redis.RedisService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,9 +17,10 @@ public class JwtValidateService {
                 .get("email", String.class);
     }
 
-    public boolean existsRefreshToken(String token) {
-        String refreshToken = redisService.getData(getEmail(token));
-        return refreshToken != null;
+    public void validateRefreshToken(String token) {
+        if (redisService.getData(getEmail(token)) == null) {
+            throw ExpiredAuthException.EXCEPTION;
+        }
     }
 
 }

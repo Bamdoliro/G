@@ -1,13 +1,12 @@
 package com.bamdoliro.gati.domain.user.presentation;
 
 import com.bamdoliro.gati.domain.user.presentation.dto.request.*;
-import com.bamdoliro.gati.domain.user.presentation.dto.response.TokenResponseDto;
 import com.bamdoliro.gati.domain.user.presentation.dto.response.GetUserResponseDto;
+import com.bamdoliro.gati.domain.user.presentation.dto.response.TokenResponseDto;
 import com.bamdoliro.gati.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 @RestController
@@ -24,15 +23,14 @@ public class UserController {
 
     @PostMapping("/login")
     public TokenResponseDto loginUser(
-            @RequestBody @Valid LoginUserRequestDto dto,
-            HttpServletResponse response
+            @RequestBody @Valid LoginUserRequestDto dto
     ) {
-        return userService.loginUser(dto, response);
+        return userService.loginUser(dto);
     }
 
     @PostMapping("/logout")
-    public void logoutUser(HttpServletResponse response) {
-        userService.logoutUser(response);
+    public void logoutUser() {
+        userService.logoutUser();
     }
 
     @GetMapping

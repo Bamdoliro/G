@@ -39,14 +39,14 @@ public class RoomService {
     @Transactional
     public List<RoomResponseDto> getUserRoom() {
         return userFacade.getCurrentUser()
-                .getRooms().stream().map(RoomMember::getRoom)
+                .getRooms().stream()
+                .map(RoomMember::getRoom)
                 .map(RoomResponseDto::new)
                 .collect(Collectors.toList());
     }
 
     @Transactional
     public void endRoom(Long roomId) {
-        Room room = roomFacade.findRoomById(roomId);
-        room.endRoom();
+        roomFacade.findRoomById(roomId).endRoom();
     }
 }

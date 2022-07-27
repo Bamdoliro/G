@@ -1,5 +1,6 @@
 package com.bamdoliro.gati.domain.user.domain;
 
+import com.bamdoliro.gati.domain.chat.domain.RoomMember;
 import com.bamdoliro.gati.domain.board.domain.*;
 import com.bamdoliro.gati.domain.community.domain.Community;
 import com.bamdoliro.gati.domain.community.domain.Member;
@@ -59,6 +60,8 @@ public class User extends BaseTimeEntity {
     private List<BoardLike> likes = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<RoomMember> rooms = new ArrayList<>();
+    
     private List<Report> reportList = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)

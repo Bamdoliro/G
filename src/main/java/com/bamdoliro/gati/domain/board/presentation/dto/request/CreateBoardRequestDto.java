@@ -15,9 +15,11 @@ public class CreateBoardRequestDto {
 
     @NotNull
     private Long communityId;
+
     @NotNull
     @Size(min = 3, max = 20)
     private String title;
+
     @NotNull
     @Size(min = 10, max = 4000)
     private String content;

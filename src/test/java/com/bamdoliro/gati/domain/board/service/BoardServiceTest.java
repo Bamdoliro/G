@@ -6,13 +6,11 @@ import com.bamdoliro.gati.domain.board.facade.BoardFacade;
 import com.bamdoliro.gati.domain.board.presentation.dto.request.CreateBoardRequestDto;
 import com.bamdoliro.gati.domain.board.presentation.dto.response.BoardDetailDto;
 import com.bamdoliro.gati.domain.community.domain.Community;
-import com.bamdoliro.gati.domain.community.domain.repository.CommunityRepository;
 import com.bamdoliro.gati.domain.community.facade.CommunityFacade;
 import com.bamdoliro.gati.domain.user.domain.User;
-import com.bamdoliro.gati.domain.user.domain.repository.UserRepository;
 import com.bamdoliro.gati.domain.user.domain.type.Authority;
 import com.bamdoliro.gati.domain.user.domain.type.Gender;
-import com.bamdoliro.gati.domain.user.domain.type.Status;
+import com.bamdoliro.gati.domain.user.domain.type.UserStatus;
 import com.bamdoliro.gati.domain.user.facade.UserFacade;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -26,7 +24,6 @@ import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -56,7 +53,7 @@ class BoardServiceTest {
             .authority(Authority.ROLE_USER)
             .gender(Gender.FEMALE)
             .birth(LocalDate.of(2022,2,2))
-            .status(Status.NOT_VERIFIED)
+            .status(UserStatus.NOT_VERIFIED)
             .build();
 
     Board board = Board.builder()

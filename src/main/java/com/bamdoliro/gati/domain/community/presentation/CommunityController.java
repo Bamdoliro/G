@@ -49,4 +49,9 @@ public class CommunityController {
     public void updateCommunity(@RequestBody @Valid UpdateCommunityRequestDto dto) {
         communityService.updateCommunity(dto);
     }
+
+    @DeleteMapping("/{id}")
+    public void deleteCommunity(@PathVariable Long id) {
+        communityService.deleteCommunity(id);
+    }
 }

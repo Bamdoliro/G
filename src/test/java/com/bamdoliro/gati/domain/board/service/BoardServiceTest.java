@@ -2,11 +2,14 @@ package com.bamdoliro.gati.domain.board.service;
 
 import com.bamdoliro.gati.domain.board.domain.Board;
 import com.bamdoliro.gati.domain.board.domain.repository.BoardRepository;
+import com.bamdoliro.gati.domain.board.domain.type.board.BoardStatus;
 import com.bamdoliro.gati.domain.board.facade.BoardFacade;
 import com.bamdoliro.gati.domain.board.presentation.dto.request.CreateBoardRequestDto;
+import com.bamdoliro.gati.domain.board.presentation.dto.request.UpdateBoardRequestDto;
 import com.bamdoliro.gati.domain.board.presentation.dto.response.BoardDetailDto;
 import com.bamdoliro.gati.domain.community.domain.Community;
 import com.bamdoliro.gati.domain.community.facade.CommunityFacade;
+import com.bamdoliro.gati.domain.community.facade.MemberFacade;
 import com.bamdoliro.gati.domain.user.domain.User;
 import com.bamdoliro.gati.domain.user.domain.type.Authority;
 import com.bamdoliro.gati.domain.user.domain.type.Gender;
@@ -19,8 +22,10 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.convert.DataSizeUnit;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -37,7 +42,7 @@ class BoardServiceTest {
     @Mock private BoardFacade boardFacade;
     @Mock private UserFacade userFacade;
     @Mock private CommunityFacade communityFacade;
-
+    @Mock private MemberFacade memberFacade;
 
     Community community = Community.builder()
             .name("우리집")
@@ -94,7 +99,7 @@ class BoardServiceTest {
         assertEquals(community, savedBoard.getCommunity());
     }
 
-    @DisplayName("[Service] Board 상세 조회")
+    @DisplayName("[Service] 게시물 상세 조회")
     @Test
     void givenBoardId_whenGetDetailBoard_thenReturnsBoardDetailDto() {
         // given
@@ -109,5 +114,50 @@ class BoardServiceTest {
         assertEquals(board.getWriter().getName(), result.getWriter());
         assertEquals(board.getTitle(), result.getTitle());
         assertEquals(board.getContent(), result.getContent());
+    }
+
+    @DisplayName("[Service] 게시물 수정")
+    @Test
+    void updatePostTest() {
+        // Given
+        UpdateBoardRequestDto request = UpdateBoardRequestDto.builder()
+                .title("나는 배민 개발자")
+                .content("될 거임. 그래서 빡공해야됨")
+                .build();
+
+        given(boardFacade.findBoardById(anyLong())).willReturn(board);
+
+        // When
+        boardService.updatePost(request, anyLong());
+
+        // Then
+        assertEquals("나는 배민 개발자", board.getTitle());
+        assertEquals("될 거임. 그래서 빡공해야됨", board.getContent());
+    }
+
+    @DisplayName("[Service] 게시물 삭제")
+    @Test
+    void deletePostTest() {
+        // Given
+        given(boardFacade.findBoardById(anyLong())).willReturn(board);
+
+        // When
+        boardService.deletePost(anyLong());
+
+        // Then
+        assertEquals(BoardStatus.DELETED, board.getBoardStatus());
+    }
+
+    @DisplayName("[Service] 해당 커뮤니티 내의 모든 게시물 조회")
+    @Test
+    void getCommunityPostsTest() {
+        // Given
+        given(communityFacade.findCommunityById(anyLong())).willReturn(community);
+        given(boardFacade.findByCommunityAndStatus(any(), any())).willReturn(List.of(board));
+
+        // When
+        boardService.getCommunityPosts(anyLong());
+
+        // Then
     }
 }

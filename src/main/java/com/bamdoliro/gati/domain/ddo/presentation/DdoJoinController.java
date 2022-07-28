@@ -18,6 +18,6 @@ public class DdoJoinController {
     public void join(
             @PathVariable(name = "id") Long id
     ) {
-        ddoJoinService.join(id);
+        ddoJoinService.ddoJoin(id);
     }
 }

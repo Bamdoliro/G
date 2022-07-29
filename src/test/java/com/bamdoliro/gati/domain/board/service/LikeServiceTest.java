@@ -22,10 +22,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 
 @ExtendWith(MockitoExtension.class)
@@ -62,11 +62,13 @@ class LikeServiceTest {
             .community(community)
             .build();
 
+    BoardLike boardLike = BoardLike.createBoardLike(board, user);
+
     @DisplayName("[Service] 게시물 좋아요")
     @Test
     void likeTest() {
         // Given
-        final int beforeNumberOfLike = 0;
+        final int beforeNumberOfLike = board.getLikes().size();
 
         given(boardFacade.findBoardById(anyLong())).willReturn(board);
         given(userFacade.getCurrentUser()).willReturn(user);
@@ -85,5 +87,27 @@ class LikeServiceTest {
         assertEquals(beforeNumberOfLike + 1, board.getLikes().size());
         assertEquals(board, savedBoardLike.getBoard());
         assertEquals(user, savedBoardLike.getLiker());
+    }
+
+    @DisplayName("[Service] 게시물 좋아요 취소")
+    @Test
+    void cancelLike() {
+        // Given
+
+
+        given(boardFacade.findBoardById(anyLong())).willReturn(board);
+        given(userFacade.getCurrentUser()).willReturn(user);
+        
+        // When
+        likeService.like(anyLong());
+
+        final int beforeNumberOfLikes = board.getLikes().size();
+
+        likeService.cancelLike(anyLong());
+
+        // Then
+        verify(likeRepository, times(1));
+
+        assertEquals(beforeNumberOfLikes -1, board.getLikes().size());
     }
 }

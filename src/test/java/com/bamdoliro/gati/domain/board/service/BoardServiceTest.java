@@ -148,16 +148,4 @@ class BoardServiceTest {
         assertEquals(BoardStatus.DELETED, board.getBoardStatus());
     }
 
-    @DisplayName("[Service] 해당 커뮤니티 내의 모든 게시물 조회")
-    @Test
-    void getCommunityPostsTest() {
-        // Given
-        given(communityFacade.findCommunityById(anyLong())).willReturn(community);
-        given(boardFacade.findByCommunityAndStatus(any(), any())).willReturn(List.of(board));
-
-        // When
-        boardService.getCommunityPosts(anyLong());
-
-        // Then
-    }
 }

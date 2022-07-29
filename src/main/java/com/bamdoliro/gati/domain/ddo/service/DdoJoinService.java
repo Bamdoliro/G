@@ -21,7 +21,7 @@ public class DdoJoinService {
     private final MemberFacade memberFacade;
 
     @Transactional
-    public void join(Long id) {
+    public void ddoJoin(Long id) {
         Ddo ddo = ddoFacade.findDdoById(id);
         User user = userFacade.getCurrentUser();
 

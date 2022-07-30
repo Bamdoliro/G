@@ -65,7 +65,7 @@ public class BoardService {
     public List<BoardResponseDto> getCommunityPosts(Long communityId) {
         Community community = communityFacade.findCommunityById(communityId);
         memberFacade.checkMember(userFacade.getCurrentUser(), community);
-        return boardFacade.findByCommunityAndStatus(community, BoardStatus.EXISTED)
+        return boardFacade.findBoardsByCommunityAndStatus(community, BoardStatus.EXISTED)
                 .stream().map(BoardResponseDto::of).collect(Collectors.toList());
     }
 

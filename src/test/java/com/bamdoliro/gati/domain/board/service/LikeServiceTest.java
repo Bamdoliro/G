@@ -21,11 +21,12 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 
 @ExtendWith(MockitoExtension.class)
@@ -61,8 +62,6 @@ class LikeServiceTest {
             .writer(user)
             .community(community)
             .build();
-
-    BoardLike boardLike = BoardLike.createBoardLike(board, user);
 
     @DisplayName("[Service] 게시물 좋아요")
     @Test

@@ -66,7 +66,7 @@ class LikeServiceTest {
 
     @DisplayName("[Service] 게시물 좋아요")
     @Test
-    void likeTest() {
+    void givenBoardId_whenLikePost_thenCreateBoardLike() {
         // Given
         final int beforeNumberOfLike = board.getLikes().size();
 
@@ -91,23 +91,17 @@ class LikeServiceTest {
 
     @DisplayName("[Service] 게시물 좋아요 취소")
     @Test
-    void cancelLike() {
+    void givenBoardId_whenCancelLike_thenDeleteBoardLike() {
         // Given
-
-
+        int beforeNumberOfLikes = 0;
         given(boardFacade.findBoardById(anyLong())).willReturn(board);
         given(userFacade.getCurrentUser()).willReturn(user);
-        
+
         // When
-        likeService.like(anyLong());
-
-        final int beforeNumberOfLikes = board.getLikes().size();
-
         likeService.cancelLike(anyLong());
 
         // Then
-        verify(likeRepository, times(1));
-
-        assertEquals(beforeNumberOfLikes -1, board.getLikes().size());
+        verify(likeRepository, times(1))
+                .deleteByBoardAndLiker(any(),any());
     }
 }

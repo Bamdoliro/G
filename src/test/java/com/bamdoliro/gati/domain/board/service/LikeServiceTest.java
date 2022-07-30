@@ -93,7 +93,6 @@ class LikeServiceTest {
     @Test
     void givenBoardId_whenCancelLike_thenDeleteBoardLike() {
         // Given
-        int beforeNumberOfLikes = 0;
         given(boardFacade.findBoardById(anyLong())).willReturn(board);
         given(userFacade.getCurrentUser()).willReturn(user);
 

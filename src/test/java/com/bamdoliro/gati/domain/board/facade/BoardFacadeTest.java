@@ -10,9 +10,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
 
@@ -51,5 +54,32 @@ class BoardFacadeTest {
         // When and Then
         assertThrows(BoardNotFoundException.class,
                 () -> boardFacade.findBoardById(anyLong()));
+    }
+
+    @DisplayName("[facade] findByCommunityAndStatus")
+    @Test
+    void givenCommunityAndStatus_whenFindBoards_thenReturnBoardList() {
+        // Given
+        given(boardRepository.findByCommunityAndBoardStatus(any(), any()))
+                .willReturn(Optional.of(List.of(board)));
+
+        // When
+        List<Board> findBoardList = boardFacade.findBoardsByCommunityAndStatus(any(), any());
+
+        // Then
+        assertEquals("제목제목제목제목제목젬고젬고제목젬ㄱ조젬고", findBoardList.get(0).getTitle());
+        assertEquals("내영내영냉용내용내용내용내용ㄴ애욘애요내요랜ㅇ래내요래ㅛ내욘료ㅐㄴ요ㅐ료냐요래", findBoardList.get(0).getContent());
+    }
+
+    @DisplayName("[facade] findByCommunityAndStatus - 커뮤니티에 게시물이 존재하지 않거나 전부 삭제되었을 때")
+    @Test
+    void givenCommunityAndStatus_whenFindBoards_thenThrowsBoardNotFoundException() {
+        // Given
+        given(boardRepository.findByCommunityAndBoardStatus(any(), any()))
+                .willReturn(Optional.empty());
+
+        // When and Then
+        assertThrows(BoardNotFoundException.class,
+                () -> boardFacade.findBoardsByCommunityAndStatus(any(), any()));
     }
 }

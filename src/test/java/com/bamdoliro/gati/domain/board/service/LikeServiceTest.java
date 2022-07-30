@@ -93,8 +93,6 @@ class LikeServiceTest {
     @Test
     void cancelLike() {
         // Given
-
-
         given(boardFacade.findBoardById(anyLong())).willReturn(board);
         given(userFacade.getCurrentUser()).willReturn(user);
         

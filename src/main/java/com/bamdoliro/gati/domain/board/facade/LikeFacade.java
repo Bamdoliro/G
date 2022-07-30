@@ -5,7 +5,6 @@ import com.bamdoliro.gati.domain.board.domain.repository.LikeRepository;
 import com.bamdoliro.gati.domain.board.exception.LikeOverlapException;
 import com.bamdoliro.gati.domain.user.domain.User;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.query.criteria.internal.predicate.LikePredicate;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -20,5 +19,4 @@ public class LikeFacade {
             throw LikeOverlapException.EXCEPTION;
         }
     }
-
 }

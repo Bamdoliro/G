@@ -63,7 +63,7 @@ class LikeServiceTest {
             .community(community)
             .build();
 
-    @DisplayName("[Service] 게시물 좋아요")
+    @DisplayName("[Service] like - 게시물 좋아요")
     @Test
     void givenBoardId_whenLikePost_thenCreateBoardLike() {
         // Given
@@ -88,7 +88,7 @@ class LikeServiceTest {
         assertEquals(user, savedBoardLike.getLiker());
     }
 
-    @DisplayName("[Service] 게시물 좋아요 취소")
+    @DisplayName("[Service] cancelLike - 게시물 좋아요 취소")
     @Test
     void givenBoardId_whenCancelLike_thenDeleteBoardLike() {
         // Given

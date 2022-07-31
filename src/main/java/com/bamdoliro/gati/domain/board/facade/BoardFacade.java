@@ -26,7 +26,7 @@ public class BoardFacade {
     }
 
     // 공동체랑 삭제 여부로 찾기
-    public List<Board> findByCommunityAndStatus(Community community, BoardStatus boardStatus) {
+    public List<Board> findBoardsByCommunityAndStatus(Community community, BoardStatus boardStatus) {
         return boardRepository.findByCommunityAndBoardStatus(community, boardStatus)
                 .orElseThrow(() -> BoardNotFoundException.EXCEPTION);
     }

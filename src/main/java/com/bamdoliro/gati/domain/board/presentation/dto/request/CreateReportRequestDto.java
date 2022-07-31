@@ -35,8 +35,8 @@ public class CreateReportRequestDto {
         return Report.builder()
                 .board(board)
                 .user(user)
-                .type(getReportType())
-                .category(getReportCategory())
+                .reportType(getReportType())
+                .reportCategory(getReportCategory())
                 .title(getTitle())
                 .content(getContent())
                 .build();

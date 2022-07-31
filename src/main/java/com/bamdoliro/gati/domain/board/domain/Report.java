@@ -50,9 +50,9 @@ public class Report extends BaseTimeEntity {
     private Board board;
 
     @Builder
-    public Report(ReportType type, ReportCategory category, String title, String content, User user, Board board) {
-        this.reportType = type;
-        this.reportCategory = category;
+    public Report(ReportType reportType, ReportCategory reportCategory, String title, String content, User user, Board board) {
+        this.reportType = reportType;
+        this.reportCategory = reportCategory;
         this.title = title;
         this.content = content;
         this.reportStatus = ReportStatus.UNSOLVED;

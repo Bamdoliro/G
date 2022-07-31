@@ -49,12 +49,13 @@ public class Board extends BaseTimeEntity {
     private List<Report> reportList = new ArrayList<>();
 
     @Builder
-    public Board(Community community, User writer, String title, String content) {
+    public Board(Community community, User writer, String title, String content, Report report) {
         this.community = community;
         this.writer = writer;
         this.title = title;
         this.content = content;
         this.boardStatus = BoardStatus.EXISTED;
+        this.reportList.add(report);
     }
 
     public void updatePost(String title, String content) {

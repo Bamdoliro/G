@@ -11,13 +11,12 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class LikeFacade {
 
-    private final LikeRepository boardLikeRepository;
+    private final LikeRepository likeRepository;
 
     // 좋아요 충복 체크
     public void validateLike(Board board, User user) {
-        if (boardLikeRepository.existsByBoardAndLiker(board, user)) {
+        if (likeRepository.existsByBoardAndLiker(board, user)) {
             throw LikeOverlapException.EXCEPTION;
         }
     }
-
 }

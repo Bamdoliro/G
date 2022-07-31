@@ -102,7 +102,7 @@ class ReportServiceTest {
     @Test
     void givenBoardId_whenFindReportList_thenReturnReportList() {
         // Given
-        given(reportFacade.findById(anyLong())).willReturn(report);
+        given(reportFacade.findReportById(anyLong())).willReturn(report);
 
         // When
         ReportDetailResponseDto response = reportService.getReportDetail(anyLong());

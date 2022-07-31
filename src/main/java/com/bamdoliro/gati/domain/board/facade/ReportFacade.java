@@ -22,7 +22,7 @@ public class ReportFacade {
         }
     }
 
-    public Report findById(Long id) {
+    public Report findReportById(Long id) {
         return reportRepository.findById(id)
                 .orElseThrow(() -> ReportNotFoundException.EXCEPTION);
     }

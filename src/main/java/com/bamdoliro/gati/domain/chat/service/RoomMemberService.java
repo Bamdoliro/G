@@ -5,7 +5,6 @@ import com.bamdoliro.gati.domain.chat.domain.RoomMember;
 import com.bamdoliro.gati.domain.chat.domain.repository.RoomMemberRepository;
 import com.bamdoliro.gati.domain.chat.facade.RoomFacade;
 import com.bamdoliro.gati.domain.chat.facade.RoomMemberFacade;
-import com.bamdoliro.gati.domain.chat.presentation.dto.request.RoomRequestDto;
 import com.bamdoliro.gati.domain.user.domain.User;
 import com.bamdoliro.gati.domain.user.facade.UserFacade;
 import com.corundumstudio.socketio.SocketIOClient;
@@ -23,17 +22,14 @@ public class RoomMemberService {
     private final UserFacade userFacade;
 
     @Transactional
-    public void joinRoom(Long roomId) {
-        roomMemberRepository.save(
-                RoomMember.builder()
-                        .room(roomFacade.findRoomById(roomId))
-                        .user(userFacade.getCurrentUser())
-                        .build()
-        );
+    public void joinRoom(SocketIOClient client, Long roomId) {
+        joinRoom(client, roomFacade.findRoomById(roomId), userFacade.getCurrentUser());
     }
 
     @Transactional
-    public void joinRoom(Room room, User user) {
+    public void joinRoom(SocketIOClient client, Room room, User user) {
+        client.joinRoom(String.valueOf(room.getId()));
+
         roomMemberRepository.save(
                 RoomMember.builder()
                         .room(room)
@@ -43,12 +39,12 @@ public class RoomMemberService {
     }
 
     @Transactional
-    public void leaveRoom(SocketIOClient client, RoomRequestDto request) {
-        client.leaveRoom(String.valueOf(request.getRoomId()));
+    public void leaveRoom(SocketIOClient client, Long roomId) {
+        client.leaveRoom(String.valueOf(roomId));
 
         roomMemberRepository.delete(
                 roomMemberFacade.findRoomMemberByRoomAndUser(
-                        roomFacade.findRoomById(request.getRoomId()), userFacade.getCurrentUser()
+                        roomFacade.findRoomById(roomId), userFacade.getCurrentUser()
                 )
         );
     }

@@ -5,7 +5,6 @@ import com.bamdoliro.gati.domain.chat.domain.RoomMember;
 import com.bamdoliro.gati.domain.chat.domain.repository.RoomMemberRepository;
 import com.bamdoliro.gati.domain.chat.facade.RoomFacade;
 import com.bamdoliro.gati.domain.chat.facade.RoomMemberFacade;
-import com.bamdoliro.gati.domain.chat.presentation.dto.request.RoomRequestDto;
 import com.bamdoliro.gati.domain.user.domain.User;
 import com.bamdoliro.gati.domain.user.facade.UserFacade;
 import com.corundumstudio.socketio.SocketIOClient;
@@ -55,15 +54,17 @@ class RoomMemberServiceTest {
     @DisplayName("[Service] Room 참가 by roomId")
     void givenRoomId_whenJoiningRoom_thenCreatesRoomMember() {
         // given
+        willDoNothing().given(client).joinRoom(anyString());
         given(roomMemberRepository.save(any())).willReturn(defaultRoomMember);
         given(userFacade.getCurrentUser()).willReturn(defaultUser);
         given(roomFacade.findRoomById(defaultRoom.getId())).willReturn(defaultRoom);
         ArgumentCaptor<RoomMember> captor = ArgumentCaptor.forClass(RoomMember.class);
 
         // when
-        roomMemberService.joinRoom(defaultRoom.getId());
+        roomMemberService.joinRoom(client, defaultRoom.getId());
 
         // then
+        verify(client, times(1)).joinRoom(String.valueOf(defaultRoom.getId()));
         verify(roomFacade, times(1)).findRoomById(defaultRoom.getId());
         verify(userFacade, times(1)).getCurrentUser();
         verify(roomMemberRepository, times(1)).save(captor.capture());
@@ -76,14 +77,16 @@ class RoomMemberServiceTest {
     @DisplayName("[Service] Room 참가 by room and user")
     void givenRoomAndUser_whenJoiningRoom_thenCreatesRoomMember() {
         // given
+        willDoNothing().given(client).joinRoom(anyString());
         given(roomMemberRepository.save(any())).willReturn(defaultRoomMember);
         ArgumentCaptor<RoomMember> captor = ArgumentCaptor.forClass(RoomMember.class);
 
         // when
-        roomMemberService.joinRoom(defaultRoom, defaultUser);
+        roomMemberService.joinRoom(client, defaultRoom, defaultUser);
 
         // then
         verify(roomMemberRepository, times(1)).save(captor.capture());
+        verify(client, times(1)).joinRoom(String.valueOf(defaultRoom.getId()));
         RoomMember savedRoomMember = captor.getValue();
         assertEquals(defaultRoomMember.getRoom(), savedRoomMember.getRoom());
         assertEquals(defaultRoomMember.getUser(), savedRoomMember.getUser());
@@ -100,7 +103,7 @@ class RoomMemberServiceTest {
         willDoNothing().given(client).leaveRoom(anyString());
 
         // when
-        roomMemberService.leaveRoom(client, new RoomRequestDto(defaultRoom.getId()));
+        roomMemberService.leaveRoom(client, defaultRoom.getId());
 
         // then
         verify(roomFacade, times(1)).findRoomById(any());

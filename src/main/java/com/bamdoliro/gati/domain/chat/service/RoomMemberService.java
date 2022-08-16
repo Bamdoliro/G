@@ -5,8 +5,10 @@ import com.bamdoliro.gati.domain.chat.domain.RoomMember;
 import com.bamdoliro.gati.domain.chat.domain.repository.RoomMemberRepository;
 import com.bamdoliro.gati.domain.chat.facade.RoomFacade;
 import com.bamdoliro.gati.domain.chat.facade.RoomMemberFacade;
+import com.bamdoliro.gati.domain.chat.presentation.dto.request.RoomRequestDto;
 import com.bamdoliro.gati.domain.user.domain.User;
 import com.bamdoliro.gati.domain.user.facade.UserFacade;
+import com.corundumstudio.socketio.SocketIOClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,10 +43,12 @@ public class RoomMemberService {
     }
 
     @Transactional
-    public void leaveRoom(Long roomId) {
+    public void leaveRoom(SocketIOClient client, RoomRequestDto request) {
+        client.leaveRoom(String.valueOf(request.getRoomId()));
+
         roomMemberRepository.delete(
                 roomMemberFacade.findRoomMemberByRoomAndUser(
-                        roomFacade.findRoomById(roomId), userFacade.getCurrentUser()
+                        roomFacade.findRoomById(request.getRoomId()), userFacade.getCurrentUser()
                 )
         );
     }

@@ -5,8 +5,10 @@ import com.bamdoliro.gati.domain.chat.domain.RoomMember;
 import com.bamdoliro.gati.domain.chat.domain.repository.RoomMemberRepository;
 import com.bamdoliro.gati.domain.chat.facade.RoomFacade;
 import com.bamdoliro.gati.domain.chat.facade.RoomMemberFacade;
+import com.bamdoliro.gati.domain.chat.presentation.dto.request.RoomRequestDto;
 import com.bamdoliro.gati.domain.user.domain.User;
 import com.bamdoliro.gati.domain.user.facade.UserFacade;
+import com.corundumstudio.socketio.SocketIOClient;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,6 +19,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willDoNothing;
 import static org.mockito.Mockito.times;
@@ -26,20 +29,13 @@ import static org.mockito.Mockito.verify;
 @DisplayName("[Service] Room Member")
 class RoomMemberServiceTest {
 
-    @InjectMocks
-    private RoomMemberService roomMemberService;
+    @InjectMocks private RoomMemberService roomMemberService;
 
-    @Mock
-    private RoomMemberRepository roomMemberRepository;
-
-    @Mock
-    private RoomFacade roomFacade;
-
-    @Mock
-    private RoomMemberFacade roomMemberFacade;
-
-    @Mock
-    private UserFacade userFacade;
+    @Mock private RoomMemberRepository roomMemberRepository;
+    @Mock private RoomFacade roomFacade;
+    @Mock private RoomMemberFacade roomMemberFacade;
+    @Mock private UserFacade userFacade;
+    @Mock private SocketIOClient client;
 
     private final User defaultUser = User.builder()
             .name("김가티")
@@ -101,14 +97,16 @@ class RoomMemberServiceTest {
         given(userFacade.getCurrentUser()).willReturn(defaultUser);
         given(roomMemberFacade.findRoomMemberByRoomAndUser(defaultRoom, defaultUser)).willReturn(defaultRoomMember);
         willDoNothing().given(roomMemberRepository).delete(defaultRoomMember);
+        willDoNothing().given(client).leaveRoom(anyString());
 
         // when
-        roomMemberService.leaveRoom(defaultRoom.getId());
+        roomMemberService.leaveRoom(client, new RoomRequestDto(defaultRoom.getId()));
 
         // then
         verify(roomFacade, times(1)).findRoomById(any());
         verify(userFacade, times(1)).getCurrentUser();
         verify(roomMemberFacade, times(1)).findRoomMemberByRoomAndUser(defaultRoom, defaultUser);
         verify(roomMemberRepository, times(1)).delete(defaultRoomMember);
+        verify(client, times(1)).leaveRoom(String.valueOf(defaultRoom.getId()));
     }
 }

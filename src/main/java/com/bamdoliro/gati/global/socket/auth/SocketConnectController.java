@@ -5,10 +5,8 @@ import com.bamdoliro.gati.global.security.jwt.JwtValidateService;
 import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.annotation.OnConnect;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-@Slf4j
 @Component
 @RequiredArgsConstructor
 public class SocketConnectController {
@@ -18,6 +16,5 @@ public class SocketConnectController {
     @OnConnect
     public void onConnect(SocketIOClient client) {
         String token = client.getHandshakeData().getHttpHeaders().get(JwtProperties.JWT_HEADER);
-        client.set(SocketAuthenticationProperty.USER_KEY, jwtValidateService.getEmail(token));
     }
 }

@@ -2,6 +2,7 @@ package com.bamdoliro.gati.global.socket;
 
 import com.corundumstudio.socketio.Configuration;
 import com.corundumstudio.socketio.SocketIOServer;
+import com.corundumstudio.socketio.annotation.SpringAnnotationScanner;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -20,5 +21,10 @@ public class SocketConfig {
         config.setPort(port);
         config.setOrigin("*");
         return new SocketIOServer(config);
+    }
+
+    @Bean
+    public SpringAnnotationScanner springAnnotationScanner(SocketIOServer socketIOServer) {
+        return new SpringAnnotationScanner(socketIOServer);
     }
 }

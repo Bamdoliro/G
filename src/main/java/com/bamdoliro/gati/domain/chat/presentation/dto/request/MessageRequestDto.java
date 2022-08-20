@@ -6,10 +6,12 @@ import com.bamdoliro.gati.domain.chat.domain.type.MessageType;
 import com.bamdoliro.gati.domain.user.domain.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
 
 @Getter
+@NoArgsConstructor
 @AllArgsConstructor
 public class MessageRequestDto {
 

@@ -2,7 +2,7 @@ package com.bamdoliro.gati.domain.chat.presentation.dto.response;
 
 import com.bamdoliro.gati.domain.chat.domain.Message;
 import com.bamdoliro.gati.domain.chat.domain.type.MessageType;
-import com.bamdoliro.gati.domain.user.domain.User;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -14,15 +14,18 @@ public class MessageResponseDto {
 
     private final String message;
     private final MessageType messageType;
-    private final User user;
-    private final LocalDateTime sentAt;
+    private final String username;
+
+//    TODO :: sentAt 개버그 수정
+//    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
+//    private final LocalDateTime sentAt;
 
     public static MessageResponseDto of(Message message) {
         return MessageResponseDto.builder()
                 .message(message.getMessage())
                 .messageType(message.getMessageType())
-                .user(message.getUser())
-                .sentAt(message.getCreatedAt())
+                .username(message.getUser().getName())
+//                .sentAt(message.getCreatedAt())
                 .build();
     }
 }

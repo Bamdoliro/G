@@ -1,5 +1,6 @@
 package com.bamdoliro.gati.global.socket;
 
+import com.bamdoliro.gati.global.socket.exception.SocketExceptionListener;
 import com.corundumstudio.socketio.Configuration;
 import com.corundumstudio.socketio.SocketIOServer;
 import com.corundumstudio.socketio.annotation.SpringAnnotationScanner;
@@ -15,11 +16,14 @@ public class SocketConfig {
     @Value("${socket.config.port}")
     private int port;
 
+    private final SocketExceptionListener socketExceptionListener;
+
     @Bean
     public SocketIOServer socketIOServer() {
         Configuration config = new Configuration();
         config.setPort(port);
         config.setOrigin("*");
+        config.setExceptionListener(socketExceptionListener);
         return new SocketIOServer(config);
     }
 

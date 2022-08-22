@@ -11,8 +11,12 @@ import com.bamdoliro.gati.global.socket.SocketEventProperty;
 import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.SocketIOServer;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -38,5 +42,11 @@ public class MessageService {
         server.getRoomOperations(request.getRoomId())
                 .sendEvent(SocketEventProperty.MESSAGE_KEY, MessageResponseDto.of(
                         messageRepository.save(request.toEntity(user, room))));
+    }
+
+    @Transactional(readOnly = true)
+    public List<MessageResponseDto> getLastMessage(Long roomId, Pageable pageable) {
+        return messageRepository.findAllByRoom(roomFacade.findRoomById(roomId), pageable)
+                .stream().map(MessageResponseDto::of).collect(Collectors.toList());
     }
 }

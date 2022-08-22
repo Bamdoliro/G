@@ -24,7 +24,9 @@ public class MessageResponseDto {
         return MessageResponseDto.builder()
                 .message(message.getMessage())
                 .messageType(message.getMessageType())
-                .username(message.getUser().getName())
+                .username(
+                        message.getMessageType() == MessageType.USER ?
+                        message.getUser().getName() : null)
 //                .sentAt(message.getCreatedAt())
                 .build();
     }

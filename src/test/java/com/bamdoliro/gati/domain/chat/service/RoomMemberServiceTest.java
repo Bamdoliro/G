@@ -18,6 +18,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
@@ -29,14 +31,21 @@ import static org.mockito.Mockito.verify;
 @DisplayName("[Service] Room Member")
 class RoomMemberServiceTest {
 
-    @InjectMocks private RoomMemberService roomMemberService;
+    @InjectMocks
+    private RoomMemberService roomMemberService;
 
-    @Mock private RoomMemberRepository roomMemberRepository;
-    @Mock private RoomFacade roomFacade;
-    @Mock private RoomMemberFacade roomMemberFacade;
-    @Mock private UserFacade userFacade;
-    @Mock private SocketIOClient client;
-    @Mock private MessageService messageService;
+    @Mock
+    private RoomMemberRepository roomMemberRepository;
+    @Mock
+    private RoomFacade roomFacade;
+    @Mock
+    private RoomMemberFacade roomMemberFacade;
+    @Mock
+    private UserFacade userFacade;
+    @Mock
+    private SocketIOClient client;
+    @Mock
+    private MessageService messageService;
 
     private final User defaultUser = User.builder()
             .name("김가티")
@@ -109,5 +118,33 @@ class RoomMemberServiceTest {
         verify(roomMemberRepository, times(1)).delete(defaultRoomMember);
         verify(messageService, times(1)).sendSystemMessage(any(MessageRequestDto.class));
         verify(client, times(1)).leaveRoom(String.valueOf(1L));
+    }
+
+    @Test
+    @DisplayName("[Service] Room 구독 (채팅 처음 접속했을 때)")
+    void givenNone_whenSubscribingRooms_thenSubscribes() {
+        // given
+        Room secondRoom = Room.builder()
+                .name("잼민이팟")
+                .build();
+
+        RoomMember secondRoomMember = RoomMember.builder()
+                .room(secondRoom)
+                .user(defaultUser)
+                .build();
+
+        List<RoomMember> roomMembers = List.of(defaultRoomMember, secondRoomMember);
+
+        given(roomMemberFacade.findAllRoomByUser(defaultUser)).willReturn(roomMembers);
+        given(userFacade.findUserByClient(client)).willReturn(defaultUser);
+        willDoNothing().given(client).joinRoom(anyString());
+
+        // when
+        roomMemberService.subscribeRoom(client);
+
+        // then
+        verify(roomMemberFacade, times(1)).findAllRoomByUser(defaultUser);
+        verify(userFacade, times(1)).findUserByClient(client);
+        verify(client, times(roomMembers.size())).joinRoom(anyString());
     }
 }

@@ -59,6 +59,7 @@ public class RoomMemberService {
         );
     }
 
+    @Transactional(readOnly = true)
     public void subscribeRoom(SocketIOClient client) {
         roomMemberFacade.findAllRoomByUser(userFacade.findUserByClient(client))
                 .stream().map(RoomMember::getRoom)

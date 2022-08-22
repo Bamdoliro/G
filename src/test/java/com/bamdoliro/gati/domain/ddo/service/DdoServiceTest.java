@@ -1,5 +1,6 @@
 package com.bamdoliro.gati.domain.ddo.service;
 
+import com.bamdoliro.gati.domain.chat.service.RoomService;
 import com.bamdoliro.gati.domain.community.domain.Community;
 import com.bamdoliro.gati.domain.community.facade.CommunityFacade;
 import com.bamdoliro.gati.domain.ddo.domain.Ddo;
@@ -30,12 +31,13 @@ import static org.mockito.Mockito.verify;
 @ExtendWith(MockitoExtension.class)
 class DdoServiceTest {
 
+    @InjectMocks private DdoService ddoService;
+
     @Mock private DdoRepository ddoRepository;
     @Mock private UserFacade userFacade;
     @Mock private CommunityFacade communityFacade;
     @Mock private DdoFacade ddoFacade;
-
-    @InjectMocks private DdoService ddoService;
+    @Mock private RoomService roomService;
 
     Community community = Community.builder()
             .name("우리집")
@@ -77,19 +79,18 @@ class DdoServiceTest {
         given(ddoRepository.save(any())).willReturn(ddo);
         given(userFacade.getCurrentUser()).willReturn(user);
         given(communityFacade.findCommunityById(anyLong())).willReturn(community);
-
         ArgumentCaptor<Ddo> captor = ArgumentCaptor.forClass(Ddo.class);
+        willDoNothing().given(roomService).createRoom(anyString());
 
 
         // When
         ddoService.savePost(request);
 
         // Then
-        verify(ddoRepository, times(1))
-                .save(captor.capture());
+        verify(ddoRepository, times(1)).save(captor.capture());
+        verify(roomService, times(1)).createRoom(request.getTitle());
 
         Ddo savedDdo = captor.getValue();
-
         assertEquals("제목입니다.", savedDdo.getTitle());
         assertEquals("내용입니다. 내용입니다. 내용입니다.", savedDdo.getContent());
         assertEquals(2, savedDdo.getMaxNumber());

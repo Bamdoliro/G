@@ -5,6 +5,7 @@ import com.bamdoliro.gati.domain.chat.domain.RoomMember;
 import com.bamdoliro.gati.domain.chat.domain.repository.RoomMemberRepository;
 import com.bamdoliro.gati.domain.chat.facade.RoomFacade;
 import com.bamdoliro.gati.domain.chat.facade.RoomMemberFacade;
+import com.bamdoliro.gati.domain.chat.presentation.dto.request.MessageRequestDto;
 import com.bamdoliro.gati.domain.chat.presentation.dto.request.RoomRequestDto;
 import com.bamdoliro.gati.domain.user.domain.User;
 import com.bamdoliro.gati.domain.user.facade.UserFacade;
@@ -35,6 +36,7 @@ class RoomMemberServiceTest {
     @Mock private RoomMemberFacade roomMemberFacade;
     @Mock private UserFacade userFacade;
     @Mock private SocketIOClient client;
+    @Mock private MessageService messageService;
 
     private final User defaultUser = User.builder()
             .name("김가티")
@@ -70,6 +72,7 @@ class RoomMemberServiceTest {
     void givenRoomAndUser_whenJoiningRoom_thenCreatesRoomMember() {
         // given
         willDoNothing().given(client).joinRoom(anyString());
+        willDoNothing().given(messageService).sendSystemMessage(any(MessageRequestDto.class));
         given(roomMemberRepository.save(any())).willReturn(defaultRoomMember);
         ArgumentCaptor<RoomMember> captor = ArgumentCaptor.forClass(RoomMember.class);
 
@@ -77,8 +80,9 @@ class RoomMemberServiceTest {
         roomMemberService.joinRoom(client, defaultRoom, defaultUser);
 
         // then
-        verify(roomMemberRepository, times(1)).save(captor.capture());
         verify(client, times(1)).joinRoom(String.valueOf(defaultRoom.getId()));
+        verify(messageService, times(1)).sendSystemMessage(any(MessageRequestDto.class));
+        verify(roomMemberRepository, times(1)).save(captor.capture());
         RoomMember savedRoomMember = captor.getValue();
         assertEquals(defaultRoomMember.getRoom(), savedRoomMember.getRoom());
         assertEquals(defaultRoomMember.getUser(), savedRoomMember.getUser());
@@ -92,6 +96,7 @@ class RoomMemberServiceTest {
         given(userFacade.findUserByClient(any(SocketIOClient.class))).willReturn(defaultUser);
         given(roomMemberFacade.findRoomMemberByRoomAndUser(defaultRoom, defaultUser)).willReturn(defaultRoomMember);
         willDoNothing().given(roomMemberRepository).delete(defaultRoomMember);
+        willDoNothing().given(messageService).sendSystemMessage(any(MessageRequestDto.class));
         willDoNothing().given(client).leaveRoom(anyString());
 
         // when
@@ -102,6 +107,7 @@ class RoomMemberServiceTest {
         verify(userFacade, times(1)).findUserByClient(client);
         verify(roomMemberFacade, times(1)).findRoomMemberByRoomAndUser(defaultRoom, defaultUser);
         verify(roomMemberRepository, times(1)).delete(defaultRoomMember);
+        verify(messageService, times(1)).sendSystemMessage(any(MessageRequestDto.class));
         verify(client, times(1)).leaveRoom(String.valueOf(1L));
     }
 }

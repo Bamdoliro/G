@@ -1,6 +1,5 @@
 package com.bamdoliro.gati.domain.chat.service;
 
-import com.bamdoliro.gati.domain.chat.domain.Message;
 import com.bamdoliro.gati.domain.chat.domain.Room;
 import com.bamdoliro.gati.domain.chat.domain.repository.MessageRepository;
 import com.bamdoliro.gati.domain.chat.facade.RoomFacade;

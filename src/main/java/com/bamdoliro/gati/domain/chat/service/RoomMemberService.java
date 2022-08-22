@@ -13,6 +13,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class RoomMemberService {
@@ -48,5 +51,11 @@ public class RoomMemberService {
                         roomFacade.findRoomById(Long.valueOf(request.getRoomId())), userFacade.findUserByClient(client)
                 )
         );
+    }
+
+    public void subscribeRoom(SocketIOClient client) {
+        roomMemberFacade.findAllRoomByUser(userFacade.findUserByClient(client))
+                .stream().map(RoomMember::getRoom)
+                .forEach(r -> client.joinRoom(String.valueOf(r.getId())));
     }
 }

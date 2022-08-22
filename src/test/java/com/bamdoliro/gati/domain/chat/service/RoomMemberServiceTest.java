@@ -31,21 +31,14 @@ import static org.mockito.Mockito.verify;
 @DisplayName("[Service] Room Member")
 class RoomMemberServiceTest {
 
-    @InjectMocks
-    private RoomMemberService roomMemberService;
+    @InjectMocks private RoomMemberService roomMemberService;
 
-    @Mock
-    private RoomMemberRepository roomMemberRepository;
-    @Mock
-    private RoomFacade roomFacade;
-    @Mock
-    private RoomMemberFacade roomMemberFacade;
-    @Mock
-    private UserFacade userFacade;
-    @Mock
-    private SocketIOClient client;
-    @Mock
-    private MessageService messageService;
+    @Mock private RoomMemberRepository roomMemberRepository;
+    @Mock private RoomFacade roomFacade;
+    @Mock private RoomMemberFacade roomMemberFacade;
+    @Mock private UserFacade userFacade;
+    @Mock private SocketIOClient client;
+    @Mock private MessageService messageService;
 
     private final User defaultUser = User.builder()
             .name("김가티")

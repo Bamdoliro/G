@@ -21,10 +21,7 @@ public class GatiExceptionHandler {
         log.error("errorCode: {}, url: {}, message: {}",
                 e.getErrorCode(), request.getRequestURI(), e.getMessage());
 
-        return ErrorResponse.builder()
-                .status(e.getErrorCode().getStatus())
-                .message(e.getMessage())
-                .build();
+        return new ErrorResponse(e.getErrorCode());
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -43,9 +40,6 @@ public class GatiExceptionHandler {
     public ErrorResponse handleException(Exception e, HttpServletRequest request) {
         log.error("url: {}, message: {}", request.getRequestURI(), e.getMessage());
 
-        return ErrorResponse.builder()
-                .status(ErrorCode.INTERNAL_SERVER_ERROR.getStatus())
-                .message(ErrorCode.INTERNAL_SERVER_ERROR.getMessage())
-                .build();
+        return new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR);
     }
 }

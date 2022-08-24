@@ -2,6 +2,8 @@ package com.bamdoliro.gati.global.security.jwt.filter;
 
 import com.bamdoliro.gati.global.error.ErrorResponse;
 import com.bamdoliro.gati.global.error.exception.GatiException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -11,7 +13,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+@RequiredArgsConstructor
 public class JwtExceptionFilter extends OncePerRequestFilter {
+
+    private final ObjectMapper mapper;
 
     @Override
     protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws ServletException, IOException {
@@ -31,6 +36,6 @@ public class JwtExceptionFilter extends OncePerRequestFilter {
                 .message(e.getMessage())
                 .build();
 
-        res.getWriter().write(errorResponse.convertToJson());
+        res.getWriter().write(mapper.writeValueAsString(errorResponse));
     }
 }

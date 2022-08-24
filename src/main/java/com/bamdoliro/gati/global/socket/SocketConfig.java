@@ -24,6 +24,8 @@ public class SocketConfig {
         config.setPort(port);
         config.setOrigin("*");
         config.setExceptionListener(socketExceptionListener);
+        com.corundumstudio.socketio.SocketConfig socketConfig = config.getSocketConfig();
+        socketConfig.setReuseAddress(true);
         return new SocketIOServer(config);
     }
 

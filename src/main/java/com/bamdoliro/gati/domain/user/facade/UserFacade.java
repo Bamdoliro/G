@@ -6,6 +6,8 @@ import com.bamdoliro.gati.domain.user.exception.PasswordMismatchException;
 import com.bamdoliro.gati.domain.user.exception.UserAlreadyExistsException;
 import com.bamdoliro.gati.domain.user.exception.UserNotFoundException;
 import com.bamdoliro.gati.global.security.auth.AuthDetails;
+import com.bamdoliro.gati.global.socket.auth.SocketAuthenticationProperty;
+import com.corundumstudio.socketio.SocketIOClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,6 +22,11 @@ public class UserFacade {
 
     public User findUserByEmail(String email) {
         return userRepository.findByEmail(email)
+                .orElseThrow(() -> UserNotFoundException.EXCEPTION);
+    }
+
+    public User findUserByClient(SocketIOClient client) {
+        return userRepository.findByEmail(client.get(SocketAuthenticationProperty.USER_KEY))
                 .orElseThrow(() -> UserNotFoundException.EXCEPTION);
     }
 

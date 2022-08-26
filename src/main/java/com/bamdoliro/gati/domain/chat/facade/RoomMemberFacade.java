@@ -8,6 +8,8 @@ import com.bamdoliro.gati.domain.user.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 @RequiredArgsConstructor
 public class RoomMemberFacade {
@@ -17,5 +19,9 @@ public class RoomMemberFacade {
     public RoomMember findRoomMemberByRoomAndUser(Room room, User user) {
         return roomMemberRepository.findByRoomAndUser(room, user)
                 .orElseThrow(() -> RoomMemberNotFoundException.EXCEPTION);
+    }
+
+    public List<RoomMember> findAllRoomByUser(User user) {
+        return roomMemberRepository.findAllByUser(user);
     }
 }

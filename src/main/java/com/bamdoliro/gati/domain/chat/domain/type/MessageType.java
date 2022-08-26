@@ -1,5 +1,5 @@
 package com.bamdoliro.gati.domain.chat.domain.type;
 
 public enum MessageType {
-    SEND
+    USER, SYSTEM
 }

@@ -25,7 +25,6 @@ spring:
   jwt:
     secret: asdfasdfasdfasfasdfadsfadsfasdfsadfsdfasfsfasdfsafasdfasdfasfasfasdsafsdffadsfasdfasfasf
 
-
   cache:
     type: redis
 
@@ -33,7 +32,13 @@ spring:
     host: localhost
     port: 6379
 
+
+socket:
+  config:
+    port: 9090
+
 debug: true
+
 
 logging:
   level:

@@ -38,7 +38,6 @@ public class ReportDetailResponseDto {
         return ReportDetailResponseDto.builder()
                 .boardTitle(report.getBoard().getTitle())
                 .userName(report.getUser().getName())
-                .reportType(report.getReportType())
                 .reportCategory(report.getReportCategory())
                 .title(report.getTitle())
                 .content(report.getContent())

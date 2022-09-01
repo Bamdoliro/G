@@ -23,10 +23,6 @@ public class Report extends BaseTimeEntity {
     @Column(name = "report_id", nullable = false)
     private Long id;
 
-    @Column(name = "type", nullable = false)
-    @Enumerated(EnumType.STRING)
-    private ReportType reportType;
-
     @Column(name = "category", nullable = false)
     @Enumerated(EnumType.STRING)
     private ReportCategory reportCategory;
@@ -50,8 +46,7 @@ public class Report extends BaseTimeEntity {
     private Board board;
 
     @Builder
-    public Report(ReportType reportType, ReportCategory reportCategory, String title, String content, User user, Board board) {
-        this.reportType = reportType;
+    public Report(ReportCategory reportCategory, String title, String content, User user, Board board) {
         this.reportCategory = reportCategory;
         this.title = title;
         this.content = content;

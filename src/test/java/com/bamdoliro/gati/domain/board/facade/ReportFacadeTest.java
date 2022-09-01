@@ -52,7 +52,6 @@ class ReportFacadeTest {
             .build();
 
     Report report = Report.builder()
-            .reportType(ReportType.BOARD)
             .reportCategory(ReportCategory.NUDITY_PHOTO)
             .title("제목 is 제목")
             .content("content는 content")
@@ -82,23 +81,6 @@ class ReportFacadeTest {
         // When and Then
         assertThrows(ReportOverlapException.class,
                 () -> reportFacade.validateReport(any(), any()));
-    }
-
-    @DisplayName("[facade] findReportById - 신고 내역이 있는 게시물의 신고 조회")
-    @Test
-    void givenBoardId_whenFindReport_thenReturnBoard() {
-        // Given
-        given(reportRepository.findById(anyLong())).willReturn(Optional.of(report));
-
-        // When
-        Report findReport = reportFacade.findReportById(anyLong());
-
-        // Then
-        assertEquals(ReportStatus.UNSOLVED, findReport.getReportStatus());
-        assertEquals(ReportType.BOARD, findReport.getReportType());
-        assertEquals(ReportCategory.NUDITY_PHOTO, findReport.getReportCategory());
-        assertEquals("제목 is 제목", findReport.getTitle());
-        assertEquals("content는 content", findReport.getContent());
     }
 
     @DisplayName("[facade] findReportById - 신고 내역이 있는 게시물의 신고 조회")

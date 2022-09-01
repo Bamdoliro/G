@@ -20,9 +20,6 @@ public class ReportDetailResponseDto {
     private String userName;
 
     @NotNull
-    private ReportType reportType;
-
-    @NotNull
     private ReportCategory reportCategory;
 
     @NotNull

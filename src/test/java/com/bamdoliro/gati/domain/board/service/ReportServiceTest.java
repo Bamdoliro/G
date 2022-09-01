@@ -58,7 +58,6 @@ class ReportServiceTest {
             .build();
 
     Report report = Report.builder()
-            .reportType(ReportType.BOARD)
             .reportCategory(ReportCategory.NUDITY_PHOTO)
             .title("제목 is 제목")
             .content("content는 content")
@@ -92,7 +91,6 @@ class ReportServiceTest {
         Report savedReport = captor.getValue();
 
         assertEquals(ReportStatus.UNSOLVED, savedReport.getReportStatus());
-        assertEquals(ReportType.BOARD, savedReport.getReportType());
         assertEquals(ReportCategory.NUDITY_PHOTO, savedReport.getReportCategory());
         assertEquals("제목 is 제목", savedReport.getTitle());
         assertEquals("content는 content", savedReport.getContent());
@@ -109,7 +107,6 @@ class ReportServiceTest {
 
         // Then
         assertEquals(ReportStatus.UNSOLVED, response.getReportStatus());
-        assertEquals(ReportType.BOARD, response.getReportType());
         assertEquals(ReportCategory.NUDITY_PHOTO, response.getReportCategory());
         assertEquals("제목 is 제목", response.getTitle());
         assertEquals("content는 content", response.getContent());

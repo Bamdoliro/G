@@ -61,7 +61,8 @@ public class User extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<RoomMember> rooms = new ArrayList<>();
-    
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Report> reportList = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)

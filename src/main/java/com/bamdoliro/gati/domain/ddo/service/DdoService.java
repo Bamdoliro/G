@@ -1,5 +1,6 @@
 package com.bamdoliro.gati.domain.ddo.service;
 
+import com.bamdoliro.gati.domain.chat.service.RoomService;
 import  com.bamdoliro.gati.domain.community.facade.CommunityFacade;
 import com.bamdoliro.gati.domain.ddo.domain.Ddo;
 import com.bamdoliro.gati.domain.ddo.domain.repository.DdoRepository;
@@ -19,14 +20,15 @@ public class DdoService {
     private final UserFacade userFacade;
     private final DdoFacade ddoFacade;
     private final CommunityFacade communityFacade;
+    private final RoomService roomService;
 
     @Transactional
     public void savePost(CreateDdoRequestDto request) {
-
         Ddo ddo = request.toEntity();
         ddo.setRelation(userFacade.getCurrentUser(), communityFacade.findCommunityById(request.getCommunityId()));
 
         ddoRepository.save(ddo);
+        roomService.createRoom(ddo.getTitle());
     }
 
     @Transactional(readOnly = true)

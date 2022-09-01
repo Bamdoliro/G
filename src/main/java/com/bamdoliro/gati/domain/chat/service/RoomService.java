@@ -22,8 +22,8 @@ public class RoomService {
     private final UserFacade userFacade;
 
     @Transactional
-    public Room createRoom(String name) {
-        return roomRepository.save(
+    public void createRoom(String name) {
+        roomRepository.save(
                 Room.builder()
                         .name(name)
                         .build()

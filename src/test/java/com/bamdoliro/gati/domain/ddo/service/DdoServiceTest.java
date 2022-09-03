@@ -92,7 +92,7 @@ class DdoServiceTest {
 
         assertEquals("제목입니다.", savedDdo.getTitle());
         assertEquals("내용입니다. 내용입니다. 내용입니다.", savedDdo.getContent());
-        assertEquals(2, savedDdo.getMaxNumber());
+        assertEquals(2, savedDdo.getCapacity());
         assertEquals(communityFacade.findCommunityById(1L), savedDdo.getCommunity());
     }
 

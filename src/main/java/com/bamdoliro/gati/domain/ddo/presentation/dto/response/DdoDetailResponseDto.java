@@ -15,7 +15,7 @@ public class DdoDetailResponseDto {
 
     private DdoStatus status;
 
-    private int maxNumber;
+    private int capacity;
 
     private int numberOfJoiner;
 
@@ -28,7 +28,7 @@ public class DdoDetailResponseDto {
                 .title(ddo.getTitle())
                 .content(ddo.getContent())
                 .status(ddo.getStatus())
-                .maxNumber(ddo.getMaxNumber())
+                .capacity(ddo.getCapacity())
                 .numberOfJoiner(ddo.getDdoJoinList().size())
                 .numberOfRecommendation(ddo.getRecommendList().size())
                 .writerName(ddo.getWriter().getName())

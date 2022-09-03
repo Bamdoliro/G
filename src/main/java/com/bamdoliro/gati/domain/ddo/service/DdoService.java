@@ -33,5 +33,4 @@ public class DdoService {
     public DdoDetailResponseDto getDdoDetail(Long id) {
         return DdoDetailResponseDto.of(ddoFacade.findDdoById(id));
     }
-
 }

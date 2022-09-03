@@ -59,7 +59,7 @@ class DdoJoinServiceTest {
     Ddo ddo = Ddo.builder()
             .title("제목입니다.")
             .content("내용입니다. 내용입니다. 내용입니다.")
-            .maxNumber(2)
+            .capacity(2)
             .community(community)
             .writer(user)
             .status(DdoStatus.OPEN)

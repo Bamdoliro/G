@@ -59,7 +59,7 @@ class DdoServiceTest {
     Ddo ddo = Ddo.builder()
             .title("제목입니다.")
             .content("내용입니다. 내용입니다. 내용입니다.")
-            .maxNumber(2)
+            .capacity(2)
             .community(community)
             .writer(user)
             .status(DdoStatus.OPEN)
@@ -72,7 +72,7 @@ class DdoServiceTest {
         CreateDdoRequestDto request = CreateDdoRequestDto.builder()
                 .title("제목입니다.")
                 .content("내용입니다. 내용입니다. 내용입니다.")
-                .maxNumber(2)
+                .capacity(2)
                 .communityId(1L)
                 .build();
 
@@ -93,7 +93,7 @@ class DdoServiceTest {
         Ddo savedDdo = captor.getValue();
         assertEquals("제목입니다.", savedDdo.getTitle());
         assertEquals("내용입니다. 내용입니다. 내용입니다.", savedDdo.getContent());
-        assertEquals(2, savedDdo.getMaxNumber());
+        assertEquals(2, savedDdo.getCapacity());
         assertEquals(communityFacade.findCommunityById(1L), savedDdo.getCommunity());
     }
 
@@ -111,7 +111,6 @@ class DdoServiceTest {
 
         assertEquals("제목입니다.", response.getTitle());
         assertEquals("내용입니다. 내용입니다. 내용입니다.", response.getContent());
-        assertEquals(2, response.getMaxNumber());
+        assertEquals(2, response.getCapacity());
     }
-
 }

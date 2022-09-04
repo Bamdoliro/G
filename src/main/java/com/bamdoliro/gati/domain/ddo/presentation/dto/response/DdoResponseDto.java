@@ -12,19 +12,19 @@ public class DdoResponseDto {
 
     private String writerName;
 
-    private int numberOfRecommendation;
-
-    private int maxNumber;
+    private int capacity;
 
     private int numberOfJoiner;
+
+    private int numberOfRecommendation;
 
     public static DdoResponseDto of(Ddo ddo) {
         return DdoResponseDto.builder()
                 .title(ddo.getTitle())
                 .writerName(ddo.getWriter().getName())
+                .capacity(ddo.getCapacity())
                 .numberOfRecommendation(ddo.getRecommendList().size())
                 .numberOfJoiner(ddo.getDdoJoinList().size())
-                .numberOfRecommendation(ddo.getRecommendList().size())
                 .build();
     }
 

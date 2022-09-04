@@ -26,7 +26,7 @@ public class DdoFacade {
         if (ddoJoinRepository.existsByDdoAndJoiner(ddo, user)) {
             throw AlreadyJoinException.EXCEPTION;
         }
-        if (ddo.getDdoJoinList().size() >= ddo.getMaxNumber()) {
+        if (ddo.getDdoJoinList().size() >= ddo.getCapacity()) {
             throw ExcessOfCapacityException.EXCEPTION;
         }
     }

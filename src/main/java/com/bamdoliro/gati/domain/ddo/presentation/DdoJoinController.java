@@ -18,16 +18,12 @@ public class DdoJoinController {
     private final DdoJoinService ddoJoinService;
 
     @PostMapping
-    public void join(
-            @PathVariable(name = "id") Long id
-    ) {
+    public void join(@PathVariable Long id) {
         ddoJoinService.ddoJoin(id);
     }
 
     @GetMapping
-    public List<UserResponseDto> findJoiners(
-            @PathVariable(name = "id") Long id
-    ) {
+    public List<UserResponseDto> findJoiners(@PathVariable Long id) {
         return ddoJoinService.findJoiners(id);
     }
 }

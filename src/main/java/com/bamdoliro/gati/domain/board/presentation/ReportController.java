@@ -19,7 +19,7 @@ public class ReportController {
     // 게시물 신고하기
     @PostMapping("/{boardId}")
     public void reportPost(
-            @PathVariable(name = "boardId") Long boardId,
+            @PathVariable Long boardId,
             @RequestBody CreateReportRequestDto request
     ) {
         reportService.reportPost(boardId, request);
@@ -27,17 +27,13 @@ public class ReportController {
 
     // 특정 게시물의 신고 리스트 조회
     @GetMapping("/{boardId}")
-    public List<ReportResponseDto> getReportList(
-            @PathVariable(name = "boardId") Long boardId
-    ) {
+    public List<ReportResponseDto> getReportList(@PathVariable Long boardId) {
         return reportService.getBoardReportList(boardId);
     }
 
     // 신고 디테일 조회
     @GetMapping("/{reportId}/detail")
-    public ReportDetailResponseDto getReportDetail(
-            @PathVariable(name = "reportId") Long reportId
-    ) {
+    public ReportDetailResponseDto getReportDetail(@PathVariable Long reportId) {
         return reportService.getReportDetail(reportId);
     }
 }

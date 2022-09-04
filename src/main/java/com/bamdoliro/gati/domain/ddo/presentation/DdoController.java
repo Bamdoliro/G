@@ -14,16 +14,12 @@ public class DdoController {
     private final DdoService ddoService;
 
     @PostMapping
-    public void post(
-            @RequestBody CreateDdoRequestDto request
-    ) {
+    public void post(@RequestBody CreateDdoRequestDto request) {
         ddoService.savePost(request);
     }
 
     @GetMapping("/{id}")
-    public DdoDetailResponseDto getDoDetail(
-            @PathVariable(name = "id") Long id
-    ) {
+    public DdoDetailResponseDto getDoDetail(@PathVariable Long id) {
         return ddoService.getDdoDetail(id);
     }
 }

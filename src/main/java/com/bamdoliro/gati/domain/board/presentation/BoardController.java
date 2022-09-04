@@ -20,17 +20,13 @@ public class  BoardController {
 
     // 게시물 저장
     @PostMapping
-    public void savePost(
-            @RequestBody @Valid CreateBoardRequestDto request
-    ) {
+    public void savePost(@RequestBody @Valid CreateBoardRequestDto request) {
         boardService.savePost(request);
     }
 
     // 게시물 디테일
     @GetMapping("/detail/{id}")
-    public BoardDetailDto getDetail(
-            @PathVariable(name = "id") Long id
-    ) {
+    public BoardDetailDto getDetail(@PathVariable Long id) {
         return boardService.getDetail(id);
     }
 
@@ -38,25 +34,20 @@ public class  BoardController {
     @PutMapping("/{id}")
     public void updatePost(
             @RequestBody @Valid UpdateBoardRequestDto request,
-            @PathVariable(name = "id") Long id
+            @PathVariable Long id
     ) {
         boardService.updatePost(request, id);
     }
 
     // 게시물 삭제
     @DeleteMapping("/{id}")
-    public void deletePost(
-            @PathVariable Long id
-    ) {
+    public void deletePost(@PathVariable Long id) {
         boardService.deletePost(id);
     }
 
     // 커뮤니티 전체 게시물 조회
     @GetMapping("/community/{communityId}")
-    public List<BoardResponseDto> getCommunityPosts(
-            @PathVariable Long communityId
-    ) {
+    public List<BoardResponseDto> getCommunityPosts(@PathVariable Long communityId) {
         return boardService.getCommunityPosts(communityId);
     }
-
 }

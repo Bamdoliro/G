@@ -40,4 +40,10 @@ public class CommunityFacade {
             throw CannotDeleteCommunityException.EXCEPTION;
         }
     }
+
+    public void checkCommunityExists(Long communityId) {
+        if (!communityRepository.existsById(communityId)) {
+            throw CommunityNotFoundException.EXCEPTION;
+        }
+    }
 }

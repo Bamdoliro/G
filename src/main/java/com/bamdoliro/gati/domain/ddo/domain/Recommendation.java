@@ -25,4 +25,15 @@ public class Recommendation {
     @JoinColumn(name = "ddo_id")
     private Ddo ddo;
 
+    public static Recommendation createDdo(User user, Ddo ddo) {
+        Recommendation recommendation = new Recommendation();
+
+        recommendation.user = user;
+        user.getRecommendList().add(recommendation);
+
+        recommendation.ddo = ddo;
+        ddo.getRecommendList().add(recommendation);
+
+        return recommendation;
+    }
 }

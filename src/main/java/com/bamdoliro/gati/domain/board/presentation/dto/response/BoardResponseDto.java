@@ -11,6 +11,9 @@ import javax.validation.constraints.NotNull;
 public class BoardResponseDto {
 
     @NotNull
+    private Long id;
+
+    @NotNull
     private String title;
 
     @NotNull
@@ -24,6 +27,7 @@ public class BoardResponseDto {
 
     public static BoardResponseDto of (Board board) {
         return BoardResponseDto.builder()
+                .id(board.getId())
                 .title(board.getTitle())
                 .content(board.getContent())
                 .writer(board.getWriter().getName())

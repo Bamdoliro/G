@@ -13,6 +13,9 @@ import javax.validation.constraints.NotNull;
 public class ReportResponseDto {
 
     @NotNull
+    private Long id;
+
+    @NotNull
     private String title;
 
     @NotNull
@@ -23,6 +26,7 @@ public class ReportResponseDto {
 
     public static ReportResponseDto of(Report report){
         return ReportResponseDto.builder()
+                .id(report.getId())
                 .title(report.getTitle())
                 .boardTitle(report.getBoard().getTitle())
                 .userName(report.getUser().getName())

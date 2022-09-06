@@ -13,6 +13,7 @@ import java.time.LocalDate;
 @Builder
 public class GetUserResponseDto {
 
+    private Long id;
     private String email;
     private String name;
     private LocalDate birth;
@@ -22,6 +23,7 @@ public class GetUserResponseDto {
 
     public static GetUserResponseDto of(User user) {
         return GetUserResponseDto.builder()
+                .id(user.getId())
                 .email(user.getEmail())
                 .name(user.getName())
                 .birth(user.getBirth())

@@ -9,10 +9,15 @@ import lombok.Getter;
 public class DdoResponseDto {
 
     private Long id;
+    
     private String title;
+    
     private String writerName;
+    
     private int capacity;
+    
     private int numberOfJoiner;
+    
     private int numberOfRecommendation;
 
     public static DdoResponseDto of(Ddo ddo) {

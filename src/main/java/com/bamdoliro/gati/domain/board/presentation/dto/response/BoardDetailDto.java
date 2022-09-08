@@ -9,8 +9,11 @@ import lombok.Getter;
 public class BoardDetailDto {
 
     private String writer;
+
     private String title;
+
     private String content;
+
     private int numberOfLikes;
 
     public static BoardDetailDto of(Board board) {

@@ -18,7 +18,7 @@ public class JwtValidateService {
     }
 
     public void validateRefreshToken(String token) {
-        if (redisService.getData(getEmail(token)) == null) {
+        if (!redisService.getData(getEmail(token)).equals(token)) {
             throw InvalidTokenException.EXCEPTION;
         }
     }

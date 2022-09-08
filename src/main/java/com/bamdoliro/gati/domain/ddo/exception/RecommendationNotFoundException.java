@@ -1,4 +1,4 @@
-package com.bamdoliro.gati.domain.ddo.presentation.dto;
+package com.bamdoliro.gati.domain.ddo.exception;
 
 import com.bamdoliro.gati.global.error.exception.ErrorCode;
 import com.bamdoliro.gati.global.error.exception.GatiException;

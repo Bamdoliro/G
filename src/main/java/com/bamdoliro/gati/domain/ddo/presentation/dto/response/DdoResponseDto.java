@@ -8,18 +8,16 @@ import lombok.Getter;
 @Builder
 public class DdoResponseDto {
 
+    private Long id;
     private String title;
-
     private String writerName;
-
     private int capacity;
-
     private int numberOfJoiner;
-
     private int numberOfRecommendation;
 
     public static DdoResponseDto of(Ddo ddo) {
         return DdoResponseDto.builder()
+                .id(ddo.getId())
                 .title(ddo.getTitle())
                 .writerName(ddo.getWriter().getName())
                 .capacity(ddo.getCapacity())

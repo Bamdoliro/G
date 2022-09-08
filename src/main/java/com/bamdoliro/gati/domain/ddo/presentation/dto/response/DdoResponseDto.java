@@ -4,9 +4,13 @@ import com.bamdoliro.gati.domain.ddo.domain.Ddo;
 import lombok.Builder;
 import lombok.Getter;
 
+import javax.validation.constraints.NotNull;
+
 @Getter
 @Builder
 public class DdoResponseDto {
+
+    private Long id;
 
     private String title;
 
@@ -20,6 +24,7 @@ public class DdoResponseDto {
 
     public static DdoResponseDto of(Ddo ddo) {
         return DdoResponseDto.builder()
+                .id(ddo.getId())
                 .title(ddo.getTitle())
                 .writerName(ddo.getWriter().getName())
                 .numberOfRecommendation(ddo.getRecommendList().size())

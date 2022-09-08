@@ -21,10 +21,13 @@ spring:
     generate-ddl: true
     hibernate:
       ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+
 
   jwt:
     secret: asdfasdfasdfasfasdfadsfadsfasdfsadfsdfasfsfasdfsafasdfasdfasfasfasdsafsdffadsfasdfasfasf
-
 
   cache:
     type: redis
@@ -33,7 +36,13 @@ spring:
     host: localhost
     port: 6379
 
+
+socket:
+  config:
+    port: 9090
+
 debug: true
+
 
 logging:
   level:

@@ -28,13 +28,13 @@ public class CreateDdoRequestDto {
     @NotNull
     @Min(1)
     @Max(99)
-    private int maxNumber;
+    private int capacity;
 
     public Ddo toEntity() {
         return Ddo.builder()
                 .title(title)
                 .content(content)
-                .maxNumber(maxNumber)
+                .capacity(capacity)
                 .status(DdoStatus.OPEN)
                 .build();
     }

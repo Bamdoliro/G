@@ -4,11 +4,17 @@ import com.bamdoliro.gati.domain.board.exception.BoardNotFoundException;
 import com.bamdoliro.gati.domain.ddo.domain.Ddo;
 import com.bamdoliro.gati.domain.ddo.domain.repository.DdoRepository;
 import com.bamdoliro.gati.domain.ddo.domain.repository.DdoJoinRepository;
+import com.bamdoliro.gati.domain.ddo.domain.type.DdoStatus;
 import com.bamdoliro.gati.domain.ddo.exception.AlreadyJoinException;
+import com.bamdoliro.gati.domain.ddo.exception.DdoNotFoundException;
 import com.bamdoliro.gati.domain.ddo.exception.ExcessOfCapacityException;
+import com.bamdoliro.gati.domain.ddo.presentation.dto.response.DdoResponseDto;
 import com.bamdoliro.gati.domain.user.domain.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 @RequiredArgsConstructor
@@ -26,8 +32,13 @@ public class DdoFacade {
         if (ddoJoinRepository.existsByDdoAndJoiner(ddo, user)) {
             throw AlreadyJoinException.EXCEPTION;
         }
-        if (ddo.getDdoJoinList().size() >= ddo.getMaxNumber()) {
+        if (ddo.getDdoJoinList().size() >= ddo.getCapacity()) {
             throw ExcessOfCapacityException.EXCEPTION;
         }
+    }
+
+    public List<Ddo> findDdoOrderByRecommendationSize(Long communityId) {
+        return ddoRepository.findAllByOrderByRecommendation(communityId, DdoStatus.OPEN)
+                .orElseThrow(() -> DdoNotFoundException.EXCEPTION);
     }
 }

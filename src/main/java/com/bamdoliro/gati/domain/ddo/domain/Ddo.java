@@ -4,10 +4,7 @@ import com.bamdoliro.gati.domain.community.domain.Community;
 import com.bamdoliro.gati.domain.ddo.domain.type.DdoStatus;
 import com.bamdoliro.gati.domain.user.domain.User;
 import com.bamdoliro.gati.global.entity.BaseTimeEntity;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -33,8 +30,8 @@ public class Ddo extends BaseTimeEntity {
     @Column(name = "status", nullable = false)
     private DdoStatus status;
 
-    @Column(name = "maxNumber", nullable = false)
-    private int maxNumber;
+    @Column(name = "capacity", nullable = false)
+    private int capacity;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "writer_id")
@@ -51,11 +48,11 @@ public class Ddo extends BaseTimeEntity {
     private Community community;
 
     @Builder
-    public Ddo(String title, String content, DdoStatus status, int maxNumber, Community community, User writer) {
+    public Ddo(String title, String content, DdoStatus status, int capacity, Community community, User writer) {
         this.title = title;
         this.content = content;
         this.status = status;
-        this.maxNumber = maxNumber;
+        this.capacity = capacity;
         this.community = community;
         this.writer = writer;
     }
@@ -66,5 +63,4 @@ public class Ddo extends BaseTimeEntity {
         this.writer = user;
         this.community = community;
     }
-
 }

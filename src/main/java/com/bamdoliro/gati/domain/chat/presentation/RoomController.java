@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/chat/room")
+@RequestMapping("/chat")
 @RequiredArgsConstructor
 public class RoomController {
 

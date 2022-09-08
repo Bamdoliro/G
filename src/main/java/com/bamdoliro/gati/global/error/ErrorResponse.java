@@ -1,19 +1,23 @@
 package com.bamdoliro.gati.global.error;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.bamdoliro.gati.global.error.exception.ErrorCode;
 import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-@Builder
 public class ErrorResponse {
 
     private final int status;
     private final String message;
 
-    public String convertToJson() throws JsonProcessingException {
-        ObjectMapper mapper = new ObjectMapper();
-        return mapper.writeValueAsString(this);
+    @Builder
+    public ErrorResponse(int status, String message) {
+        this.status = status;
+        this.message = message;
+    }
+
+    public ErrorResponse(ErrorCode errorCode) {
+        this.status = errorCode.getStatus();
+        this.message = errorCode.getMessage();
     }
 }

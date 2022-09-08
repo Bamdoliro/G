@@ -51,6 +51,6 @@ public class ReportService {
     // 신고 디테일 조회
     @Transactional(readOnly = true)
     public ReportDetailResponseDto getReportDetail(Long reportId) {
-        return ReportDetailResponseDto.of(reportFacade.findById(reportId)) ;
+        return ReportDetailResponseDto.of(reportFacade.findReportById(reportId)) ;
     }
 }

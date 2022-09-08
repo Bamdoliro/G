@@ -1,5 +1,6 @@
 package com.bamdoliro.gati.domain.ddo.service;
 
+import com.bamdoliro.gati.domain.chat.service.RoomService;
 import com.bamdoliro.gati.domain.community.domain.Community;
 import com.bamdoliro.gati.domain.community.facade.CommunityFacade;
 import com.bamdoliro.gati.domain.ddo.domain.Ddo;
@@ -30,12 +31,13 @@ import static org.mockito.Mockito.verify;
 @ExtendWith(MockitoExtension.class)
 class DdoServiceTest {
 
+    @InjectMocks private DdoService ddoService;
+
     @Mock private DdoRepository ddoRepository;
     @Mock private UserFacade userFacade;
     @Mock private CommunityFacade communityFacade;
     @Mock private DdoFacade ddoFacade;
-
-    @InjectMocks private DdoService ddoService;
+    @Mock private RoomService roomService;
 
     Community community = Community.builder()
             .name("우리집")
@@ -57,7 +59,7 @@ class DdoServiceTest {
     Ddo ddo = Ddo.builder()
             .title("제목입니다.")
             .content("내용입니다. 내용입니다. 내용입니다.")
-            .maxNumber(2)
+            .capacity(2)
             .community(community)
             .writer(user)
             .status(DdoStatus.OPEN)
@@ -70,29 +72,28 @@ class DdoServiceTest {
         CreateDdoRequestDto request = CreateDdoRequestDto.builder()
                 .title("제목입니다.")
                 .content("내용입니다. 내용입니다. 내용입니다.")
-                .maxNumber(2)
+                .capacity(2)
                 .communityId(1L)
                 .build();
 
         given(ddoRepository.save(any())).willReturn(ddo);
         given(userFacade.getCurrentUser()).willReturn(user);
         given(communityFacade.findCommunityById(anyLong())).willReturn(community);
-
         ArgumentCaptor<Ddo> captor = ArgumentCaptor.forClass(Ddo.class);
+        willDoNothing().given(roomService).createRoom(anyString());
 
 
         // When
         ddoService.savePost(request);
 
         // Then
-        verify(ddoRepository, times(1))
-                .save(captor.capture());
+        verify(ddoRepository, times(1)).save(captor.capture());
+        verify(roomService, times(1)).createRoom(request.getTitle());
 
         Ddo savedDdo = captor.getValue();
-
         assertEquals("제목입니다.", savedDdo.getTitle());
         assertEquals("내용입니다. 내용입니다. 내용입니다.", savedDdo.getContent());
-        assertEquals(2, savedDdo.getMaxNumber());
+        assertEquals(2, savedDdo.getCapacity());
         assertEquals(communityFacade.findCommunityById(1L), savedDdo.getCommunity());
     }
 
@@ -110,7 +111,6 @@ class DdoServiceTest {
 
         assertEquals("제목입니다.", response.getTitle());
         assertEquals("내용입니다. 내용입니다. 내용입니다.", response.getContent());
-        assertEquals(2, response.getMaxNumber());
+        assertEquals(2, response.getCapacity());
     }
-
 }

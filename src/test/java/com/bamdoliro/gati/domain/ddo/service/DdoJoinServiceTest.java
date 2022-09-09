@@ -1,6 +1,5 @@
 package com.bamdoliro.gati.domain.ddo.service;
 
-import com.bamdoliro.gati.domain.community.domain.Community;
 import com.bamdoliro.gati.domain.community.facade.MemberFacade;
 import com.bamdoliro.gati.domain.ddo.domain.Ddo;
 import com.bamdoliro.gati.domain.ddo.domain.DdoJoin;
@@ -39,13 +38,6 @@ class DdoJoinServiceTest {
 
     @InjectMocks private DdoJoinService ddoJoinService;
 
-    Community community = Community.builder()
-            .name("우리집")
-            .introduction("킄")
-            .numberOfPeople(100)
-            .isPublic(true)
-            .build();
-
     User user = User.builder()
             .email("gati@bamdoliro.com")
             .name("김가티")
@@ -60,7 +52,6 @@ class DdoJoinServiceTest {
             .title("제목입니다.")
             .content("내용입니다. 내용입니다. 내용입니다.")
             .capacity(2)
-            .community(community)
             .writer(user)
             .status(DdoStatus.OPEN)
             .build();

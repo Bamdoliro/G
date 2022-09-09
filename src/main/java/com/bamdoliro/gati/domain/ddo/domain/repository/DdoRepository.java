@@ -19,7 +19,7 @@ public interface DdoRepository extends JpaRepository<Ddo, Long> {
             "join d.community c " +
             "where c.id = :communityId and d.status = :status " +
             "order by d.recommendList.size DESC")
-    Optional<List<Ddo>> findAllByOrderByRecommendation(
+    Optional<List<Ddo>> findAllOrderByRecommendation(
             @Param("communityId") Long communityId, @Param("status") DdoStatus status
     );
 }

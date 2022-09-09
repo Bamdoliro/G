@@ -8,10 +8,8 @@ import com.bamdoliro.gati.domain.ddo.domain.type.DdoStatus;
 import com.bamdoliro.gati.domain.ddo.exception.AlreadyJoinException;
 import com.bamdoliro.gati.domain.ddo.exception.DdoNotFoundException;
 import com.bamdoliro.gati.domain.ddo.exception.ExcessOfCapacityException;
-import com.bamdoliro.gati.domain.ddo.presentation.dto.response.DdoResponseDto;
 import com.bamdoliro.gati.domain.user.domain.User;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -38,7 +36,7 @@ public class DdoFacade {
     }
 
     public List<Ddo> findDdoOrderByRecommendationSize(Long communityId) {
-        return ddoRepository.findAllByOrderByRecommendation(communityId, DdoStatus.OPEN)
+        return ddoRepository.findAllOrderByRecommendation(communityId, DdoStatus.OPEN)
                 .orElseThrow(() -> DdoNotFoundException.EXCEPTION);
     }
 }

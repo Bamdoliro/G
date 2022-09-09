@@ -37,6 +37,15 @@ public class DdoJoinService {
         ddoJoinRepository.save(DdoJoin.createDoJoin(ddo, user));
     }
 
+    @Transactional
+    public void cancelDdoJoin(Long id) {
+        User user = userFacade.getCurrentUser();
+        Ddo ddo = ddoFacade.findDdoById(id);
+
+        ddoJoinRepository.deleteByJoinerAndDdo(user, ddo);
+
+    }
+
     @Transactional(readOnly = true)
     public List<UserResponseDto> findJoiners(Long id) {
         Ddo ddo = ddoFacade.findDdoById(id);

@@ -9,4 +9,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface DdoJoinRepository extends JpaRepository<DdoJoin, Long> {
 
     boolean existsByDdoAndJoiner(Ddo ddo, User joiner);
+
+    void deleteByJoinerAndDdo(User user, Ddo ddo);
 }

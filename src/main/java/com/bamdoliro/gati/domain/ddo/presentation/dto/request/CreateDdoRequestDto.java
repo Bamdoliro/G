@@ -2,8 +2,10 @@ package com.bamdoliro.gati.domain.ddo.presentation.dto.request;
 
 import com.bamdoliro.gati.domain.ddo.domain.Ddo;
 import com.bamdoliro.gati.domain.ddo.domain.type.DdoStatus;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.Max;
@@ -12,6 +14,8 @@ import javax.validation.constraints.NotNull;
 
 @Getter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class CreateDdoRequestDto {
 
     @NotNull

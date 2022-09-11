@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface DdoRepository extends JpaRepository<Ddo, Long> {
+
+    @EntityGraph(attributePaths = {"recommendList", "ddoJoinList", "writer" })
     @Query("select d " +
             "from Ddo d " +
             "join d.community c " +

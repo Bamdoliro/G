@@ -4,12 +4,13 @@ import com.bamdoliro.gati.domain.community.domain.Community;
 import com.bamdoliro.gati.domain.ddo.domain.type.DdoStatus;
 import com.bamdoliro.gati.domain.user.domain.User;
 import com.bamdoliro.gati.global.entity.BaseTimeEntity;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity

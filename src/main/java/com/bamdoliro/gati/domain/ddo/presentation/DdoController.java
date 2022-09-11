@@ -5,10 +5,6 @@ import com.bamdoliro.gati.domain.ddo.presentation.dto.response.DdoDetailResponse
 import com.bamdoliro.gati.domain.ddo.presentation.dto.response.DdoResponseDto;
 import com.bamdoliro.gati.domain.ddo.service.DdoService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

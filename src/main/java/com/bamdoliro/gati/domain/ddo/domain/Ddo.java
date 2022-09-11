@@ -8,7 +8,9 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -38,10 +40,10 @@ public class Ddo extends BaseTimeEntity {
     private User writer;
 
     @OneToMany(mappedBy = "ddo", cascade = CascadeType.ALL)
-    private List<Recommendation> recommendList = new ArrayList<>();
+    private Set<Recommendation> recommendList = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "ddo", cascade = CascadeType.ALL)
-    private List<DdoJoin> ddoJoinList = new ArrayList<>();
+    private Set<DdoJoin> ddoJoinList = new LinkedHashSet<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "community_id")

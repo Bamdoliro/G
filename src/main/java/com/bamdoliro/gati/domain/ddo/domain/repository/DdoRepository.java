@@ -3,6 +3,7 @@ package com.bamdoliro.gati.domain.ddo.domain.repository;
 import com.bamdoliro.gati.domain.community.domain.Community;
 import com.bamdoliro.gati.domain.ddo.domain.Ddo;
 import com.bamdoliro.gati.domain.ddo.domain.type.DdoStatus;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -22,4 +23,8 @@ public interface DdoRepository extends JpaRepository<Ddo, Long> {
     Optional<List<Ddo>> findAllOrderByRecommendation(
             @Param("communityId") Long communityId, @Param("status") DdoStatus status
     );
+
+    @Override
+    @EntityGraph(attributePaths = {"recommendList", "ddoJoinList"})
+    Optional<Ddo> findById(Long id);
 }

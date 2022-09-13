@@ -6,6 +6,7 @@ import com.bamdoliro.gati.domain.ddo.domain.DdoJoin;
 import com.bamdoliro.gati.domain.ddo.domain.repository.DdoJoinRepository;
 import com.bamdoliro.gati.domain.ddo.domain.type.DdoStatus;
 import com.bamdoliro.gati.domain.ddo.facade.DdoFacade;
+import com.bamdoliro.gati.domain.ddo.presentation.dto.response.UserResponseDto;
 import com.bamdoliro.gati.domain.user.domain.User;
 import com.bamdoliro.gati.domain.user.domain.type.Authority;
 import com.bamdoliro.gati.domain.user.domain.type.Gender;
@@ -20,6 +21,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -58,9 +60,9 @@ class DdoJoinServiceTest {
 
     DdoJoin ddoJoin = DdoJoin.createDoJoin(ddo, user);
 
-    @DisplayName("[DDO] 게시물에 참여하기")
+    @DisplayName("[Service] DdoJoin - 게시물에 참여하기")
     @Test
-    void joinTest() {
+    void givenDdoId_whenJoinDdo_thenCreateDdoJoin() {
         // Given
         given(ddoFacade.findDdoById(anyLong())).willReturn(ddo);
         given(userFacade.getCurrentUser()).willReturn(user);
@@ -80,5 +82,35 @@ class DdoJoinServiceTest {
 
         assertEquals(ddo, savedDdoJoin.getDdo());
         assertEquals(user, savedDdoJoin.getJoiner());
+    }
+
+
+    @DisplayName("[Service] DdoJoin - 게시물 참여 취소하기")
+    @Test
+    void givenDdoId_whenCancelJoin_thenDeleteDdoJoin() {
+        // Given
+        given(userFacade.getCurrentUser()).willReturn(user);
+        given(ddoFacade.findDdoById(anyLong())).willReturn(ddo);
+
+        // When
+        ddoJoinService.cancelDdoJoin(1L);
+
+        // Then
+        verify(ddoJoinRepository, times(1))
+                .deleteByJoinerAndDdo(any(), any());
+    }
+
+
+    @DisplayName("[Service] DdoJoin - 게시물 참여자 리스트 조회하기")
+    @Test
+    void givenDdoId_whenFindJoiners_thenReturnDdoJoinerList() {
+        // Given
+        given(ddoFacade.findDdoById(anyLong())).willReturn(ddo);
+
+        // When
+        List<UserResponseDto> joinerList = ddoJoinService.findJoiners(anyLong());
+
+        // Then
+        assertEquals("김가티", joinerList.get(0).getName());
     }
 }

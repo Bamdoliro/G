@@ -4,11 +4,14 @@ import com.bamdoliro.gati.domain.community.domain.Community;
 import com.bamdoliro.gati.domain.ddo.domain.type.DdoStatus;
 import com.bamdoliro.gati.domain.user.domain.User;
 import com.bamdoliro.gati.global.entity.BaseTimeEntity;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -38,10 +41,10 @@ public class Ddo extends BaseTimeEntity {
     private User writer;
 
     @OneToMany(mappedBy = "ddo", cascade = CascadeType.ALL)
-    private List<Recommendation> recommendList = new ArrayList<>();
+    private Set<Recommendation> recommendList = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "ddo", cascade = CascadeType.ALL)
-    private List<DdoJoin> ddoJoinList = new ArrayList<>();
+    private Set<DdoJoin> ddoJoinList = new LinkedHashSet<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "community_id")

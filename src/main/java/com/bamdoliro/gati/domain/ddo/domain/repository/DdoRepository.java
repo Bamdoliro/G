@@ -13,11 +13,11 @@ import java.util.Optional;
 public interface DdoRepository extends JpaRepository<Ddo, Long> {
 
     @EntityGraph(attributePaths = {"recommendList", "ddoJoinList", "writer" })
-    @Query("select d " +
-            "from Ddo d " +
-            "join d.community c " +
-            "where c.id = :communityId and d.status = :status " +
-            "order by d.recommendList.size DESC")
+    @Query("SELECT d " +
+            "FROM Ddo d " +
+            "JOIN d.community c " +
+            "WHERE c.id = :communityId and d.status = :status " +
+            "ORDER BY d.recommendList.size DESC")
     Optional<List<Ddo>> findAllOrderByRecommendation(
             @Param("communityId") Long communityId, @Param("status") DdoStatus status
     );

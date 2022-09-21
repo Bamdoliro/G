@@ -8,4 +8,4 @@ FROM openjdk:11-jdk
 COPY --from=builder build/libs/*.jar app.jar
 EXPOSE 8080
 ENV TZ=Asia/Seoul
-ENTRYPOINT ["java","-jar","-Dspring.profiles.active=prod","/app.jar"]
+ENTRYPOINT ["java","-jar","/app.jar"]

@@ -1,25 +1,57 @@
-version: '3'
+version: '3.7'
 
 services:
-  mysql:
-    container_name: bamdoliro_gati_local
-    image: mysql/mysql-server:5.7
+
+  gati-db:
+    container_name: bamdoliro_gati_db
+    image: mysql:8.0
+    networks:
+      - gati-network
     environment:
-      MYSQL_ROOT_HOST: "%"
-      MYSQL_USER: "bamdoliro"
-      MYSQL_PASSWORD: "bamdoliro"
-      MYSQL_DATABASE: "bamdoliro_gati"
-    ports:
-      - "3307:3306"
+      MYSQL_ROOT_HOST: '%'
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
     command:
       - "mysqld"
       - "--character-set-server=utf8mb4"
       - "--collation-server=utf8mb4_unicode_ci"
+    volumes:
+      - dbvol:/var/lib/mysql
+    ports:
+      - ${DB_PORT}:${DB_PORT}
+    restart: always
+
+  gati-backend:
+    container_name: bamdoliro_gati_server
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    ports:
+      - "8080:8080"
+    networks:
+      - gati-network
+    depends_on:
+      - gati-db
+    env_file:
+      - .env
+    restart: always
 
   redis:
-    image: redis:latest
     container_name: bamdoliro_gati_redis
-    hostname: bamdoliro
-    command: redis-server --port 6379
+    image: redis:latest
+    hostname: ${REDIS_HOST}
+    command: redis-server --port ${REDIS_PORT}
     ports:
-      - "6379:6379"
+      - ${REDIS_PORT}:6379
+    networks:
+      - gati-network
+
+
+networks:
+  gati-network:
+    name: gati-network
+
+volumes:
+  dbvol:

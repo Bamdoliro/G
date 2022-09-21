@@ -55,7 +55,7 @@ spring:
       on-profile: prod
 
   datasource:
-    url: jdbc:mysql://localhost:${DB_PORT}/${DB_NAME}?useSSL=false&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://gati-db:${DB_PORT}/${DB_NAME}?useSSL=false&allowPublicKeyRetrieval=true
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}

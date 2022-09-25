@@ -38,6 +38,7 @@ services:
     build: .
     expose:
       - 8080
+      - 9090
     env_file:
       - .env
     depends_on:

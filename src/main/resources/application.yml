@@ -76,7 +76,7 @@ spring:
     type: redis
 
   redis:
-    host: ${REDIS_HOST}
+    host: gati-redis
     port: ${REDIS_PORT}
 
 socket:

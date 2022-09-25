@@ -28,8 +28,7 @@ services:
       - "--collation-server=utf8mb4_unicode_ci"
   
   gati-redis:
-    image: redis:latest
-    hostname: ${REDIS_HOST}
+    image: redis:7.0
     command: redis-server --port ${REDIS_PORT}
     ports:
       - ${REDIS_PORT}:6379

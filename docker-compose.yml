@@ -37,7 +37,8 @@ services:
     build: .
     expose:
       - 8080
-      - 9090
+    ports:
+      - "9090:9090"
     env_file:
       - .env
     depends_on:

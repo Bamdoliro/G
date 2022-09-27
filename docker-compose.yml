@@ -9,6 +9,8 @@ services:
       - ./nginx/conf.d:/etc/nginx/conf.d
     depends_on:
       - gati-application
+    environment:
+      - TZ="Asia/Seoul"
   
   gati-database:
     image: mysql:8.0
@@ -18,6 +20,7 @@ services:
       MYSQL_PASSWORD: ${DB_PASSWORD}
       MYSQL_ROOT_PASSWORD: root
       MYSQL_ROOT_HOST: '%'
+      TZ: "Asia/Seoul"
     expose:
       - 3306
     volumes:
@@ -26,12 +29,15 @@ services:
       - "mysqld"
       - "--character-set-server=utf8mb4"
       - "--collation-server=utf8mb4_unicode_ci"
+
   
   gati-redis:
     image: redis:7.0
     command: redis-server --port ${REDIS_PORT}
     ports:
       - ${REDIS_PORT}:6379
+    environment:
+      - TZ="Asia/Seoul"
 
   gati-application:
     build: .
@@ -43,6 +49,8 @@ services:
       - .env
     depends_on:
       - gati-database
+    environment:
+      - TZ="Asia/Seoul"
 
 volumes:
   gati-volume: {}

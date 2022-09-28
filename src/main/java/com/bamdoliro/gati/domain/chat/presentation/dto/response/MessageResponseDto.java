@@ -12,6 +12,7 @@ public class MessageResponseDto {
     private final String message;
     private final MessageType messageType;
     private final String username;
+    private final Long userId;
     private final String sentAt;
 
     public static MessageResponseDto of(Message message, String sentAt) {
@@ -21,6 +22,8 @@ public class MessageResponseDto {
                 .username(
                         message.getMessageType() == MessageType.USER ?
                         message.getUser().getName() : null)
+                .userId(message.getMessageType() == MessageType.USER ?
+                        message.getUser().getId() : null)
                 .sentAt(sentAt)
                 .build();
     }

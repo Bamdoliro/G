@@ -1,5 +1,7 @@
 package com.bamdoliro.gati.global.security.jwt;
 
+import com.bamdoliro.gati.domain.user.domain.User;
+import com.bamdoliro.gati.domain.user.facade.UserFacade;
 import com.bamdoliro.gati.global.redis.RedisService;
 import com.bamdoliro.gati.global.security.jwt.exception.InvalidTokenException;
 import lombok.RequiredArgsConstructor;

@@ -69,6 +69,8 @@ jobs:
             echo SOCKET_PORT=${{ secrets.SOCKET_PORT }} >> .env
             cat .env
             
+            echo ls
+            
             docker-compose up -d
             docker image prune -f
 

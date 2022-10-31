@@ -67,9 +67,8 @@ jobs:
             echo REDIS_HOST=${{ secrets.REDIS_HOST }} >> .env
             echo REDIS_PORT=${{ secrets.REDIS_PORT }} >> .env
             echo SOCKET_PORT=${{ secrets.SOCKET_PORT }} >> .env
-            cat .env
             
-            echo ls
+            cd gati
             
             docker-compose up -d
             docker image prune -f

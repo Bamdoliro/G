@@ -23,9 +23,6 @@ public enum ErrorCode implements ErrorProperty {
     AUTHORITY_MISMATCH(401, "권한이 없습니다."),
     CANNOT_DELETE_COMMUNITY(401, "멤버가 2 명 이하일 때만 삭제할 수 있습니다."),
 
-    BOARD_NOT_FOUND(404,"게시물을 찾을 수 없습니다."),
-    LIKE_OVERLAP(422, "좋아요는 한 번만 가능합니다."),
-    REPORT_OVERLAP(422, "신고는 한 게시물 당 한 번만 가능합니다."),
 
     ROOM_NOT_FOUND(404, "채팅방을 찾을 수 없습니다."),
 

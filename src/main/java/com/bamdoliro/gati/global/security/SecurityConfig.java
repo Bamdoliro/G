@@ -1,10 +1,10 @@
 package com.bamdoliro.gati.global.security;
 
+import com.bamdoliro.gati.global.error.filter.GlobalErrorFilter;
 import com.bamdoliro.gati.global.security.auth.AuthDetailsService;
 import com.bamdoliro.gati.global.security.jwt.JwtTokenProvider;
 import com.bamdoliro.gati.global.security.jwt.JwtValidateService;
 import com.bamdoliro.gati.global.security.jwt.filter.JwtAuthenticationFilter;
-import com.bamdoliro.gati.global.security.jwt.filter.JwtExceptionFilter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -62,7 +62,7 @@ public class SecurityConfig {
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(authDetailsService, jwtTokenProvider, jwtValidateService),
                         UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(new JwtExceptionFilter(mapper), JwtAuthenticationFilter.class);
+                .addFilterBefore(new GlobalErrorFilter(mapper), GlobalErrorFilter.class);
 
         return http.build();
     }

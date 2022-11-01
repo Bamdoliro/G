@@ -16,12 +16,7 @@ public enum ErrorCode implements ErrorProperty {
     EXPIRED_TOKEN(401, "만료된 토큰입니다."),
     INVALID_TOKEN(401, "유효하지 않은 토큰입니다."),
 
-    COMMUNITY_NOT_FOUND(404, "공동체를 찾을 수 없습니다."),
-    COMMUNITY_PASSWORD_MISMATCH(401, "커뮤니티 비밀번호가 틀렸습니다."),
-    USER_NOT_COMMUNITY_MEMBER(422, "사용자가 해당 커뮤니티 멤버가 아닙니다."),
-    MEMBER_NOT_FOUND(404, "멤버를 찾을 수 없습니다."),
-    AUTHORITY_MISMATCH(401, "권한이 없습니다."),
-    CANNOT_DELETE_COMMUNITY(401, "멤버가 2 명 이하일 때만 삭제할 수 있습니다."),
+
 
 
 

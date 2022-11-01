@@ -4,6 +4,12 @@ spring:
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
+  jpa:
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
 ---
 spring:
   config:
@@ -51,6 +57,28 @@ logging:
 spring:
   config:
     activate:
-      on-profile: product
+      on-profile: prod
 
+  datasource:
+    url: jdbc:mysql://gati-database:${DB_PORT}/${DB_NAME}?useSSL=false&allowPublicKeyRetrieval=true
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
 
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+  jwt:
+    secret: ${JWT_SECRET}
+
+  cache:
+    type: redis
+
+  redis:
+    host: gati-redis
+    port: ${REDIS_PORT}
+
+socket:
+  config:
+    port: ${SOCKET_PORT}

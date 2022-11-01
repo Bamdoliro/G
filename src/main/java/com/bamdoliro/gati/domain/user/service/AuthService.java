@@ -25,8 +25,8 @@ public class AuthService {
         User user = userFacade.findUserByEmail(dto.getEmail());
         userFacade.checkUserPassword(user, dto.getPassword());
 
-        final String accessToken = jwtTokenProvider.createAccessToken(dto.getEmail());
-        final String refreshToken = jwtTokenProvider.createRefreshToken(dto.getEmail());
+        final String accessToken = jwtTokenProvider.createAccessToken(user);
+        final String refreshToken = jwtTokenProvider.createRefreshToken(user);
         redisService.setDataExpire(dto.getEmail(), refreshToken, REFRESH_TOKEN_VALID_TIME);
 
         return TokenResponseDto.builder()
@@ -45,7 +45,7 @@ public class AuthService {
 
         return TokenResponseDto.builder()
                 .accessToken(jwtTokenProvider.createAccessToken(
-                        jwtValidateService.getEmail(refreshToken)))
+                        userFacade.findUserByEmail(jwtValidateService.getEmail(refreshToken))))
                 .build();
     }
 }

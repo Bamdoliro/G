@@ -1,45 +1,45 @@
 package com.bamdoliro.gati.global.error;
 
-import com.bamdoliro.gati.global.error.exception.ErrorCode;
-import com.bamdoliro.gati.global.error.exception.GatiException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindException;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @RestControllerAdvice
 public class GatiExceptionHandler {
 
-    @ResponseStatus(value = HttpStatus.CONFLICT)
-    @ExceptionHandler(GatiException.class)
-    public ErrorResponse handleGatiException(GatiException e, HttpServletRequest request) {
-        log.error("errorCode: {}, url: {}, message: {}",
-                e.getErrorCode(), request.getRequestURI(), e.getMessage());
+    @ExceptionHandler({BindException.class})
+    public ResponseEntity<Map<String, String>> bindException(BindException e) {
+        Map<String, String> errorMap = new HashMap<>();
 
-        return new ErrorResponse(e.getErrorCode());
+        for (FieldError error : e.getFieldErrors()) {
+            errorMap.put(error.getField(), error.getDefaultMessage());
+        }
+        return new ResponseEntity<>(errorMap, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ErrorResponse handleBadRequest(MethodArgumentNotValidException e, HttpServletRequest request) {
-        log.error("url: {}, message: {}", request.getRequestURI(), e.getMessage());
+    @ExceptionHandler({ConstraintViolationException.class})
+    public ResponseEntity<Map<String, Object>> handleConstraintViolation(ConstraintViolationException e) {
+        Map<String, Object> errorMap = new HashMap<>();
+        List<String> errors = new ArrayList<>();
+        for (ConstraintViolation<?> violation : e.getConstraintViolations()) {
+            errors.add(violation.getRootBeanClass().getName() + " " +
+                    violation.getPropertyPath() + ": " + violation.getMessage());
+        }
+        errorMap.put("errors", errors);
+        errorMap.put("message", e.getMessage());
 
-        return ErrorResponse.builder()
-                .status(ErrorCode.BAD_REQUEST.getStatus())
-                .message(
-                        e.getBindingResult().getFieldErrors().get(0).getField() + "의 " +
-                                e.getBindingResult().getFieldErrors().get(0).getDefaultMessage())
-                .build();
-    }
-
-    @ExceptionHandler(Exception.class)
-    public ErrorResponse handleException(Exception e, HttpServletRequest request) {
-        log.error("url: {}, message: {}", request.getRequestURI(), e.getMessage());
-
-        return new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(errorMap, HttpStatus.BAD_REQUEST);
     }
 }

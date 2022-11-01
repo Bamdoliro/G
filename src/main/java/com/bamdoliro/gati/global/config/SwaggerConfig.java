@@ -16,7 +16,7 @@ public class SwaggerConfig {
 
     private static final String API_NAME = "가티 API";
     private static final String API_VERSION = "0.0.1";
-    private static final String API_DESCRIPTION = "가티 청원 API 명세서";
+    private static final String API_DESCRIPTION = "가티 API 명세서";
 
     @Bean
     public Docket api() {

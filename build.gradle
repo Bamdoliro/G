@@ -1,6 +1,6 @@
 plugins {
-	id 'org.springframework.boot' version '2.6.4'
-	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+	id 'org.springframework.boot' version '2.7.3'
+	id 'io.spring.dependency-management' version '1.0.13.RELEASE'
 	id 'java'
 }
 
@@ -19,7 +19,8 @@ repositories {
 }
 
 dependencies {
-//	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	runtimeOnly 'mysql:mysql-connector-java'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -27,8 +28,24 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
+
+	implementation 'io.jsonwebtoken:jjwt-api:0.11.2'
+	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.2'
+	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.2'
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+
+	implementation 'org.apache.commons:commons-lang3:3.0'
+
+	implementation 'io.springfox:springfox-swagger-ui:2.9.2'
+	implementation 'io.springfox:springfox-swagger2:2.9.2'
+
+	implementation 'com.corundumstudio.socketio:netty-socketio:1.7.19'
 }
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+jar {
+	enabled = false
 }

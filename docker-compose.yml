@@ -1,0 +1,56 @@
+version: "3"
+
+services:
+  gati-web:
+    image: nginx
+    ports:
+      - 80:80
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+    depends_on:
+      - gati-application
+    environment:
+      - TZ="Asia/Seoul"
+  
+  gati-database:
+    image: mysql:8.0
+    environment:
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_HOST: '%'
+      TZ: "Asia/Seoul"
+    expose:
+      - 3306
+    volumes:
+      - gati-volume:/var/lib/mysql
+    command:
+      - "mysqld"
+      - "--character-set-server=utf8mb4"
+      - "--collation-server=utf8mb4_unicode_ci"
+
+  
+  gati-redis:
+    image: redis:7.0
+    command: redis-server --port ${REDIS_PORT}
+    ports:
+      - ${REDIS_PORT}:6379
+    environment:
+      - TZ="Asia/Seoul"
+
+  gati-application:
+    build: .
+    expose:
+      - 8080
+    ports:
+      - "9090:9090"
+    env_file:
+      - .env
+    depends_on:
+      - gati-database
+    environment:
+      - TZ="Asia/Seoul"
+
+volumes:
+  gati-volume: {}

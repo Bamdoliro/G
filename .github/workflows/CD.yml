@@ -65,6 +65,8 @@ jobs:
             echo REDIS_HOST=${{ secrets.REDIS_HOST }} >> .env
             echo REDIS_PORT=${{ secrets.REDIS_PORT }} >> .env
             echo SOCKET_PORT=${{ secrets.SOCKET_PORT }} >> .env
+            echo DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }} >> .env
+            echo DOCKER_REPO=${{ secrets.DOCKER_REPO }} >> .env
             
             cd gati
             git pull origin main

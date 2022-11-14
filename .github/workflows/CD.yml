@@ -55,6 +55,10 @@ jobs:
             sudo docker rm -f $(docker ps -qa)
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPO }}
             
+            cd gati
+            git pull origin main
+            
+            rm -rf .env
             touch .env
             echo DB_PORT=${{ secrets.DB_PORT }} >> .env
             echo DB_NAME=${{ secrets.DB_NAME }} >> .env
@@ -67,9 +71,6 @@ jobs:
             echo SOCKET_PORT=${{ secrets.SOCKET_PORT }} >> .env
             echo DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }} >> .env
             echo DOCKER_REPO=${{ secrets.DOCKER_REPO }} >> .env
-            
-            cd gati
-            git pull origin main
             
             docker-compose up -d
             docker image prune -f

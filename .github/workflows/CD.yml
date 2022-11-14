@@ -3,8 +3,6 @@ name: Java CD with Gradle
 on:
   push:
     branches: [ main ]
-  pull_request:
-    branches: [ main ]
 
 jobs:
   CD:
@@ -69,6 +67,7 @@ jobs:
             echo SOCKET_PORT=${{ secrets.SOCKET_PORT }} >> .env
             
             cd gati
+            git pull origin main
             
             docker-compose up -d
             docker image prune -f

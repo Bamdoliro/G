@@ -40,7 +40,7 @@ services:
       - TZ="Asia/Seoul"
 
   gati-application:
-    build: .
+    image: bamdoliro-gati:latest
     expose:
       - 8080
     ports:

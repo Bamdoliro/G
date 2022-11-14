@@ -67,6 +67,7 @@ jobs:
             echo SOCKET_PORT=${{ secrets.SOCKET_PORT }} >> .env
             
             cd gati
+            git pull origin main
             
             docker-compose up -d
             docker image prune -f

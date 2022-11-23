@@ -4,10 +4,12 @@ import com.bamdoliro.gati.domain.notification.domain.type.NotificationType;
 import com.bamdoliro.gati.domain.user.domain.User;
 import lombok.AccessLevel;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+@Getter
 @Entity
 @Table(name = "tbl_notification")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

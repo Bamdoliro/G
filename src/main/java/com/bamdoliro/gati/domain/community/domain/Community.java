@@ -29,7 +29,7 @@ public class Community extends BaseTimeEntity {
     private String introduction;
 
     @Column(nullable = false)
-    private int numberOfPeople;
+    private int capacity;
 
     @Column(length = 6, nullable = false)
     private String code;
@@ -56,10 +56,10 @@ public class Community extends BaseTimeEntity {
 
 
     @Builder
-    public Community(String name, String introduction, int numberOfPeople, String code, Boolean isPublic, String password) {
+    public Community(String name, String introduction, int capacity, String code, Boolean isPublic, String password) {
         this.name = name;
         this.introduction = introduction;
-        this.numberOfPeople = numberOfPeople;
+        this.capacity = capacity;
         this.code = code;
         this.isPublic = isPublic;
         this.password = password;

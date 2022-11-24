@@ -21,7 +21,7 @@ public class CreateCommunityRequestDto {
     private String introduction;
 
     @NotNull
-    private int numberOfPeople;
+    private int capacity;
 
     @NotNull
     private Boolean isPublic;
@@ -33,7 +33,7 @@ public class CreateCommunityRequestDto {
         return Community.builder()
                 .name(name)
                 .introduction(introduction)
-                .numberOfPeople(numberOfPeople)
+                .capacity(capacity)
                 .code(code)
                 .isPublic(isPublic)
                 .password(password)

@@ -29,11 +29,9 @@ public class DdoDetailResponseDto {
 
     private int numberOfRecommendation;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy.MM.dd", timezone = "Asia/Seoul")
-    private LocalDateTime startDate;
+    private LocalDate startDate;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy.MM.dd", timezone = "Asia/Seoul")
-    private LocalDateTime endDate;
+    private LocalDate endDate;
 
     public static DdoDetailResponseDto of(Ddo ddo) {
         return DdoDetailResponseDto.builder()

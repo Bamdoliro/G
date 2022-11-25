@@ -10,17 +10,18 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "ddo_table")
+@Table(name = "tbl_ddo")
 public class Ddo extends BaseTimeEntity {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ddo_id")
     private Long id;
 
@@ -38,10 +39,10 @@ public class Ddo extends BaseTimeEntity {
     private int capacity;
 
     @Column(nullable = false)
-    private LocalDateTime startDate;
+    private LocalDate startDate;
 
     @Column(nullable = false)
-    private LocalDateTime endDate;
+    private LocalDate endDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "writer_id")
@@ -58,7 +59,7 @@ public class Ddo extends BaseTimeEntity {
     private Community community;
 
     @Builder
-    public Ddo(String title, String content, DdoStatus status, int capacity, Community community, User writer, LocalDateTime startDate, LocalDateTime endDate) {
+    public Ddo(String title, String content, DdoStatus status, int capacity, Community community, User writer, LocalDate startDate, LocalDate endDate) {
         this.title = title;
         this.content = content;
         this.status = status;

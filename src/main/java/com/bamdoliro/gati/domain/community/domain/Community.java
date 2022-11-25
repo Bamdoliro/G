@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "community_table")
+@Table(name = "tbl_community")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class Community extends BaseTimeEntity {

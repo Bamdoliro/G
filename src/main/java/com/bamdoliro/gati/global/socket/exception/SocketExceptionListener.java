@@ -48,10 +48,10 @@ public class SocketExceptionListener implements ExceptionListener {
 
         if (e instanceof GatiException) {
             GatiException ex = (GatiException) e;
-            message = new ErrorResponse(ex.getErrorCode());
+            message = new ErrorResponse(ex.getErrorProperty());
         } else if (e.getCause() instanceof GatiException) {
             GatiException ex = (GatiException) e.getCause();
-            message = new ErrorResponse(ex.getErrorCode());
+            message = new ErrorResponse(ex.getErrorProperty());
         } else {
             e.printStackTrace();
             message = new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR);

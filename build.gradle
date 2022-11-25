@@ -37,8 +37,7 @@ dependencies {
 
 	implementation 'org.apache.commons:commons-lang3:3.0'
 
-	implementation 'io.springfox:springfox-swagger-ui:2.9.2'
-	implementation 'io.springfox:springfox-swagger2:2.9.2'
+	implementation 'io.springfox:springfox-boot-starter:3.0.0'
 
 	implementation 'com.corundumstudio.socketio:netty-socketio:1.7.19'
 }

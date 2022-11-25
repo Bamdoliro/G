@@ -11,8 +11,6 @@ import com.bamdoliro.gati.domain.user.facade.UserFacade;
 import com.bamdoliro.gati.global.socket.SocketEventProperty;
 import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.SocketIOServer;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -29,7 +27,6 @@ public class MessageService {
     private final UserFacade userFacade;
     private final RoomFacade roomFacade;
     private final MessageRepository messageRepository;
-    private final ObjectMapper mapper;
 
     public void sendUserMessage(SocketIOClient client, MessageRequestDto request) {
         sendMessage(request, userFacade.findUserByClient(client),

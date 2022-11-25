@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "board_like_table")
+@Table(name = "tbl_board_like")
 public class BoardLike {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)

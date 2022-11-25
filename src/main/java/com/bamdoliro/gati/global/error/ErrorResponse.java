@@ -1,6 +1,7 @@
 package com.bamdoliro.gati.global.error;
 
 import com.bamdoliro.gati.global.error.exception.ErrorCode;
+import com.bamdoliro.gati.global.error.exception.ErrorProperty;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -11,13 +12,8 @@ public class ErrorResponse {
     private final String message;
 
     @Builder
-    public ErrorResponse(int status, String message) {
-        this.status = status;
-        this.message = message;
-    }
-
-    public ErrorResponse(ErrorCode errorCode) {
-        this.status = errorCode.getStatus();
-        this.message = errorCode.getMessage();
+    public ErrorResponse(ErrorProperty errorProperty) {
+        this.status = errorProperty.getStatus();
+        this.message = errorProperty.getMessage();
     }
 }

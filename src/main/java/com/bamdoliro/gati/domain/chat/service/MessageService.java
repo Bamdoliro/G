@@ -11,8 +11,6 @@ import com.bamdoliro.gati.domain.user.facade.UserFacade;
 import com.bamdoliro.gati.global.socket.SocketEventProperty;
 import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.SocketIOServer;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -29,7 +27,6 @@ public class MessageService {
     private final UserFacade userFacade;
     private final RoomFacade roomFacade;
     private final MessageRepository messageRepository;
-    private final ObjectMapper mapper;
 
     public void sendUserMessage(SocketIOClient client, MessageRequestDto request) {
         sendMessage(request, userFacade.findUserByClient(client),
@@ -44,25 +41,13 @@ public class MessageService {
     @Transactional
     public void sendMessage(MessageRequestDto request, User user, Room room) {
         Message message = messageRepository.save(request.toEntity(user, room));
-        try {
-            server.getRoomOperations(request.getRoomId())
-                    .sendEvent(SocketEventProperty.MESSAGE_KEY, MessageResponseDto.of(
-                            message, mapper.writeValueAsString(message.getCreatedAt())));
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
+        server.getRoomOperations(request.getRoomId())
+                .sendEvent(SocketEventProperty.MESSAGE_KEY, MessageResponseDto.of(message));
     }
 
     @Transactional(readOnly = true)
     public List<MessageResponseDto> getLastMessage(Long roomId, Pageable pageable) {
         return messageRepository.findAllByRoom(roomFacade.findRoomById(roomId), pageable)
-                .stream().map(m -> {
-                    try {
-                        return MessageResponseDto.of(m, mapper.writeValueAsString(m.getCreatedAt()));
-                    } catch (JsonProcessingException e) {
-                        e.printStackTrace();
-                    }
-                    return null;
-                }).collect(Collectors.toList());
+                .stream().map(MessageResponseDto::of).collect(Collectors.toList());
     }
 }

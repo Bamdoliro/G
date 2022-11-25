@@ -44,25 +44,13 @@ public class MessageService {
     @Transactional
     public void sendMessage(MessageRequestDto request, User user, Room room) {
         Message message = messageRepository.save(request.toEntity(user, room));
-        try {
-            server.getRoomOperations(request.getRoomId())
-                    .sendEvent(SocketEventProperty.MESSAGE_KEY, MessageResponseDto.of(
-                            message, mapper.writeValueAsString(message.getCreatedAt())));
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
+        server.getRoomOperations(request.getRoomId())
+                .sendEvent(SocketEventProperty.MESSAGE_KEY, MessageResponseDto.of(message));
     }
 
     @Transactional(readOnly = true)
     public List<MessageResponseDto> getLastMessage(Long roomId, Pageable pageable) {
         return messageRepository.findAllByRoom(roomFacade.findRoomById(roomId), pageable)
-                .stream().map(m -> {
-                    try {
-                        return MessageResponseDto.of(m, mapper.writeValueAsString(m.getCreatedAt()));
-                    } catch (JsonProcessingException e) {
-                        e.printStackTrace();
-                    }
-                    return null;
-                }).collect(Collectors.toList());
+                .stream().map(MessageResponseDto::of).collect(Collectors.toList());
     }
 }

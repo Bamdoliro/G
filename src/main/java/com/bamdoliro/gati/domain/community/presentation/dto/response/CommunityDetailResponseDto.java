@@ -14,7 +14,7 @@ public class CommunityDetailResponseDto {
     private Long id;
     private String name;
     private String introduction;
-    private int numberOfPeople;
+    private int capacity;
     private String code;
     private Boolean isPublic;
     private List<String> members;
@@ -24,7 +24,7 @@ public class CommunityDetailResponseDto {
                 .id(community.getId())
                 .name(community.getName())
                 .introduction(community.getIntroduction())
-                .numberOfPeople(community.getNumberOfPeople())
+                .capacity(community.getCapacity())
                 .code(community.getCode())
                 .isPublic(community.getIsPublic())
                 .members(community.getMembers().stream()

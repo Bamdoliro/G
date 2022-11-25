@@ -1,6 +1,5 @@
 package com.bamdoliro.gati.global.socket.auth;
 
-import com.bamdoliro.gati.global.security.jwt.JwtProperties;
 import com.bamdoliro.gati.global.security.jwt.JwtValidateService;
 import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.annotation.OnConnect;

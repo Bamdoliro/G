@@ -10,29 +10,26 @@ import com.bamdoliro.gati.domain.chat.presentation.dto.request.MessageRequestDto
 import com.bamdoliro.gati.domain.chat.presentation.dto.response.MessageResponseDto;
 import com.bamdoliro.gati.domain.user.domain.User;
 import com.bamdoliro.gati.domain.user.facade.UserFacade;
+import com.bamdoliro.gati.global.utils.CustomDateTimeFormatter;
 import com.corundumstudio.socketio.BroadcastOperations;
 import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.SocketIOServer;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Spy;
+import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willDoNothing;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 
 @ExtendWith(MockitoExtension.class)
@@ -48,7 +45,17 @@ class MessageServiceTest {
     @Mock private SocketIOClient client;
     @Mock private BroadcastOperations broadcastOperations;
     @Mock private MessageRepository messageRepository;
-    @Mock private ObjectMapper mapper;
+    private static MockedStatic<CustomDateTimeFormatter> customDateTimeFormatter;
+
+    @BeforeAll
+    public static void beforeALl() {
+        customDateTimeFormatter = mockStatic(CustomDateTimeFormatter.class);
+    }
+
+    @AfterAll
+    public static void afterAll() {
+        customDateTimeFormatter.close();
+    }
 
     private final User defaultUser = User.builder()
             .name("김가티")
@@ -113,8 +120,8 @@ class MessageServiceTest {
         given(server.getRoomOperations(request.getRoomId())).willReturn(broadcastOperations);
         given(messageRepository.save(any(Message.class))).willReturn(defaultMessage);
         ArgumentCaptor<Message> captor = ArgumentCaptor.forClass(Message.class);
-        given(mapper.writeValueAsString(any())).willReturn("2022-02-02 02:02");
         willDoNothing().given(broadcastOperations).sendEvent(anyString(), any(MessageResponseDto.class));
+        given(CustomDateTimeFormatter.formatToDateTime(any())).willReturn("2022-02-02 02:02");
 
         // when
         messageService.sendMessage(request, defaultUser, defaultRoom);

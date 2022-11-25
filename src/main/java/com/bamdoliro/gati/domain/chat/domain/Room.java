@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "room_table")
+@Table(name = "tbl_room")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class Room extends BaseTimeEntity {

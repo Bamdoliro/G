@@ -10,31 +10,39 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "ddo_table")
+@Table(name = "tbl_ddo")
 public class Ddo extends BaseTimeEntity {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ddo_id")
     private Long id;
 
-    @Column(name = "title", length = 20, nullable = false)
+    @Column(length = 20, nullable = false)
     private String title;
 
-    @Column(name = "content", columnDefinition = "TEXT", length = 4000, nullable = false)
+    @Column(columnDefinition = "TEXT", length = 4000, nullable = false)
     private String content;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "status", nullable = false)
+    @Column(length = 10, nullable = false)
     private DdoStatus status;
 
-    @Column(name = "capacity", nullable = false)
+    @Column(nullable = false)
     private int capacity;
+
+    @Column(nullable = false)
+    private LocalDate startDate;
+
+    @Column(nullable = false)
+    private LocalDate endDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "writer_id")
@@ -47,17 +55,19 @@ public class Ddo extends BaseTimeEntity {
     private Set<DdoJoin> ddoJoinList = new LinkedHashSet<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "community_id")
+    @JoinColumn(name = "community_id", nullable = false)
     private Community community;
 
     @Builder
-    public Ddo(String title, String content, DdoStatus status, int capacity, Community community, User writer) {
+    public Ddo(String title, String content, DdoStatus status, int capacity, Community community, User writer, LocalDate startDate, LocalDate endDate) {
         this.title = title;
         this.content = content;
         this.status = status;
         this.capacity = capacity;
         this.community = community;
         this.writer = writer;
+        this.startDate = startDate;
+        this.endDate = endDate;
     }
 
     public void setRelation(User user, Community community) {

@@ -42,12 +42,12 @@ public class MessageService {
     public void sendMessage(MessageRequestDto request, User user, Room room) {
         Message message = messageRepository.save(request.toEntity(user, room));
         server.getRoomOperations(request.getRoomId())
-                .sendEvent(SocketEventProperty.MESSAGE_KEY, MessageResponseDto.of(message));
+                .sendEvent(SocketEventProperty.MESSAGE_KEY, MessageResponseDto.of(message, room.getId()));
     }
 
     @Transactional(readOnly = true)
     public List<MessageResponseDto> getLastMessage(Long roomId, Pageable pageable) {
         return messageRepository.findAllByRoom(roomFacade.findRoomById(roomId), pageable)
-                .stream().map(MessageResponseDto::of).collect(Collectors.toList());
+                .stream().map(m -> MessageResponseDto.of(m, roomId)).collect(Collectors.toList());
     }
 }

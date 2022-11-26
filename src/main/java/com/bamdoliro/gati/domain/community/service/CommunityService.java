@@ -3,6 +3,7 @@ package com.bamdoliro.gati.domain.community.service;
 import com.bamdoliro.gati.domain.community.domain.Community;
 import com.bamdoliro.gati.domain.community.domain.Member;
 import com.bamdoliro.gati.domain.community.domain.repository.CommunityRepository;
+import com.bamdoliro.gati.domain.community.domain.repository.MemberRepository;
 import com.bamdoliro.gati.domain.community.domain.type.Authority;
 import com.bamdoliro.gati.domain.community.domain.type.CommunityStatus;
 import com.bamdoliro.gati.domain.community.facade.CommunityFacade;
@@ -30,6 +31,7 @@ import static com.bamdoliro.gati.domain.community.domain.property.CommunityPrope
 public class CommunityService {
 
     private final CommunityRepository communityRepository;
+    private final MemberRepository memberRepository;
     private final MemberService memberService;
     private final CommunityFacade communityFacade;
     private final UserFacade userFacade;
@@ -45,7 +47,7 @@ public class CommunityService {
     public List<CommunityResponseDto> getMyCommunity() {
         User user = userFacade.getCurrentUser();
 
-        return user.getCommunities().stream()
+        return memberRepository.findAllByUser(user).stream()
                 .map(Member::getCommunity)
                 .map(CommunityResponseDto::of)
                 .collect(Collectors.toList());

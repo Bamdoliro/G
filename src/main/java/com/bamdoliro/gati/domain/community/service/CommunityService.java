@@ -40,7 +40,7 @@ public class CommunityService {
     @Transactional(readOnly = true)
     public Page<CommunityResponseDto> getPagingCommunity(Pageable pageable) {
         return communityRepository.findAll(pageable)
-                .map(CommunityResponseDto::of);
+                .map(this::createCommunityResponse);
     }
 
     @Transactional(readOnly = true)
@@ -49,7 +49,7 @@ public class CommunityService {
 
         return memberRepository.findAllByUser(user).stream()
                 .map(Member::getCommunity)
-                .map(CommunityResponseDto::of)
+                .map(this::createCommunityResponse)
                 .collect(Collectors.toList());
     }
 
@@ -62,12 +62,18 @@ public class CommunityService {
     @Transactional(readOnly = true)
     public List<CommunityResponseDto> searchCommunity(String name) {
         return communityRepository.findByNameContainingAndCommunityStatus(name, CommunityStatus.EXISTED).stream()
-                .map(CommunityResponseDto::of).collect(Collectors.toList());
+                .map(this::createCommunityResponse).collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
     public CommunityResponseDto getCommunityByCode(String code) {
-        return CommunityResponseDto.of(communityFacade.findCommunityByCode(code));
+        Community community = communityFacade.findCommunityByCode(code);
+        return createCommunityResponse(community);
+    }
+
+    private CommunityResponseDto createCommunityResponse(Community community) {
+        return CommunityResponseDto.of(community,
+                memberRepository.getNumberOfPeopleByCommunity(community));
     }
 
     @Transactional

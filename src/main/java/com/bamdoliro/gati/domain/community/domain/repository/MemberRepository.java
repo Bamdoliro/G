@@ -17,4 +17,7 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
     @Query("SELECT m FROM Member m JOIN FETCH m.community WHERE m.user = :user")
     List<Member> findAllByUser(User user);
+
+    @Query("SELECT count(distinct m) FROM Member m WHERE m.community = :community")
+    int getNumberOfPeopleByCommunity(Community community);
 }

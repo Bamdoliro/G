@@ -13,11 +13,11 @@ public class CommunityResponseDto {
     private int numberOfPeople;
     private int capacity;
 
-    public static CommunityResponseDto of(Community community) {
+    public static CommunityResponseDto of(Community community, int numberOfPeople) {
         return CommunityResponseDto.builder()
                 .id(community.getId())
                 .name(community.getName())
-                .numberOfPeople(community.getMembers().size())
+                .numberOfPeople(numberOfPeople)
                 .capacity(community.getCapacity())
                 .build();
     }

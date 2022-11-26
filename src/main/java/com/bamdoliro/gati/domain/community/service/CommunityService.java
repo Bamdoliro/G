@@ -54,12 +54,6 @@ public class CommunityService {
     }
 
     @Transactional(readOnly = true)
-    public CommunityDetailResponseDto getCommunityDetail(Long id) {
-        return CommunityDetailResponseDto.of(
-                communityFacade.findCommunityById(id));
-    }
-
-    @Transactional(readOnly = true)
     public List<CommunityResponseDto> searchCommunity(String name) {
         return communityRepository.findByNameContainingAndCommunityStatus(name, CommunityStatus.EXISTED).stream()
                 .map(this::createCommunityResponse).collect(Collectors.toList());
@@ -68,11 +62,24 @@ public class CommunityService {
     @Transactional(readOnly = true)
     public CommunityResponseDto getCommunityByCode(String code) {
         Community community = communityFacade.findCommunityByCode(code);
+
         return createCommunityResponse(community);
     }
 
     private CommunityResponseDto createCommunityResponse(Community community) {
         return CommunityResponseDto.of(community,
+                memberRepository.getNumberOfPeopleByCommunity(community));
+    }
+
+    @Transactional(readOnly = true)
+    public CommunityDetailResponseDto getCommunityDetail(Long id) {
+        Community community = communityFacade.findCommunityById(id);
+
+        return createCommunityDetailResponse(community);
+    }
+
+    private CommunityDetailResponseDto createCommunityDetailResponse(Community community) {
+        return CommunityDetailResponseDto.of(community,
                 memberRepository.getNumberOfPeopleByCommunity(community));
     }
 

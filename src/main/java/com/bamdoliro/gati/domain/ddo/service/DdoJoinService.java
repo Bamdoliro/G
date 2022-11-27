@@ -5,16 +5,14 @@ import com.bamdoliro.gati.domain.ddo.domain.Ddo;
 import com.bamdoliro.gati.domain.ddo.domain.DdoJoin;
 import com.bamdoliro.gati.domain.ddo.domain.repository.DdoJoinRepository;
 import com.bamdoliro.gati.domain.ddo.facade.DdoFacade;
-import com.bamdoliro.gati.domain.ddo.presentation.dto.response.UserResponseDto;
 import com.bamdoliro.gati.domain.user.domain.User;
 import com.bamdoliro.gati.domain.user.facade.UserFacade;
+import com.bamdoliro.gati.domain.user.presentation.dto.response.UserListResponseDto;
+import com.bamdoliro.gati.domain.user.presentation.dto.response.UserResponseDto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -47,11 +45,14 @@ public class DdoJoinService {
     }
 
     @Transactional(readOnly = true)
-    public List<UserResponseDto> findJoiners(Long id) {
+    public UserListResponseDto findJoiners(Long id) {
         Ddo ddo = ddoFacade.findDdoById(id);
-        return ddo.getDdoJoinList().stream()
-                .map(DdoJoin::getJoiner)
-                .map(UserResponseDto::of)
-                .collect(Collectors.toList());
+
+        return new UserListResponseDto(
+                ddo.getDdoJoinList().stream()
+                        .map(DdoJoin::getJoiner)
+                        .map(UserResponseDto::of)
+                        .collect(Collectors.toList())
+        );
     }
 }

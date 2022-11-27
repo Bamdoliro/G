@@ -6,12 +6,13 @@ import com.bamdoliro.gati.domain.ddo.domain.DdoJoin;
 import com.bamdoliro.gati.domain.ddo.domain.repository.DdoJoinRepository;
 import com.bamdoliro.gati.domain.ddo.domain.type.DdoStatus;
 import com.bamdoliro.gati.domain.ddo.facade.DdoFacade;
-import com.bamdoliro.gati.domain.ddo.presentation.dto.response.UserResponseDto;
 import com.bamdoliro.gati.domain.user.domain.User;
 import com.bamdoliro.gati.domain.user.domain.type.Authority;
 import com.bamdoliro.gati.domain.user.domain.type.Gender;
 import com.bamdoliro.gati.domain.user.domain.type.UserStatus;
 import com.bamdoliro.gati.domain.user.facade.UserFacade;
+import com.bamdoliro.gati.domain.user.presentation.dto.response.UserListResponseDto;
+import com.bamdoliro.gati.domain.user.presentation.dto.response.UserResponseDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -33,12 +34,17 @@ import static org.mockito.Mockito.verify;
 @ExtendWith(MockitoExtension.class)
 class DdoJoinServiceTest {
 
-    @Mock private DdoFacade ddoFacade;
-    @Mock private UserFacade userFacade;
-    @Mock private DdoJoinRepository ddoJoinRepository;
-    @Mock private MemberFacade memberFacade;
+    @Mock
+    private DdoFacade ddoFacade;
+    @Mock
+    private UserFacade userFacade;
+    @Mock
+    private DdoJoinRepository ddoJoinRepository;
+    @Mock
+    private MemberFacade memberFacade;
 
-    @InjectMocks private DdoJoinService ddoJoinService;
+    @InjectMocks
+    private DdoJoinService ddoJoinService;
 
     User user = User.builder()
             .email("gati@bamdoliro.com")
@@ -46,7 +52,7 @@ class DdoJoinServiceTest {
             .password("12345678910")
             .authority(Authority.ROLE_USER)
             .gender(Gender.FEMALE)
-            .birth(LocalDate.of(2022,2,2))
+            .birth(LocalDate.of(2022, 2, 2))
             .status(UserStatus.NOT_VERIFIED)
             .build();
 
@@ -108,9 +114,9 @@ class DdoJoinServiceTest {
         given(ddoFacade.findDdoById(anyLong())).willReturn(ddo);
 
         // When
-        List<UserResponseDto> joinerList = ddoJoinService.findJoiners(anyLong());
+        UserListResponseDto joinerList = ddoJoinService.findJoiners(anyLong());
 
         // Then
-        assertEquals("김가티", joinerList.get(0).getName());
+        assertEquals("김가티", joinerList.getUserList().get(0).getName());
     }
 }

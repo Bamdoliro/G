@@ -3,6 +3,7 @@ package com.bamdoliro.gati.domain.community.service;
 import com.bamdoliro.gati.domain.community.domain.Community;
 import com.bamdoliro.gati.domain.community.domain.Member;
 import com.bamdoliro.gati.domain.community.domain.repository.CommunityRepository;
+import com.bamdoliro.gati.domain.community.domain.repository.MemberRepository;
 import com.bamdoliro.gati.domain.community.domain.type.Authority;
 import com.bamdoliro.gati.domain.community.domain.type.CommunityStatus;
 import com.bamdoliro.gati.domain.community.facade.CommunityFacade;
@@ -37,6 +38,7 @@ class CommunityServiceTest {
     private CommunityService communityService;
 
     @Mock private CommunityRepository communityRepository;
+    @Mock private MemberRepository memberRepository;
     @Mock private MemberService memberService;
     @Mock private CommunityFacade communityFacade;
     @Mock private UserFacade userFacade;
@@ -93,6 +95,7 @@ class CommunityServiceTest {
     void givenCommunityId_whenGettingCommunityDetail_thenGetsCommunityDetailResponseDto() {
         // given
         given(communityFacade.findCommunityById(defaultCommunity.getId())).willReturn(defaultCommunity);
+        given(memberRepository.getNumberOfPeopleByCommunity(defaultCommunity)).willReturn(1);
 
         // when
         CommunityDetailResponseDto dto = communityService.getCommunityDetail(defaultCommunity.getId());

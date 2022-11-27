@@ -3,6 +3,7 @@ package com.bamdoliro.gati.domain.community.presentation;
 import com.bamdoliro.gati.domain.community.presentation.dto.request.CreateCommunityRequestDto;
 import com.bamdoliro.gati.domain.community.presentation.dto.request.UpdateCommunityRequestDto;
 import com.bamdoliro.gati.domain.community.presentation.dto.response.CommunityDetailResponseDto;
+import com.bamdoliro.gati.domain.community.presentation.dto.response.CommunityListResponseDto;
 import com.bamdoliro.gati.domain.community.presentation.dto.response.CommunityResponseDto;
 import com.bamdoliro.gati.domain.community.service.CommunityService;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +27,7 @@ public class CommunityController {
     }
 
     @GetMapping("/my")
-    public List<CommunityResponseDto> getUserCommunity() {
+    public CommunityListResponseDto getUserCommunity() {
         return communityService.getMyCommunity();
     }
 
@@ -36,7 +37,7 @@ public class CommunityController {
     }
 
     @GetMapping("/search")
-    public List<CommunityResponseDto> searchCommunity(@RequestParam String name) {
+    public CommunityListResponseDto searchCommunity(@RequestParam String name) {
         return communityService.searchCommunity(name);
     }
 

@@ -5,6 +5,7 @@ import com.bamdoliro.gati.domain.chat.domain.Room;
 import com.bamdoliro.gati.domain.chat.domain.repository.MessageRepository;
 import com.bamdoliro.gati.domain.chat.facade.RoomFacade;
 import com.bamdoliro.gati.domain.chat.presentation.dto.request.MessageRequestDto;
+import com.bamdoliro.gati.domain.chat.presentation.dto.response.MessageListResponseDto;
 import com.bamdoliro.gati.domain.chat.presentation.dto.response.MessageResponseDto;
 import com.bamdoliro.gati.domain.user.domain.User;
 import com.bamdoliro.gati.domain.user.facade.UserFacade;
@@ -46,8 +47,9 @@ public class MessageService {
     }
 
     @Transactional(readOnly = true)
-    public List<MessageResponseDto> getLastMessage(Long roomId, Pageable pageable) {
-        return messageRepository.findAllByRoom(roomFacade.findRoomById(roomId), pageable)
-                .stream().map(m -> MessageResponseDto.of(m, roomId)).collect(Collectors.toList());
+    public MessageListResponseDto getLastMessage(Long roomId, Pageable pageable) {
+        return new MessageListResponseDto(
+                messageRepository.findAllByRoom(roomFacade.findRoomById(roomId), pageable)
+                        .stream().map(m -> MessageResponseDto.of(m, roomId)).collect(Collectors.toList()));
     }
 }

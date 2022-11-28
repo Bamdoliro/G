@@ -11,6 +11,7 @@ import com.bamdoliro.gati.domain.user.domain.type.Authority;
 import com.bamdoliro.gati.domain.user.domain.type.Gender;
 import com.bamdoliro.gati.domain.user.domain.type.UserStatus;
 import com.bamdoliro.gati.global.entity.BaseTimeEntity;
+import com.bamdoliro.gati.infrastructure.image.s3.DefaultImg;
 import lombok.*;
 
 import javax.persistence.*;
@@ -37,6 +38,9 @@ public class User extends BaseTimeEntity {
 
     @Column(length = 20, nullable = false)
     private String name;
+
+    @Column(nullable = false)
+    private String profileImg;
 
     @Column(nullable = false)
     private LocalDate birth;
@@ -82,6 +86,7 @@ public class User extends BaseTimeEntity {
         this.email = email;
         this.password = password;
         this.name = name;
+        this.profileImg = DefaultImg.USER;
         this.birth = birth;
         this.gender = gender;
         this.authority = authority;
@@ -94,5 +99,9 @@ public class User extends BaseTimeEntity {
 
     public void updateName(String name) {
         this.name = name;
+    }
+
+    public void updateProfileImg(String img) {
+        this.profileImg = img;
     }
 }

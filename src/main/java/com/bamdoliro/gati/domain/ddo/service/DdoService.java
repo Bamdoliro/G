@@ -1,7 +1,7 @@
 package com.bamdoliro.gati.domain.ddo.service;
 
 import com.bamdoliro.gati.domain.chat.service.RoomService;
-import  com.bamdoliro.gati.domain.community.facade.CommunityFacade;
+import com.bamdoliro.gati.domain.community.facade.CommunityFacade;
 import com.bamdoliro.gati.domain.ddo.domain.Ddo;
 import com.bamdoliro.gati.domain.ddo.domain.repository.DdoRepository;
 import com.bamdoliro.gati.domain.ddo.facade.DdoFacade;
@@ -10,8 +10,6 @@ import com.bamdoliro.gati.domain.ddo.presentation.dto.response.DdoDetailResponse
 import com.bamdoliro.gati.domain.ddo.presentation.dto.response.DdoResponseDto;
 import com.bamdoliro.gati.domain.user.facade.UserFacade;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

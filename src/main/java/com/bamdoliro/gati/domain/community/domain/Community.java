@@ -28,6 +28,10 @@ public class Community extends BaseTimeEntity {
     @Column(length = 1000, nullable = false)
     private String introduction;
 
+    // TODO :: 사진 수정
+    @Column(nullable = false)
+    private String backgroundImg;
+
     @Column(nullable = false)
     private int capacity;
 
@@ -56,9 +60,10 @@ public class Community extends BaseTimeEntity {
 
 
     @Builder
-    public Community(String name, String introduction, int capacity, String code, Boolean isPublic, String password) {
+    public Community(String name, String introduction, String backgroundImg, int capacity, String code, Boolean isPublic, String password) {
         this.name = name;
         this.introduction = introduction;
+        this.backgroundImg = backgroundImg;
         this.capacity = capacity;
         this.code = code;
         this.isPublic = isPublic;
@@ -75,5 +80,9 @@ public class Community extends BaseTimeEntity {
 
     public void deleteCommunity() {
         this.communityStatus = CommunityStatus.DELETED;
+    }
+
+    public void updateBackgroundImg(String backgroundImg) {
+        this.backgroundImg = backgroundImg;
     }
 }

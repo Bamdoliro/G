@@ -1,18 +1,22 @@
 package com.bamdoliro.gati.domain.user.domain;
 
+import com.bamdoliro.gati.domain.board.domain.Board;
+import com.bamdoliro.gati.domain.board.domain.BoardLike;
+import com.bamdoliro.gati.domain.board.domain.Report;
 import com.bamdoliro.gati.domain.chat.domain.RoomMember;
-import com.bamdoliro.gati.domain.board.domain.*;
-import com.bamdoliro.gati.domain.community.domain.Community;
 import com.bamdoliro.gati.domain.community.domain.Member;
-import com.bamdoliro.gati.domain.ddo.domain.DdoJoin;
 import com.bamdoliro.gati.domain.ddo.domain.Ddo;
+import com.bamdoliro.gati.domain.ddo.domain.DdoJoin;
 import com.bamdoliro.gati.domain.ddo.domain.Recommendation;
 import com.bamdoliro.gati.domain.user.domain.type.Authority;
 import com.bamdoliro.gati.domain.user.domain.type.Gender;
 import com.bamdoliro.gati.domain.user.domain.type.UserStatus;
 import com.bamdoliro.gati.global.entity.BaseTimeEntity;
 import com.bamdoliro.gati.infrastructure.image.s3.DefaultImg;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;

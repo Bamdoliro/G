@@ -35,7 +35,7 @@ class CommunityFacadeTest {
     private final Community defaultCommunity = Community.builder()
             .name("우리집")
             .introduction("킄")
-            .numberOfPeople(100)
+            .capacity(100)
             .isPublic(true)
             .build();
 
@@ -52,7 +52,7 @@ class CommunityFacadeTest {
         verify(communityRepository, times(1)).findByIdAndCommunityStatus(any(), any(CommunityStatus.class));
         assertEquals(defaultCommunity.getName(), foundCommunity.getName());
         assertEquals(defaultCommunity.getIntroduction(), foundCommunity.getIntroduction());
-        assertEquals(defaultCommunity.getNumberOfPeople(), foundCommunity.getNumberOfPeople());
+        assertEquals(defaultCommunity.getCapacity(), foundCommunity.getCapacity());
         assertEquals(defaultCommunity.getIsPublic(), foundCommunity.getIsPublic());
     }
 
@@ -81,7 +81,7 @@ class CommunityFacadeTest {
         verify(communityRepository, times(1)).findByCodeAndCommunityStatus(any(), any(CommunityStatus.class));
         assertEquals(defaultCommunity.getName(), foundCommunity.getName());
         assertEquals(defaultCommunity.getIntroduction(), foundCommunity.getIntroduction());
-        assertEquals(defaultCommunity.getNumberOfPeople(), foundCommunity.getNumberOfPeople());
+        assertEquals(defaultCommunity.getCapacity(), foundCommunity.getCapacity());
         assertEquals(defaultCommunity.getIsPublic(), foundCommunity.getIsPublic());
     }
 

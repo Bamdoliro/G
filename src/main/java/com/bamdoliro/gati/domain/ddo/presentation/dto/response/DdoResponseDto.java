@@ -1,8 +1,12 @@
 package com.bamdoliro.gati.domain.ddo.presentation.dto.response;
 
 import com.bamdoliro.gati.domain.ddo.domain.Ddo;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
 import lombok.Getter;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Builder
@@ -12,22 +16,22 @@ public class DdoResponseDto {
     
     private String title;
     
-    private String writerName;
+    private String content;
     
     private int capacity;
     
-    private int numberOfJoiner;
-    
-    private int numberOfRecommendation;
+    private LocalDate startDate;
+
+    private LocalDate endDate;
 
     public static DdoResponseDto of(Ddo ddo) {
         return DdoResponseDto.builder()
                 .id(ddo.getId())
                 .title(ddo.getTitle())
-                .writerName(ddo.getWriter().getName())
+                .content(ddo.getContent())
                 .capacity(ddo.getCapacity())
-                .numberOfRecommendation(ddo.getRecommendList().size())
-                .numberOfJoiner(ddo.getDdoJoinList().size())
+                .startDate(ddo.getStartDate())
+                .endDate(ddo.getEndDate())
                 .build();
     }
 

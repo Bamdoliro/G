@@ -7,13 +7,13 @@ import com.bamdoliro.gati.domain.ddo.domain.repository.DdoRepository;
 import com.bamdoliro.gati.domain.ddo.facade.DdoFacade;
 import com.bamdoliro.gati.domain.ddo.presentation.dto.request.CreateDdoRequestDto;
 import com.bamdoliro.gati.domain.ddo.presentation.dto.response.DdoDetailResponseDto;
+import com.bamdoliro.gati.domain.ddo.presentation.dto.response.DdoListResponseDto;
 import com.bamdoliro.gati.domain.ddo.presentation.dto.response.DdoResponseDto;
 import com.bamdoliro.gati.domain.user.facade.UserFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -36,12 +36,14 @@ public class DdoService {
     }
 
     @Transactional(readOnly = true)
-    public List<DdoResponseDto> findDdoOrderByRecommendationSize(Long communityId) {
+    public DdoListResponseDto getDdoList(Long communityId) {
         communityFacade.checkCommunityExists(communityId);
 
-        return ddoFacade.findDdoOrderByRecommendationSize(communityId).stream()
-                .map(DdoResponseDto::of)
-                .collect(Collectors.toList());
+        return new DdoListResponseDto(
+                ddoFacade.findDdoOrderByRecommendationSize(communityId).stream()
+                        .map(DdoResponseDto::of)
+                        .collect(Collectors.toList())
+        );
     }
 
     @Transactional(readOnly = true)

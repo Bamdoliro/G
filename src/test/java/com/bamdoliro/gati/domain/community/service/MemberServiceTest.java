@@ -43,14 +43,14 @@ class MemberServiceTest {
     private final Community defaultCommunity = Community.builder()
             .name("우리집")
             .introduction("킄")
-            .numberOfPeople(100)
+            .capacity(100)
             .isPublic(true)
             .build();
 
     private final Community defaultPrivateCommunity = Community.builder()
             .name("우리지브")
             .introduction("키키")
-            .numberOfPeople(200)
+            .capacity(200)
             .isPublic(false)
             .password("1234")
             .build();

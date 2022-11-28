@@ -2,8 +2,14 @@ package com.bamdoliro.gati.domain.ddo.presentation.dto.response;
 
 import com.bamdoliro.gati.domain.ddo.domain.Ddo;
 import com.bamdoliro.gati.domain.ddo.domain.type.DdoStatus;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
 import lombok.Getter;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Builder
 @Getter
@@ -23,6 +29,10 @@ public class DdoDetailResponseDto {
 
     private int numberOfRecommendation;
 
+    private LocalDate startDate;
+
+    private LocalDate endDate;
+
     public static DdoDetailResponseDto of(Ddo ddo) {
         return DdoDetailResponseDto.builder()
                 .title(ddo.getTitle())
@@ -32,6 +42,8 @@ public class DdoDetailResponseDto {
                 .numberOfJoiner(ddo.getDdoJoinList().size())
                 .numberOfRecommendation(ddo.getRecommendList().size())
                 .writerName(ddo.getWriter().getName())
+                .startDate(ddo.getStartDate())
+                .endDate(ddo.getEndDate())
                 .build();
     }
 }

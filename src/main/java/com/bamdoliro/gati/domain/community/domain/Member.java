@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "community_member_table")
+@Table(name = "tbl_community_member")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class Member extends BaseTimeEntity {

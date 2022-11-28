@@ -1,5 +1,6 @@
 package com.bamdoliro.gati.global.security.jwt;
 
+import com.bamdoliro.gati.domain.user.domain.User;
 import com.bamdoliro.gati.global.security.jwt.exception.ExpiredTokenException;
 import com.bamdoliro.gati.global.security.jwt.exception.InvalidTokenException;
 import io.jsonwebtoken.Claims;
@@ -29,17 +30,18 @@ public class JwtTokenProvider {
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
-    public String createAccessToken(String email) {
-        return createToken(email, JwtProperties.ACCESS_TOKEN_VALID_TIME);
+    public String createAccessToken(User user) {
+        return createToken(user, JwtProperties.ACCESS_TOKEN_VALID_TIME);
     }
 
-    public String createRefreshToken(String email) {
-        return createToken(email, JwtProperties.REFRESH_TOKEN_VALID_TIME);
+    public String createRefreshToken(User user) {
+        return createToken(user, JwtProperties.REFRESH_TOKEN_VALID_TIME);
     }
 
-    public String createToken(String email, long time) {
+    public String createToken(User user, long time) {
         Claims claims = Jwts.claims();
-        claims.put("email", email);
+        claims.put("email", user.getEmail());
+        claims.put("userId", user.getId());
         Date now = new Date();
 
         return Jwts.builder()

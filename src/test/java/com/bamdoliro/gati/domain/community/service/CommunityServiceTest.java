@@ -45,7 +45,7 @@ class CommunityServiceTest {
     private final Community defaultCommunity = Community.builder()
             .name("우리집")
             .introduction("킄")
-            .numberOfPeople(100)
+            .capacity(100)
             .code("1A2B3C")
             .isPublic(true)
             .build();
@@ -53,7 +53,7 @@ class CommunityServiceTest {
     private final Community defaultPrivateCommunity = Community.builder()
             .name("우리지브")
             .introduction("키키")
-            .numberOfPeople(200)
+            .capacity(200)
             .code("A1B2C3")
             .isPublic(false)
             .password("1234")
@@ -102,7 +102,7 @@ class CommunityServiceTest {
         assertEquals(defaultCommunity.getId(), dto.getId());
         assertEquals(defaultCommunity.getName(), dto.getName());
         assertEquals(defaultCommunity.getIntroduction(), dto.getIntroduction());
-        assertEquals(defaultCommunity.getNumberOfPeople(), dto.getNumberOfPeople());
+        assertEquals(defaultCommunity.getCapacity(), dto.getCapacity());
         assertEquals(defaultCommunity.getCode(), dto.getCode());
         assertEquals(defaultCommunity.getIsPublic(), dto.getIsPublic());
     }
@@ -120,7 +120,7 @@ class CommunityServiceTest {
         verify(communityFacade, times(1)).findCommunityByCode(defaultCommunity.getCode());
         assertEquals(dto.getId(), defaultCommunity.getId());
         assertEquals(dto.getName(), defaultCommunity.getName());
-        assertEquals(dto.getMaxNumberOfPeople(), defaultCommunity.getNumberOfPeople());
+        assertEquals(dto.getCapacity(), defaultCommunity.getCapacity());
     }
 
     @DisplayName("[Service] Public Community 생성")
@@ -149,7 +149,7 @@ class CommunityServiceTest {
         Community savedCommunity = captor.getValue();
         assertEquals("우리집", savedCommunity.getName());
         assertEquals("킄", savedCommunity.getIntroduction());
-        assertEquals(100, savedCommunity.getNumberOfPeople());
+        assertEquals(100, savedCommunity.getCapacity());
         assertEquals(6, savedCommunity.getCode().length());
         assertEquals(true, savedCommunity.getIsPublic());
         assertNull(savedCommunity.getPassword());
@@ -181,7 +181,7 @@ class CommunityServiceTest {
         Community savedCommunity = captor.getValue();
         assertEquals("우리지브", savedCommunity.getName());
         assertEquals("키키", savedCommunity.getIntroduction());
-        assertEquals(200, savedCommunity.getNumberOfPeople());
+        assertEquals(200, savedCommunity.getCapacity());
         assertEquals(6, savedCommunity.getCode().length());
         assertEquals(false, savedCommunity.getIsPublic());
         assertEquals("1234", savedCommunity.getPassword());

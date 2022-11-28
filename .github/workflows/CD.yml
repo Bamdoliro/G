@@ -1,0 +1,92 @@
+name: Java CD with Gradle
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  CD:
+    runs-on: ubuntu-latest
+    steps:
+      ## jdk setting
+      - uses: actions/checkout@v3
+      - name: Set up JDK 11
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'temurin' # https://github.com/actions/setup-java
+
+      ## gradle caching
+      - name: Gradle Caching
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      ## gradle build
+      - name: Build with Gradle
+        run: ./gradlew build -x test
+
+      ## text application build
+      - name: Test with Gradle
+        run: ./gradlew test
+
+      ## docker build & push to production
+      - name: Docker build & push to prod
+        run: |
+          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPO }} .
+          docker push ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPO }}
+
+      ## deploy to production
+      - name: Deploy to prod
+        uses: appleboy/ssh-action@master
+        id: deploy-prod
+        with:
+          host: ${{ secrets.HOST_PROD }}
+          username: ubuntu
+          key: ${{ secrets.PRIVATE_KEY }}
+          envs: GITHUB_SHA
+          script: |
+            sudo docker rm -f $(docker ps -qa)
+            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPO }}
+            
+            cd gati
+            git pull origin main
+            
+            rm -rf .env
+            touch .env
+            echo DB_PORT=${{ secrets.DB_PORT }} >> .env
+            echo DB_NAME=${{ secrets.DB_NAME }} >> .env
+            echo DB_USERNAME=${{ secrets.DB_USERNAME }} >> .env
+            echo DB_PASSWORD=${{ secrets.DB_PASSWORD }} >> .env
+            echo DB_ROOT_PASSWORD=${{ secrets.DB_ROOT_PASSWORD }} >> .env
+            echo JWT_SECRET=${{ secrets.JWT_SECRET }} >> .env
+            echo REDIS_HOST=${{ secrets.REDIS_HOST }} >> .env
+            echo REDIS_PORT=${{ secrets.REDIS_PORT }} >> .env
+            echo SOCKET_PORT=${{ secrets.SOCKET_PORT }} >> .env
+            echo DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }} >> .env
+            echo DOCKER_REPO=${{ secrets.DOCKER_REPO }} >> .env
+            
+            docker-compose up -d
+            docker image prune -f
+
+  ## time
+  current-time:
+    needs: CD
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get Current Time
+        uses: 1466587594/get-current-time@v2
+        id: current-time
+        with:
+          format: YYYY-MM-DDTHH:mm:ss
+          utcOffset: "+09:00" # 기준이 UTC이기 때문에 한국시간인 KST를 맞추기 위해 +9시간 추가
+
+      - name: Print Current Time
+        run: echo "Current Time=${{steps.current-time.outputs.formattedTime}}" # current-time 에서 지정한 포맷대로 현재 시간 출력
+        shell: bash

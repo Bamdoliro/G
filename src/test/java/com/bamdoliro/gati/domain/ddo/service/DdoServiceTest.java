@@ -42,7 +42,7 @@ class DdoServiceTest {
     Community community = Community.builder()
             .name("우리집")
             .introduction("킄")
-            .numberOfPeople(100)
+            .capacity(100)
             .isPublic(true)
             .build();
 

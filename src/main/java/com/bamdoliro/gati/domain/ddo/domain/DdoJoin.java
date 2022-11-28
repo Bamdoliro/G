@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "join_table")
+@Table(name = "tbl_ddo_join")
 public class DdoJoin {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)

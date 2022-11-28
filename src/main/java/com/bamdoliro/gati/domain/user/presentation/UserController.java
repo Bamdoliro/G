@@ -18,7 +18,7 @@ public class UserController {
 
     private final UserService userService;
 
-    @PostMapping("/join")
+    @PostMapping
     public void createUser(@RequestBody @Valid CreateUserRequestDto dto) {
         userService.createUser(dto);
     }
@@ -28,12 +28,12 @@ public class UserController {
         return userService.getUserInformation();
     }
 
-    @PutMapping("/update/password")
+    @PutMapping("/password")
     public void updateUserPassword(@RequestBody @Valid UpdateUserPasswordRequestDto dto) {
         userService.updateUserPassword(dto);
     }
 
-    @PutMapping("/update/name")
+    @PutMapping("/name")
     public void updateUserName(@RequestBody @Valid UpdateUserNameRequestDto dto) {
         userService.updateUserName(dto);
     }

@@ -25,7 +25,7 @@ public class  BoardController {
     }
 
     // 게시물 디테일
-    @GetMapping("/detail/{id}")
+    @GetMapping("/{id}")
     public BoardDetailDto getDetail(@PathVariable Long id) {
         return boardService.getDetail(id);
     }

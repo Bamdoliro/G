@@ -1,6 +1,5 @@
 package com.bamdoliro.gati.global.socket.auth;
 
-import com.bamdoliro.gati.global.security.jwt.JwtProperties;
 import com.bamdoliro.gati.global.security.jwt.JwtValidateService;
 import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.annotation.OnConnect;
@@ -15,7 +14,7 @@ public class SocketConnectController {
 
     @OnConnect
     public void onConnect(SocketIOClient client) {
-        String token = client.getHandshakeData().getHttpHeaders().get(JwtProperties.JWT_HEADER);
+        String token = client.getHandshakeData().getSingleUrlParam("authorization");
         client.set(SocketAuthenticationProperty.USER_KEY, jwtValidateService.getEmail(token));
     }
 }

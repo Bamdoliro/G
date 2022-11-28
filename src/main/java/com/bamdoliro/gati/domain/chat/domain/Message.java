@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "chat_message_table")
+@Table(name = "tbl_chat_message")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class Message extends BaseTimeEntity {

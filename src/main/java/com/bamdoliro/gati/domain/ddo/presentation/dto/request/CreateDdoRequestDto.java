@@ -11,6 +11,7 @@ import org.hibernate.validator.constraints.Length;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 
 @Getter
 @Builder
@@ -34,11 +35,17 @@ public class CreateDdoRequestDto {
     @Max(99)
     private int capacity;
 
+    private LocalDate startDate;
+
+    private LocalDate endDate;
+
     public Ddo toEntity() {
         return Ddo.builder()
                 .title(title)
                 .content(content)
                 .capacity(capacity)
+                .startDate(startDate)
+                .endDate(endDate)
                 .status(DdoStatus.OPEN)
                 .build();
     }

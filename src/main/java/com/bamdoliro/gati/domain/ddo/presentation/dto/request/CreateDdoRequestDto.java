@@ -12,11 +12,12 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
-@Builder
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 public class CreateDdoRequestDto {
 
     @NotNull
@@ -35,6 +36,8 @@ public class CreateDdoRequestDto {
     @Max(99)
     private int capacity;
 
+    private List<String> images = new ArrayList<>();
+
     private LocalDate startDate;
 
     private LocalDate endDate;
@@ -44,6 +47,7 @@ public class CreateDdoRequestDto {
                 .title(title)
                 .content(content)
                 .capacity(capacity)
+                .images(images)
                 .startDate(startDate)
                 .endDate(endDate)
                 .status(DdoStatus.OPEN)

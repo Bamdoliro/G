@@ -20,6 +20,7 @@ public class UserResponseDto {
     private Gender gender;
     private Authority authority;
     private UserStatus status;
+    private String profileImage;
 
     public static UserResponseDto of(User user) {
         return UserResponseDto.builder()
@@ -30,6 +31,7 @@ public class UserResponseDto {
                 .gender(user.getGender())
                 .authority(user.getAuthority())
                 .status(user.getStatus())
+                .profileImage(user.getProfileImg())
                 .build();
     }
 }

@@ -1,5 +1,8 @@
 package com.bamdoliro.gati.domain.ddo.service;
 
+import com.bamdoliro.gati.domain.chat.domain.Room;
+import com.bamdoliro.gati.domain.chat.domain.repository.RoomMemberRepository;
+import com.bamdoliro.gati.domain.chat.domain.repository.RoomRepository;
 import com.bamdoliro.gati.domain.chat.service.RoomService;
 import com.bamdoliro.gati.domain.community.domain.Community;
 import com.bamdoliro.gati.domain.community.facade.CommunityFacade;
@@ -38,6 +41,8 @@ class DdoServiceTest {
     @Mock private CommunityFacade communityFacade;
     @Mock private DdoFacade ddoFacade;
     @Mock private RoomService roomService;
+    @Mock private RoomRepository roomRepository;
+    @Mock private RoomMemberRepository roomMemberRepository;
 
     Community community = Community.builder()
             .name("우리집")
@@ -65,10 +70,14 @@ class DdoServiceTest {
             .status(DdoStatus.OPEN)
             .build();
 
+    Room room = Room.builder()
+            .name("이룸")
+            .build();
+
     @DisplayName("[DDO] 게시물 생성")
     @Test
     public void createDdoTest() {
-        // Given
+        // given
         CreateDdoRequestDto request = CreateDdoRequestDto.builder()
                 .title("제목입니다.")
                 .content("내용입니다. 내용입니다. 내용입니다.")
@@ -79,14 +88,15 @@ class DdoServiceTest {
         given(ddoRepository.save(any())).willReturn(ddo);
         given(userFacade.getCurrentUser()).willReturn(user);
         given(communityFacade.findCommunityById(anyLong())).willReturn(community);
+        given(roomService.createRoom(anyString())).willReturn(room);
+        given(roomMemberRepository.countByRoom(any())).willReturn(1);
         ArgumentCaptor<Ddo> captor = ArgumentCaptor.forClass(Ddo.class);
-        willDoNothing().given(roomService).createRoom(anyString());
 
 
-        // When
+        // when
         ddoService.savePost(request);
 
-        // Then
+        // then
         verify(ddoRepository, times(1)).save(captor.capture());
         verify(roomService, times(1)).createRoom(request.getTitle());
 

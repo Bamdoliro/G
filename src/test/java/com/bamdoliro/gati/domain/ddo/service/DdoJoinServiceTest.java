@@ -28,6 +28,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.willDoNothing;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
@@ -73,6 +74,7 @@ class DdoJoinServiceTest {
         given(ddoFacade.findDdoById(anyLong())).willReturn(ddo);
         given(userFacade.getCurrentUser()).willReturn(user);
         given(ddoJoinRepository.save(any())).willReturn(ddoJoin);
+        willDoNothing().given(memberFacade).checkMember(any(), any());
 
         ArgumentCaptor<DdoJoin> captor = ArgumentCaptor.forClass(DdoJoin.class);
 

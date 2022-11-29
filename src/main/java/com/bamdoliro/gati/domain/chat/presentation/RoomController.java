@@ -1,5 +1,6 @@
 package com.bamdoliro.gati.domain.chat.presentation;
 
+import com.bamdoliro.gati.domain.chat.presentation.dto.response.RoomListResponseDto;
 import com.bamdoliro.gati.domain.chat.presentation.dto.response.RoomResponseDto;
 import com.bamdoliro.gati.domain.chat.service.RoomService;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +21,7 @@ public class RoomController {
     }
 
     @GetMapping
-    public List<RoomResponseDto> getUserRoom() {
+    public RoomListResponseDto getUserRoom() {
         return roomService.getUserRoom();
     }
 

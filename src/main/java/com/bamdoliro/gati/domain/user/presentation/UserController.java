@@ -4,7 +4,7 @@ import com.bamdoliro.gati.domain.user.presentation.dto.request.CreateUserRequest
 import com.bamdoliro.gati.domain.user.presentation.dto.request.DeleteUserRequestDto;
 import com.bamdoliro.gati.domain.user.presentation.dto.request.UpdateUserNameRequestDto;
 import com.bamdoliro.gati.domain.user.presentation.dto.request.UpdateUserPasswordRequestDto;
-import com.bamdoliro.gati.domain.user.presentation.dto.response.GetUserResponseDto;
+import com.bamdoliro.gati.domain.user.presentation.dto.response.UserResponseDto;
 import com.bamdoliro.gati.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +24,7 @@ public class UserController {
     }
 
     @GetMapping
-    public GetUserResponseDto getUser() {
+    public UserResponseDto getUser() {
         return userService.getUserInformation();
     }
 

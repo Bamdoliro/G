@@ -18,8 +18,9 @@ public class MessageResponseDto {
     private final String username;
     private final Long userId;
     private final String sentAt;
+    private final Long roomId;
 
-    public static MessageResponseDto of(Message message) {
+    public static MessageResponseDto of(Message message, Long roomId) {
         return MessageResponseDto.builder()
                 .message(message.getMessage())
                 .messageType(message.getMessageType())
@@ -29,6 +30,7 @@ public class MessageResponseDto {
                 .userId(message.getMessageType() == MessageType.USER ?
                         message.getUser().getId() : null)
                 .sentAt(CustomDateTimeFormatter.formatToDateTime(message.getCreatedAt()))
+                .roomId(roomId)
                 .build();
     }
 }

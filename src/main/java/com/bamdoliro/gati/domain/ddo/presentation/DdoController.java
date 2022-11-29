@@ -1,5 +1,6 @@
 package com.bamdoliro.gati.domain.ddo.presentation;
 
+import com.bamdoliro.gati.domain.chat.presentation.dto.response.RoomResponseDto;
 import com.bamdoliro.gati.domain.ddo.presentation.dto.request.CreateDdoRequestDto;
 import com.bamdoliro.gati.domain.ddo.presentation.dto.response.DdoDetailResponseDto;
 import com.bamdoliro.gati.domain.ddo.presentation.dto.response.DdoListResponseDto;
@@ -15,8 +16,8 @@ public class DdoController {
     private final DdoService ddoService;
 
     @PostMapping
-    public void post(@RequestBody CreateDdoRequestDto request) {
-        ddoService.savePost(request);
+    public RoomResponseDto post(@RequestBody CreateDdoRequestDto request) {
+        return ddoService.savePost(request);
     }
 
     @GetMapping("/community/{communityId}")

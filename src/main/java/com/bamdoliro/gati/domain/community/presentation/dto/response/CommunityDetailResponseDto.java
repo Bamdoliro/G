@@ -14,23 +14,22 @@ public class CommunityDetailResponseDto {
     private Long id;
     private String name;
     private String introduction;
+    private int numberOfPeople;
     private String backgroundImg;
     private int capacity;
     private String code;
     private Boolean isPublic;
-    private List<String> members;
 
-    public static CommunityDetailResponseDto of(Community community) {
+    public static CommunityDetailResponseDto of(Community community, int numberOfPeople) {
         return CommunityDetailResponseDto.builder()
                 .id(community.getId())
                 .name(community.getName())
                 .introduction(community.getIntroduction())
+                .numberOfPeople(numberOfPeople)
                 .backgroundImg(community.getBackgroundImg())
                 .capacity(community.getCapacity())
                 .code(community.getCode())
                 .isPublic(community.getIsPublic())
-                .members(community.getMembers().stream()
-                        .map(m -> m.getUser().getName()).collect(Collectors.toList()))
                 .build();
     }
 }

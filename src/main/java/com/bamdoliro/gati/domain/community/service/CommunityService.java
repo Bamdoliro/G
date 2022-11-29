@@ -3,6 +3,7 @@ package com.bamdoliro.gati.domain.community.service;
 import com.bamdoliro.gati.domain.community.domain.Community;
 import com.bamdoliro.gati.domain.community.domain.Member;
 import com.bamdoliro.gati.domain.community.domain.repository.CommunityRepository;
+import com.bamdoliro.gati.domain.community.domain.repository.MemberRepository;
 import com.bamdoliro.gati.domain.community.domain.type.Authority;
 import com.bamdoliro.gati.domain.community.domain.type.CommunityStatus;
 import com.bamdoliro.gati.domain.community.facade.CommunityFacade;
@@ -10,6 +11,7 @@ import com.bamdoliro.gati.domain.community.facade.MemberFacade;
 import com.bamdoliro.gati.domain.community.presentation.dto.request.CreateCommunityRequestDto;
 import com.bamdoliro.gati.domain.community.presentation.dto.request.UpdateCommunityRequestDto;
 import com.bamdoliro.gati.domain.community.presentation.dto.response.CommunityDetailResponseDto;
+import com.bamdoliro.gati.domain.community.presentation.dto.response.CommunityListResponseDto;
 import com.bamdoliro.gati.domain.community.presentation.dto.response.CommunityResponseDto;
 import com.bamdoliro.gati.domain.user.domain.User;
 import com.bamdoliro.gati.domain.user.facade.UserFacade;
@@ -30,6 +32,7 @@ import static com.bamdoliro.gati.domain.community.domain.property.CommunityPrope
 public class CommunityService {
 
     private final CommunityRepository communityRepository;
+    private final MemberRepository memberRepository;
     private final MemberService memberService;
     private final CommunityFacade communityFacade;
     private final UserFacade userFacade;
@@ -38,34 +41,49 @@ public class CommunityService {
     @Transactional(readOnly = true)
     public Page<CommunityResponseDto> getPagingCommunity(Pageable pageable) {
         return communityRepository.findAll(pageable)
-                .map(CommunityResponseDto::of);
+                .map(this::createCommunityResponse);
     }
 
     @Transactional(readOnly = true)
-    public List<CommunityResponseDto> getMyCommunity() {
+    public CommunityListResponseDto getMyCommunity() {
         User user = userFacade.getCurrentUser();
 
-        return user.getCommunities().stream()
-                .map(Member::getCommunity)
-                .map(CommunityResponseDto::of)
-                .collect(Collectors.toList());
+        return new CommunityListResponseDto(
+                memberRepository.findAllByUser(user).stream()
+                        .map(Member::getCommunity)
+                        .map(this::createCommunityResponse)
+                        .collect(Collectors.toList()));
     }
 
     @Transactional(readOnly = true)
-    public CommunityDetailResponseDto getCommunityDetail(Long id) {
-        return CommunityDetailResponseDto.of(
-                communityFacade.findCommunityById(id));
-    }
-
-    @Transactional(readOnly = true)
-    public List<CommunityResponseDto> searchCommunity(String name) {
-        return communityRepository.findByNameContainingAndCommunityStatus(name, CommunityStatus.EXISTED).stream()
-                .map(CommunityResponseDto::of).collect(Collectors.toList());
+    public CommunityListResponseDto searchCommunity(String name) {
+        return new CommunityListResponseDto(
+                communityRepository.findByNameContainingAndCommunityStatus(name, CommunityStatus.EXISTED).stream()
+                        .map(this::createCommunityResponse).collect(Collectors.toList()));
     }
 
     @Transactional(readOnly = true)
     public CommunityResponseDto getCommunityByCode(String code) {
-        return CommunityResponseDto.of(communityFacade.findCommunityByCode(code));
+        Community community = communityFacade.findCommunityByCode(code);
+
+        return createCommunityResponse(community);
+    }
+
+    private CommunityResponseDto createCommunityResponse(Community community) {
+        return CommunityResponseDto.of(community,
+                memberRepository.getNumberOfPeopleByCommunity(community));
+    }
+
+    @Transactional(readOnly = true)
+    public CommunityDetailResponseDto getCommunityDetail(Long id) {
+        Community community = communityFacade.findCommunityById(id);
+
+        return createCommunityDetailResponse(community);
+    }
+
+    private CommunityDetailResponseDto createCommunityDetailResponse(Community community) {
+        return CommunityDetailResponseDto.of(community,
+                memberRepository.getNumberOfPeopleByCommunity(community));
     }
 
     @Transactional
@@ -101,7 +119,7 @@ public class CommunityService {
 
         community.updateCommunity(dto.getName(), dto.getIntroduction(), dto.getIsPublic(), dto.getPassword());
     }
-  
+
     @Transactional
     public void deleteCommunity(Long id) {
         Community community = communityFacade.findCommunityById(id);

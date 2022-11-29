@@ -7,7 +7,7 @@ import com.bamdoliro.gati.domain.user.presentation.dto.request.CreateUserRequest
 import com.bamdoliro.gati.domain.user.presentation.dto.request.DeleteUserRequestDto;
 import com.bamdoliro.gati.domain.user.presentation.dto.request.UpdateUserNameRequestDto;
 import com.bamdoliro.gati.domain.user.presentation.dto.request.UpdateUserPasswordRequestDto;
-import com.bamdoliro.gati.domain.user.presentation.dto.response.GetUserResponseDto;
+import com.bamdoliro.gati.domain.user.presentation.dto.response.UserResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -29,10 +29,10 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public GetUserResponseDto getUserInformation() {
+    public UserResponseDto getUserInformation() {
         User user = userFacade.getCurrentUser();
 
-        return GetUserResponseDto.of(user);
+        return UserResponseDto.of(user);
     }
 
     @Transactional

@@ -7,6 +7,7 @@ import com.bamdoliro.gati.domain.board.facade.BoardFacade;
 import com.bamdoliro.gati.domain.board.presentation.dto.request.CreateBoardRequestDto;
 import com.bamdoliro.gati.domain.board.presentation.dto.request.UpdateBoardRequestDto;
 import com.bamdoliro.gati.domain.board.presentation.dto.response.BoardDetailDto;
+import com.bamdoliro.gati.domain.board.presentation.dto.response.BoardListResponseDto;
 import com.bamdoliro.gati.domain.board.presentation.dto.response.BoardResponseDto;
 import com.bamdoliro.gati.domain.community.domain.Community;
 import com.bamdoliro.gati.domain.community.facade.CommunityFacade;
@@ -29,7 +30,6 @@ public class BoardService {
     private final CommunityFacade communityFacade;
     private final MemberFacade memberFacade;
 
-    // 게시물 게시
     @Transactional
     public void savePost(CreateBoardRequestDto request) {
         Board board = request.toEntity(
@@ -39,34 +39,33 @@ public class BoardService {
         boardRepository.save(board);
     }
 
-    // 게시물 디테일 보기
     @Transactional(readOnly = true)
     public BoardDetailDto getDetail(Long id) {
         Board board = boardFacade.findBoardById(id);
         return BoardDetailDto.of(board);
     }
 
-    // 게시물 수정
     @Transactional
     public void updatePost(UpdateBoardRequestDto request, Long id) {
         Board board = boardFacade.findBoardById(id);
         board.updatePost(request.getTitle(), request.getContent());
     }
 
-    // 게시물 삭제
     @Transactional
     public void deletePost(Long id) {
         Board board = boardFacade.findBoardById(id);
         board.deletePost();
     }
 
-    // 특정 커뮤니티의 게시물 전체 조회
     @Transactional(readOnly = true)
-    public List<BoardResponseDto> getCommunityPosts(Long communityId) {
+    public BoardListResponseDto getCommunityPosts(Long communityId) {
         Community community = communityFacade.findCommunityById(communityId);
         memberFacade.checkMember(userFacade.getCurrentUser(), community);
-        return boardFacade.findBoardsByCommunityAndStatus(community, BoardStatus.EXISTED)
-                .stream().map(BoardResponseDto::of).collect(Collectors.toList());
+
+        return new BoardListResponseDto(
+                boardFacade.findBoardsByCommunityAndStatus(community, BoardStatus.EXISTED)
+                        .stream().map(BoardResponseDto::of).collect(Collectors.toList())
+        );
     }
 
 }

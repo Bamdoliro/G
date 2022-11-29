@@ -11,5 +11,8 @@ import java.util.Optional;
 public interface RoomMemberRepository extends CrudRepository<RoomMember, Long> {
 
     Optional<RoomMember> findByRoomAndUser(Room room, User user);
+
     List<RoomMember> findAllByUser(User user);
+
+    int countByRoom(Room room);
 }

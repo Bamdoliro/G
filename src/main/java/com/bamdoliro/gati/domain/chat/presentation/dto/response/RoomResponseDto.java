@@ -1,18 +1,22 @@
 package com.bamdoliro.gati.domain.chat.presentation.dto.response;
 
 import com.bamdoliro.gati.domain.chat.domain.Room;
+import lombok.Builder;
 import lombok.Getter;
 
 @Getter
+@Builder
 public class RoomResponseDto {
 
-    private final Long id;
-    private final int numberOfMembers;
-    private final String name;
+    private Long id;
+    private int numberOfMembers;
+    private String name;
 
-    public RoomResponseDto(Room room) {
-        this.id = room.getId();
-        this.numberOfMembers = room.getMembers().size();
-        this.name = room.getName();
+    public static RoomResponseDto of(Room room, int numberOfMembers) {
+        return RoomResponseDto.builder()
+                .id(room.getId())
+                .name(room.getName())
+                .numberOfMembers(numberOfMembers)
+                .build();
     }
 }

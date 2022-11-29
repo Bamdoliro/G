@@ -132,4 +132,9 @@ public class CommunityService {
         community.deleteCommunity();
     }
 
+    @Transactional
+    public void updateBackgroundImg(Long id, String img) {
+        Community community = communityFacade.findCommunityById(id);
+        community.updateBackgroundImg(img);
+    }
 }

@@ -22,7 +22,6 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.convert.DataSizeUnit;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -82,7 +81,8 @@ class BoardServiceTest {
         CreateBoardRequestDto request = new CreateBoardRequestDto(
                 1L,
                 "제목제목제목제목제목젬고젬고제목젬ㄱ조젬고",
-                "내영내영냉용내용내용내용내용ㄴ애욘애요내요랜ㅇ래내요래ㅛ내욘료ㅐㄴ요ㅐ료냐요래"
+                "내영내영냉용내용내용내용내용ㄴ애욘애요내요랜ㅇ래내요래ㅛ내욘료ㅐㄴ요ㅐ료냐요래",
+                List.of("이미지1", "이미지2", "이미지3")
         );
         boardService.savePost(request);
 

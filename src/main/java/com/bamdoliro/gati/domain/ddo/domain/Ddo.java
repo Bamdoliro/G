@@ -11,7 +11,9 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -48,6 +50,9 @@ public class Ddo extends BaseTimeEntity {
     @JoinColumn(name = "writer_id")
     private User writer;
 
+    @ElementCollection
+    private List<String> images = new ArrayList<>();
+
     @OneToMany(mappedBy = "ddo", cascade = CascadeType.ALL)
     private Set<Recommendation> recommendList = new LinkedHashSet<>();
 
@@ -59,13 +64,14 @@ public class Ddo extends BaseTimeEntity {
     private Community community;
 
     @Builder
-    public Ddo(String title, String content, DdoStatus status, int capacity, Community community, User writer, LocalDate startDate, LocalDate endDate) {
+    public Ddo(String title, String content, DdoStatus status, int capacity, Community community, User writer, List<String> images, LocalDate startDate, LocalDate endDate) {
         this.title = title;
         this.content = content;
         this.status = status;
         this.capacity = capacity;
         this.community = community;
         this.writer = writer;
+        this.images = images;
         this.startDate = startDate;
         this.endDate = endDate;
     }

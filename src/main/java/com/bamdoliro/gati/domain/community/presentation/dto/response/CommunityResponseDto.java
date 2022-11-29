@@ -11,6 +11,7 @@ public class CommunityResponseDto {
     private Long id;
     private String name;
     private String introduction;
+    private String backgroundImg;
     private int numberOfPeople;
     private int capacity;
 
@@ -20,6 +21,7 @@ public class CommunityResponseDto {
                 .name(community.getName())
                 .introduction(community.getIntroduction())
                 .numberOfPeople(numberOfPeople)
+                .backgroundImg(community.getBackgroundImg())
                 .capacity(community.getCapacity())
                 .build();
     }

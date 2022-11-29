@@ -42,4 +42,9 @@ public class UserController {
     public void deleteUser(@RequestBody @Valid DeleteUserRequestDto dto) {
         userService.deleteUser(dto);
     }
+
+    @PutMapping("/profile-img")
+    public void updateProfileImg(@RequestParam String img) {
+        userService.UpdateProfileImg(img);
+    }
 }

@@ -5,6 +5,8 @@ import com.bamdoliro.gati.domain.ddo.domain.Ddo;
 import com.bamdoliro.gati.domain.community.domain.type.CommunityStatus;
 import com.bamdoliro.gati.global.entity.BaseTimeEntity;
 import com.bamdoliro.gati.global.utils.BooleanToYNConverter;
+import com.bamdoliro.gati.infrastructure.image.s3.DefaultImg;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -28,7 +30,6 @@ public class Community extends BaseTimeEntity {
     @Column(length = 1000, nullable = false)
     private String introduction;
 
-    // TODO :: 사진 수정
     @Column(nullable = false)
     private String backgroundImg;
 
@@ -52,18 +53,20 @@ public class Community extends BaseTimeEntity {
     @Column(length = 10, nullable = false)
     private CommunityStatus communityStatus;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "community")
     private List<Member> members = new ArrayList<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "community", cascade = CascadeType.ALL)
     private List<Ddo> ddoList = new ArrayList<>();
 
 
     @Builder
-    public Community(String name, String introduction, String backgroundImg, int capacity, String code, Boolean isPublic, String password) {
+    public Community(String name, String introduction, int capacity, String code, Boolean isPublic, String password) {
         this.name = name;
         this.introduction = introduction;
-        this.backgroundImg = backgroundImg;
+        this.backgroundImg = DefaultImg.COMMUNITY;
         this.capacity = capacity;
         this.code = code;
         this.isPublic = isPublic;

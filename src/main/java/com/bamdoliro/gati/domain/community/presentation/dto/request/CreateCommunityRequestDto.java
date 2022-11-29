@@ -3,6 +3,7 @@ package com.bamdoliro.gati.domain.community.presentation.dto.request;
 import com.bamdoliro.gati.domain.community.domain.Community;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.lang.Nullable;
 
 import javax.validation.constraints.NotNull;
@@ -10,6 +11,7 @@ import javax.validation.constraints.Size;
 
 @Getter
 @AllArgsConstructor
+@NoArgsConstructor
 public class CreateCommunityRequestDto {
 
     @NotNull

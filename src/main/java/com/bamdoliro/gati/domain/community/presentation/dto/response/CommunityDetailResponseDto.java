@@ -14,6 +14,7 @@ public class CommunityDetailResponseDto {
     private Long id;
     private String name;
     private String introduction;
+    private String backgroundImg;
     private int capacity;
     private String code;
     private Boolean isPublic;
@@ -24,6 +25,7 @@ public class CommunityDetailResponseDto {
                 .id(community.getId())
                 .name(community.getName())
                 .introduction(community.getIntroduction())
+                .backgroundImg(community.getBackgroundImg())
                 .capacity(community.getCapacity())
                 .code(community.getCode())
                 .isPublic(community.getIsPublic())

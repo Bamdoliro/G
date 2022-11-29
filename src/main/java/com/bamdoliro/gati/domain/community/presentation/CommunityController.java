@@ -59,4 +59,12 @@ public class CommunityController {
     public void deleteCommunity(@PathVariable Long id) {
         communityService.deleteCommunity(id);
     }
+
+    @PutMapping("/{id}/backgounrd")
+    public void updateBackgroundImg(
+        @PathVariable Long id,
+        @RequestParam String img
+    ) {
+        communityService.updateBackgroundImg(id, img);
+    }
 }

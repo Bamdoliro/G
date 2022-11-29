@@ -53,6 +53,19 @@ logging:
   level:
     org.springframework.orm.jpa: DEBUG
     org.springframework.transaction: DEBUG
+
+cloud:
+  aws:
+    s3:
+      bucket: ${BUCKET_NAME}
+    region:
+      static: ${S3_REGION}
+    stack:
+      auto: false
+    credentials:
+      instanceProfile: true
+      access-key: ${S3_ACCESS_KEY}
+      secret-key: ${S3_SECRET_KEY}
 ---
 spring:
   config:
@@ -82,3 +95,16 @@ spring:
 socket:
   config:
     port: ${SOCKET_PORT}
+
+cloud:
+  aws:
+    s3:
+      bucket: ${BUCKET_NAME}
+    region:
+      static: ${S3_REGION}
+    stack:
+      auto: false
+    credentials:
+      instanceProfile: true
+      access-key: ${S3_ACCESS_KEY}
+      secret-key: ${S3_SECRET_KEY}

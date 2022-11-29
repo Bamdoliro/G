@@ -57,4 +57,10 @@ public class UserService {
         userFacade.checkUserPassword(user, dto.getPassword());
         userRepository.delete(user);
     }
+
+    @Transactional
+    public void UpdateProfileImg(String img) {
+        User user = userFacade.getCurrentUser();
+        user.updateProfileImg(img);
+    }
 }

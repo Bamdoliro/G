@@ -37,32 +37,33 @@ public class SecurityConfig {
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         return web ->
-                web
-                        .ignoring()
-                        .mvcMatchers("/swagger-ui/**", "/configuration/**", "/swagger-resources/**", "/v3/api-docs","/webjars/**", "/webjars/springfox-swagger-ui/*.{js,css}");
+            web
+                .ignoring()
+                .mvcMatchers("/swagger-ui/**", "/configuration/**", "/swagger-resources/**", "/v3/api-docs", "/webjars/**", "/webjars/springfox-swagger-ui/*.{js,css}");
     }
 
     @Bean
     public SecurityFilterChain configure(HttpSecurity http) throws Exception {
         http
-                .csrf().disable()
-                .formLogin().disable()
-                .cors()
+            .csrf().disable()
+            .formLogin().disable()
+            .cors()
 
-                .and()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            .and()
+            .sessionManagement()
+            .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 
-                .and()
-                .authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/user", "/auth").permitAll()
-                .antMatchers(HttpMethod.PUT, "/auth").permitAll()
-                .anyRequest().authenticated()
+            .and()
+            .authorizeRequests()
+            .antMatchers(HttpMethod.POST, "/user", "/auth").permitAll()
+            .antMatchers(HttpMethod.PUT, "/auth").permitAll()
+            .antMatchers(HttpMethod.POST, "/images").permitAll()
+            .anyRequest().authenticated()
 
-                .and()
-                .addFilterBefore(new JwtAuthenticationFilter(authDetailsService, jwtTokenProvider, jwtValidateService),
-                        UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(new GlobalErrorFilter(mapper), JwtAuthenticationFilter.class);
+            .and()
+            .addFilterBefore(new JwtAuthenticationFilter(authDetailsService, jwtTokenProvider, jwtValidateService),
+                UsernamePasswordAuthenticationFilter.class)
+            .addFilterBefore(new GlobalErrorFilter(mapper), JwtAuthenticationFilter.class);
 
         return http.build();
     }

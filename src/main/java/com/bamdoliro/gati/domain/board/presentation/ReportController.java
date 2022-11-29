@@ -2,6 +2,7 @@ package com.bamdoliro.gati.domain.board.presentation;
 
 import com.bamdoliro.gati.domain.board.presentation.dto.request.CreateReportRequestDto;
 import com.bamdoliro.gati.domain.board.presentation.dto.response.ReportDetailResponseDto;
+import com.bamdoliro.gati.domain.board.presentation.dto.response.ReportListResponseDto;
 import com.bamdoliro.gati.domain.board.presentation.dto.response.ReportResponseDto;
 import com.bamdoliro.gati.domain.board.service.ReportService;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +28,7 @@ public class ReportController {
 
     // 특정 게시물의 신고 리스트 조회
     @GetMapping("/{boardId}")
-    public List<ReportResponseDto> getReportList(@PathVariable Long boardId) {
+    public ReportListResponseDto getReportList(@PathVariable Long boardId) {
         return reportService.getBoardReportList(boardId);
     }
 

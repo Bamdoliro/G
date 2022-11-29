@@ -7,6 +7,7 @@ import com.bamdoliro.gati.domain.board.facade.BoardFacade;
 import com.bamdoliro.gati.domain.board.facade.ReportFacade;
 import com.bamdoliro.gati.domain.board.presentation.dto.request.CreateReportRequestDto;
 import com.bamdoliro.gati.domain.board.presentation.dto.response.ReportDetailResponseDto;
+import com.bamdoliro.gati.domain.board.presentation.dto.response.ReportListResponseDto;
 import com.bamdoliro.gati.domain.board.presentation.dto.response.ReportResponseDto;
 import com.bamdoliro.gati.domain.user.domain.User;
 import com.bamdoliro.gati.domain.user.facade.UserFacade;
@@ -26,7 +27,6 @@ public class ReportService {
     private final ReportRepository reportRepository;
     private final BoardFacade boardFacade;
 
-    // 게시물 신고하기
     @Transactional
     public void reportPost(Long boardId, CreateReportRequestDto request) {
         Board board = boardFacade.findBoardById(boardId);
@@ -40,17 +40,17 @@ public class ReportService {
         reportRepository.save(report);
     }
 
-    // 특정 게시물의 신고 리스트 조회
     @Transactional(readOnly = true)
-    public List<ReportResponseDto> getBoardReportList(Long boardId) {
-        return boardFacade.findBoardById(boardId).getReportList().stream()
-                .map(ReportResponseDto::of)
-                .collect(Collectors.toList());
+    public ReportListResponseDto getBoardReportList(Long boardId) {
+        return new ReportListResponseDto(
+                boardFacade.findBoardById(boardId).getReportList().stream()
+                        .map(ReportResponseDto::of)
+                        .collect(Collectors.toList())
+        );
     }
 
-    // 신고 디테일 조회
     @Transactional(readOnly = true)
     public ReportDetailResponseDto getReportDetail(Long reportId) {
-        return ReportDetailResponseDto.of(reportFacade.findReportById(reportId)) ;
+        return ReportDetailResponseDto.of(reportFacade.findReportById(reportId));
     }
 }

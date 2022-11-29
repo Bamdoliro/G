@@ -3,6 +3,7 @@ package com.bamdoliro.gati.domain.board.presentation;
 import com.bamdoliro.gati.domain.board.presentation.dto.request.CreateBoardRequestDto;
 import com.bamdoliro.gati.domain.board.presentation.dto.request.UpdateBoardRequestDto;
 import com.bamdoliro.gati.domain.board.presentation.dto.response.BoardDetailDto;
+import com.bamdoliro.gati.domain.board.presentation.dto.response.BoardListResponseDto;
 import com.bamdoliro.gati.domain.board.presentation.dto.response.BoardResponseDto;
 import com.bamdoliro.gati.domain.board.service.BoardService;
 import lombok.RequiredArgsConstructor;
@@ -18,19 +19,16 @@ public class  BoardController {
 
     private final BoardService boardService;
 
-    // 게시물 저장
     @PostMapping
     public void savePost(@RequestBody @Valid CreateBoardRequestDto request) {
         boardService.savePost(request);
     }
 
-    // 게시물 디테일
     @GetMapping("/{id}")
     public BoardDetailDto getDetail(@PathVariable Long id) {
         return boardService.getDetail(id);
     }
 
-    // 게시물 수정
     @PutMapping("/{id}")
     public void updatePost(
             @RequestBody @Valid UpdateBoardRequestDto request,
@@ -39,15 +37,13 @@ public class  BoardController {
         boardService.updatePost(request, id);
     }
 
-    // 게시물 삭제
     @DeleteMapping("/{id}")
     public void deletePost(@PathVariable Long id) {
         boardService.deletePost(id);
     }
 
-    // 커뮤니티 전체 게시물 조회
-    @GetMapping("/community/{communityId}")
-    public List<BoardResponseDto> getCommunityPosts(@PathVariable Long communityId) {
+    @GetMapping("/community/{community-id}")
+    public BoardListResponseDto getCommunityPosts(@PathVariable(name = "community-id") Long communityId) {
         return boardService.getCommunityPosts(communityId);
     }
 }

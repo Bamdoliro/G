@@ -71,6 +71,10 @@ jobs:
             echo SOCKET_PORT=${{ secrets.SOCKET_PORT }} >> .env
             echo DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }} >> .env
             echo DOCKER_REPO=${{ secrets.DOCKER_REPO }} >> .env
+            echo DOCKER_REPO=${{ secrets.BUCKET_NAME }} >> .env
+            echo DOCKER_REPO=${{ secrets.S3_REGION }} >> .env
+            echo DOCKER_REPO=${{ secrets.S3_ACCESS_KEY }} >> .env
+            echo DOCKER_REPO=${{ secrets.S3_SECRET_KEY }} >> .env
             
             docker-compose up -d
             docker image prune -f

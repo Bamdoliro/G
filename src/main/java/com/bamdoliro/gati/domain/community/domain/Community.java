@@ -5,6 +5,8 @@ import com.bamdoliro.gati.domain.ddo.domain.Ddo;
 import com.bamdoliro.gati.domain.community.domain.type.CommunityStatus;
 import com.bamdoliro.gati.global.entity.BaseTimeEntity;
 import com.bamdoliro.gati.global.utils.BooleanToYNConverter;
+import com.bamdoliro.gati.infrastructure.image.s3.DefaultImg;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -29,6 +31,9 @@ public class Community extends BaseTimeEntity {
     private String introduction;
 
     @Column(nullable = false)
+    private String backgroundImg;
+
+    @Column(nullable = false)
     private int capacity;
 
     @Column(length = 6, nullable = false)
@@ -48,9 +53,11 @@ public class Community extends BaseTimeEntity {
     @Column(length = 10, nullable = false)
     private CommunityStatus communityStatus;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "community")
     private List<Member> members = new ArrayList<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "community", cascade = CascadeType.ALL)
     private List<Ddo> ddoList = new ArrayList<>();
 
@@ -59,6 +66,7 @@ public class Community extends BaseTimeEntity {
     public Community(String name, String introduction, int capacity, String code, Boolean isPublic, String password) {
         this.name = name;
         this.introduction = introduction;
+        this.backgroundImg = DefaultImg.COMMUNITY;
         this.capacity = capacity;
         this.code = code;
         this.isPublic = isPublic;
@@ -75,5 +83,9 @@ public class Community extends BaseTimeEntity {
 
     public void deleteCommunity() {
         this.communityStatus = CommunityStatus.DELETED;
+    }
+
+    public void updateBackgroundImg(String backgroundImg) {
+        this.backgroundImg = backgroundImg;
     }
 }

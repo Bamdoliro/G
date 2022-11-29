@@ -1,5 +1,8 @@
 package com.bamdoliro.gati.domain.ddo.service;
 
+import com.bamdoliro.gati.domain.chat.domain.Room;
+import com.bamdoliro.gati.domain.chat.domain.repository.RoomMemberRepository;
+import com.bamdoliro.gati.domain.chat.presentation.dto.response.RoomResponseDto;
 import com.bamdoliro.gati.domain.chat.service.RoomService;
 import com.bamdoliro.gati.domain.community.facade.CommunityFacade;
 import com.bamdoliro.gati.domain.ddo.domain.Ddo;
@@ -21,18 +24,25 @@ import java.util.stream.Collectors;
 public class DdoService {
 
     private final DdoRepository ddoRepository;
+    private final RoomMemberRepository roomMemberRepository;
     private final UserFacade userFacade;
     private final DdoFacade ddoFacade;
     private final CommunityFacade communityFacade;
     private final RoomService roomService;
 
     @Transactional
-    public void savePost(CreateDdoRequestDto request) {
+    public RoomResponseDto savePost(CreateDdoRequestDto request) {
         Ddo ddo = request.toEntity();
         ddo.setRelation(userFacade.getCurrentUser(), communityFacade.findCommunityById(request.getCommunityId()));
 
         ddoRepository.save(ddo);
-        roomService.createRoom(ddo.getTitle());
+        Room room = roomService.createRoom(ddo.getTitle());
+
+        return RoomResponseDto.of(room, getRoomNumberOfMembers(room));
+    }
+
+    private int getRoomNumberOfMembers(Room room) {
+        return roomMemberRepository.countByRoom(room);
     }
 
     @Transactional(readOnly = true)

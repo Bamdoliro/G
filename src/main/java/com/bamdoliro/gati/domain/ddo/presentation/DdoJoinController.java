@@ -1,11 +1,9 @@
 package com.bamdoliro.gati.domain.ddo.presentation;
 
-import com.bamdoliro.gati.domain.ddo.presentation.dto.response.UserResponseDto;
 import com.bamdoliro.gati.domain.ddo.service.DdoJoinService;
+import com.bamdoliro.gati.domain.user.presentation.dto.response.UserListResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/ddo/{id}/join")
@@ -25,7 +23,7 @@ public class DdoJoinController {
     }
 
     @GetMapping
-    public List<UserResponseDto> findJoiners(@PathVariable Long id) {
+    public UserListResponseDto findJoiners(@PathVariable Long id) {
         return ddoJoinService.findJoiners(id);
     }
 }

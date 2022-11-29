@@ -1,6 +1,7 @@
 package com.bamdoliro.gati.domain.chat.presentation;
 
 import com.bamdoliro.gati.domain.chat.presentation.dto.request.MessageRequestDto;
+import com.bamdoliro.gati.domain.chat.presentation.dto.response.MessageListResponseDto;
 import com.bamdoliro.gati.domain.chat.presentation.dto.response.MessageResponseDto;
 import com.bamdoliro.gati.domain.chat.service.MessageService;
 import com.bamdoliro.gati.global.socket.SocketEventProperty;
@@ -28,7 +29,7 @@ public class MessageController {
     }
 
     @GetMapping
-    public List<MessageResponseDto> getLastMessage(@PathVariable Long roomId, Pageable pageable) {
+    public MessageListResponseDto getLastMessage(@PathVariable Long roomId, Pageable pageable) {
         return messageService.getLastMessage(roomId, pageable);
     }
 }

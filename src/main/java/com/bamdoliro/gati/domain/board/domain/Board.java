@@ -42,6 +42,9 @@ public class Board extends BaseTimeEntity {
     @Column(name = "status", nullable = false)
     private BoardStatus boardStatus;
 
+    @ElementCollection
+    private List<String> images = new ArrayList<>();
+
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
     private List<BoardLike> likes = new ArrayList<>();
 
@@ -49,11 +52,12 @@ public class Board extends BaseTimeEntity {
     private List<Report> reportList = new ArrayList<>();
 
     @Builder
-    public Board(Community community, User writer, String title, String content) {
+    public Board(Community community, User writer, String title, String content, List<String> images) {
         this.community = community;
         this.writer = writer;
         this.title = title;
         this.content = content;
+        this.images = images;
         this.boardStatus = BoardStatus.EXISTED;
     }
 

@@ -8,11 +8,13 @@ import lombok.Getter;
 @Builder
 public class UserProfileResponse {
 
+    private Long id;
     private String name;
     private String image;
 
     public static UserProfileResponse of(User user) {
         return UserProfileResponse.builder()
+                .id(user.getId())
                 .name(user.getName())
                 .image(user.getProfileImg())
                 .build();

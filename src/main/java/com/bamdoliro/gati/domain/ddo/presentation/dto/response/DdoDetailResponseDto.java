@@ -3,12 +3,9 @@ package com.bamdoliro.gati.domain.ddo.presentation.dto.response;
 import com.bamdoliro.gati.domain.ddo.domain.Ddo;
 import com.bamdoliro.gati.domain.ddo.domain.type.DdoStatus;
 import com.bamdoliro.gati.domain.user.presentation.dto.response.UserProfileResponse;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
 import lombok.Getter;
-import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -38,7 +35,9 @@ public class DdoDetailResponseDto {
 
     private LocalDateTime createdAt;
 
-    public static DdoDetailResponseDto of(Ddo ddo) {
+    private boolean userJoin;
+
+    public static DdoDetailResponseDto of(Ddo ddo, boolean userJoin) {
         return DdoDetailResponseDto.builder()
                 .title(ddo.getTitle())
                 .content(ddo.getContent())
@@ -51,6 +50,7 @@ public class DdoDetailResponseDto {
                 .endDate(ddo.getEndDate())
                 .userProfile(UserProfileResponse.of(ddo.getWriter()))
                 .createdAt(ddo.getCreatedAt())
+                .userJoin(userJoin)
                 .build();
     }
 }

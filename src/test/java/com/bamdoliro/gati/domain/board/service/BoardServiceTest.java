@@ -111,7 +111,6 @@ class BoardServiceTest {
         // then
         verify(boardFacade, times(1)).findBoardById(board.getId());
 
-        assertEquals(board.getWriter().getName(), result.getWriter());
         assertEquals(board.getTitle(), result.getTitle());
         assertEquals(board.getContent(), result.getContent());
     }

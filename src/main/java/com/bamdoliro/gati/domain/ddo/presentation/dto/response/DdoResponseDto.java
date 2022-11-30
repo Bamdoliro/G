@@ -1,6 +1,7 @@
 package com.bamdoliro.gati.domain.ddo.presentation.dto.response;
 
 import com.bamdoliro.gati.domain.ddo.domain.Ddo;
+import com.bamdoliro.gati.domain.user.presentation.dto.response.UserProfileResponse;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
 import lombok.Getter;
@@ -23,6 +24,7 @@ public class DdoResponseDto {
     private LocalDate startDate;
 
     private LocalDate endDate;
+
 
     public static DdoResponseDto of(Ddo ddo) {
         return DdoResponseDto.builder()

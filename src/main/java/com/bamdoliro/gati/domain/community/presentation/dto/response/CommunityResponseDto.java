@@ -14,6 +14,7 @@ public class CommunityResponseDto {
     private String backgroundImg;
     private int numberOfPeople;
     private int capacity;
+    private String backgroundImage;
 
     public static CommunityResponseDto of(Community community, int numberOfPeople) {
         return CommunityResponseDto.builder()
@@ -23,6 +24,7 @@ public class CommunityResponseDto {
                 .numberOfPeople(numberOfPeople)
                 .backgroundImg(community.getBackgroundImg())
                 .capacity(community.getCapacity())
+                .backgroundImage(community.getBackgroundImg())
                 .build();
     }
 }

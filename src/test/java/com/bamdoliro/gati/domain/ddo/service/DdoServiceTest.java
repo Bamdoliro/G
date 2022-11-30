@@ -7,6 +7,7 @@ import com.bamdoliro.gati.domain.chat.service.RoomService;
 import com.bamdoliro.gati.domain.community.domain.Community;
 import com.bamdoliro.gati.domain.community.facade.CommunityFacade;
 import com.bamdoliro.gati.domain.ddo.domain.Ddo;
+import com.bamdoliro.gati.domain.ddo.domain.repository.DdoJoinRepository;
 import com.bamdoliro.gati.domain.ddo.domain.repository.DdoRepository;
 import com.bamdoliro.gati.domain.ddo.domain.type.DdoStatus;
 import com.bamdoliro.gati.domain.ddo.facade.DdoFacade;
@@ -43,6 +44,7 @@ class DdoServiceTest {
     @Mock private RoomService roomService;
     @Mock private RoomRepository roomRepository;
     @Mock private RoomMemberRepository roomMemberRepository;
+    @Mock private DdoJoinRepository ddoJoinRepository;
 
     Community community = Community.builder()
             .name("우리집")
@@ -112,6 +114,8 @@ class DdoServiceTest {
     void getDdoDetailTest() {
         // Given
         given(ddoFacade.findDdoById(anyLong())).willReturn(ddo);
+        given(userFacade.getCurrentUser()).willReturn(user);
+        given(ddoJoinRepository.existsByDdoAndJoiner(any(Ddo.class), any(User.class))).willReturn(true);
 
         // When
         DdoDetailResponseDto response = ddoService.getDdoDetail(anyLong());
@@ -122,5 +126,6 @@ class DdoServiceTest {
         assertEquals("제목입니다.", response.getTitle());
         assertEquals("내용입니다. 내용입니다. 내용입니다.", response.getContent());
         assertEquals(2, response.getCapacity());
+        assertTrue(response.isUserJoin());
     }
 }

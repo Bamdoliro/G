@@ -6,6 +6,7 @@ import com.bamdoliro.gati.domain.chat.presentation.dto.response.RoomResponseDto;
 import com.bamdoliro.gati.domain.chat.service.RoomService;
 import com.bamdoliro.gati.domain.community.facade.CommunityFacade;
 import com.bamdoliro.gati.domain.ddo.domain.Ddo;
+import com.bamdoliro.gati.domain.ddo.domain.repository.DdoJoinRepository;
 import com.bamdoliro.gati.domain.ddo.domain.repository.DdoRepository;
 import com.bamdoliro.gati.domain.ddo.facade.DdoFacade;
 import com.bamdoliro.gati.domain.ddo.presentation.dto.request.CreateDdoRequestDto;
@@ -29,6 +30,7 @@ public class DdoService {
     private final DdoFacade ddoFacade;
     private final CommunityFacade communityFacade;
     private final RoomService roomService;
+    private final DdoJoinRepository ddoJoinRepository;
 
     @Transactional
     public RoomResponseDto savePost(CreateDdoRequestDto request) {
@@ -58,6 +60,8 @@ public class DdoService {
 
     @Transactional(readOnly = true)
     public DdoDetailResponseDto getDdoDetail(Long id) {
-        return DdoDetailResponseDto.of(ddoFacade.findDdoById(id));
+        Ddo ddo = ddoFacade.findDdoById(id);
+        boolean isJoin = ddoJoinRepository.existsByDdoAndJoiner(ddo, userFacade.getCurrentUser());
+        return DdoDetailResponseDto.of(ddo, isJoin);
     }
 }
